@@ -39,8 +39,8 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
     private List<Country> ulkeler;
     private List<City> sehirler;
     private List<Town> ilceler;
-    private static final int ULKE=0,IL=1,ILCE=2;
-    private int type=0;
+    private static final int ULKE = 0, IL = 1, ILCE = 2;
+    private int type = 0;
     private RecyclerView recyclerView;
     private SearchView searchView;
 
@@ -49,165 +49,178 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_locations);
         setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
-        recyclerView=(RecyclerView) getChild(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recyclerView = (RecyclerView) getChild(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         getUlkeler();
     }
 
 
     public void setUlkeler(List<Country> ulkeler) {
         int pos;
-        type=ULKE;
-        Country Turkiye=ulkeler.get(pos=ulkeler.indexOf(new Country("2")));
+        type = ULKE;
+        Country Turkiye = ulkeler.get(pos = ulkeler.indexOf(new Country("2")));
         ulkeler.remove(pos);
-        ulkeler.add(0,Turkiye);
+        ulkeler.add(0, Turkiye);
         this.ulkeler = ulkeler;
-        recyclerView.setAdapter(new LocationsAdapter(this,ulkeler));
+        recyclerView.setAdapter(new LocationsAdapter(this, ulkeler));
     }
 
     public void setSehirler(List<City> sehirler) {
         this.sehirler = sehirler;
-        type=IL;
-        ((LocationsAdapter)recyclerView.getAdapter()).setItems(sehirler);
+        type = IL;
+        setBarTitle(R.string.sehir_secin);
+        ((LocationsAdapter) recyclerView.getAdapter()).setItems(sehirler);
     }
 
     public void setIlceler(List<Town> ilceler) {
         this.ilceler = ilceler;
-        type=ILCE;
-        ((LocationsAdapter)recyclerView.getAdapter()).setItems(ilceler);
+        type = ILCE;
+        setBarTitle(R.string.ilce_secin);
+        ((LocationsAdapter) recyclerView.getAdapter()).setItems(ilceler);
     }
 
-    private void setSaatler(Town townNew){
+    private void setSaatler(Town townNew) {
+        boolean firstOpen = true;
         List<Town> towns;
-        if(Util.hasPref(this,C.KEY_LOCATIONS))
-            towns=getGson().fromJson(Util.getPref(this,C.KEY_LOCATIONS), new TypeToken<List<Town>>(){}.getType());
-        else towns=new ArrayList<>();
-        if(towns.contains(townNew)){
-            Town townOld=towns.get(towns.indexOf(townNew));
-            TimesOfDay first=townNew.getVakitler().get(0);
-            int oldIndex=townOld.getVakitler().indexOf(first);
-            townNew.getVakitler().get(0).setYesterDay(townOld.getVakitler().get(oldIndex-1));
-            townNew.getVakitler().get(0).setToMorrow(townNew.getVakitler().get(1));
+        if (Util.hasPref(this, C.KEY_LOCATIONS)) {
+            towns = getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS), new TypeToken<List<Town>>() {
+            }.getType());
+            firstOpen = towns.size() == 0;
+        } else towns = new ArrayList<>();
+        if (towns.contains(townNew)) {
+            Town townOld = towns.get(towns.indexOf(townNew));
+            TimesOfDay first = townNew.getVakitler().get(0);
+            try {
+                TimesOfDay lastDay = townOld.getVakitler().get(townOld.getVakitler().indexOf(first) - 1);
+                townNew.getVakitler().add(0, lastDay);
+                lastDay = townOld.getVakitler().get(townOld.getVakitler().indexOf(first) - 2);
+                townNew.getVakitler().add(0, lastDay);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            towns.remove(towns.indexOf(townNew));
         }
-        for (int i = 1; i < (townNew.getVakitler().size()-1); i++) {
-            TimesOfDay tod=townNew.getVakitler().get(i);
-            tod.setYesterDay(townNew.getVakitler().get(i-1));
-            tod.setToMorrow(townNew.getVakitler().get(i+1));
-        }
-        towns.remove(townNew);
         towns.add(townNew);
-        Util.savePref(this,C.KEY_LOCATIONS,getGson().toJson(towns));
-        startActivity(new Intent(this,MainActivity.class));
-        finish();
-    }
+        Util.savePref(this, C.KEY_LOCATIONS, getGson().toJson(towns));
+        if (firstOpen) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }else {
+            setResult(RESULT_OK);
+            onBackPressed();
+        }
+        }
 
     public void getUlkeler() {
         showLoading();
         getApi().getCountries().enqueue(new Callback<List<Country>>() {
             @Override
             public void onResponse(Call<List<Country>> call, Response<List<Country>> response) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
-                if(response.isSuccessful()&&response.body()!=null&&!response.body().isEmpty()){
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     setUlkeler(response.body());
 
-                }else onFailure(null,null);
+                } else onFailure(null, null);
             }
 
             @Override
             public void onFailure(Call<List<Country>> call, Throwable t) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
                 showErrorDialogRetry(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==DialogInterface.BUTTON_POSITIVE){
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
                             getUlkeler();
-                        }else finish();
+                        } else finish();
                     }
                 });
             }
         });
     }
+
     public void getSehirler(final String code) {
         showLoading();
         getApi().getCities(code).enqueue(new Callback<List<City>>() {
             @Override
             public void onResponse(Call<List<City>> call, Response<List<City>> response) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
-                if(response.isSuccessful()&&response.body()!=null&&!response.body().isEmpty()){
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     setSehirler(response.body());
 
-                }else onFailure(null,null);
+                } else onFailure(null, null);
             }
 
             @Override
             public void onFailure(Call<List<City>> call, Throwable t) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
                 showErrorDialogRetry(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==DialogInterface.BUTTON_POSITIVE){
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
                             getSehirler(code);
-                        }else finish();
+                        } else finish();
                     }
                 });
             }
         });
     }
+
     public void getIlceler(final String code) {
         showLoading();
         getApi().getTowns(code).enqueue(new Callback<List<Town>>() {
             @Override
             public void onResponse(Call<List<Town>> call, Response<List<Town>> response) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
-                if(response.isSuccessful()&&response.body()!=null&&!response.body().isEmpty()){
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     setIlceler(response.body());
 
-                }else onFailure(null,null);
+                } else onFailure(null, null);
             }
 
             @Override
             public void onFailure(Call<List<Town>> call, Throwable t) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
                 showErrorDialogRetry(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==DialogInterface.BUTTON_POSITIVE){
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
                             getIlceler(code);
-                        }else finish();
+                        } else finish();
                     }
                 });
             }
         });
     }
+
     public void getSaatler(final Town town) {
         showLoading();
         getApi().getTimes(town.getIlceID()).enqueue(new Callback<List<TimesOfDay>>() {
             @Override
             public void onResponse(Call<List<TimesOfDay>> call, Response<List<TimesOfDay>> response) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
-                if(response.isSuccessful()&&response.body()!=null&&!response.body().isEmpty()){
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
                     town.setVakitler(response.body());
                     setSaatler(town);
-                }else onFailure(null,null);
+                } else onFailure(null, null);
             }
 
             @Override
             public void onFailure(Call<List<TimesOfDay>> call, Throwable t) {
-                if(isDestroyed())return;
+                if (isDestroyed()) return;
                 dismissLoading();
                 showErrorDialogRetry(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(which==DialogInterface.BUTTON_POSITIVE){
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
                             getSaatler(town);
-                        }else finish();
+                        } else finish();
                     }
                 });
             }
@@ -216,15 +229,22 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        Object obj=v.getTag();
-        if(obj instanceof Country){
-            getSehirler(((Country) obj).getUlkeID());
-        }else if(obj instanceof City){
-            getIlceler(((City) obj).getSehirID());
-        }else if(obj instanceof Town){
-            getSaatler((Town) obj);
+        if (v.getId() == R.id.text_location_item) {
+            Object obj = v.getTag();
+            if (obj instanceof Country) {
+                getSehirler(((Country) obj).getUlkeID());
+            } else if (obj instanceof City) {
+                getIlceler(((City) obj).getSehirID());
+            } else if (obj instanceof Town) {
+                getSaatler((Town) obj);
+            }
         }
-
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
     }
 
     @Override
@@ -249,6 +269,9 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
         switch (item.getItemId()) {
             case R.id.search:
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -261,26 +284,54 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        List<Object> array=new ArrayList<>();
-        switch (type){
+        List<Object> array = new ArrayList<>();
+        switch (type) {
             case ULKE:
                 for (Country country : ulkeler) {
-                    if(country.getUlkeAdi().toLowerCase().contains(newText.toLowerCase()))array.add(country);
+                    if (country.getUlkeAdi().toLowerCase().contains(newText.toLowerCase()))
+                        array.add(country);
                 }
                 break;
             case IL:
                 for (City country : sehirler) {
-                    if(country.getSehirAdi().toLowerCase().contains(newText.toLowerCase()))array.add(country);
+                    if (country.getSehirAdi().toLowerCase().contains(newText.toLowerCase()))
+                        array.add(country);
                 }
                 break;
             case ILCE:
                 for (Town country : ilceler) {
-                    if(country.getIlceAdi().toLowerCase().contains(newText.toLowerCase()))array.add(country);
+                    if (country.getIlceAdi().toLowerCase().contains(newText.toLowerCase()))
+                        array.add(country);
                 }
                 break;
         }
-        LocationsAdapter adapter=(LocationsAdapter)recyclerView.getAdapter();
+        LocationsAdapter adapter = (LocationsAdapter) recyclerView.getAdapter();
         adapter.setItems(array);
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        switch (type) {
+            case IL:
+                recyclerView.setAdapter(new LocationsAdapter(this, ulkeler));
+                setBarTitle(R.string.ulke_sec);
+                type = ULKE;
+                return;
+            case ILCE:
+                recyclerView.setAdapter(new LocationsAdapter(this, sehirler));
+                setBarTitle(R.string.sehir_secin);
+                type = IL;
+                return;
+        }
+        super.onBackPressed();
+    }
+
+    public void setBarTitle(int titleId) {
+        getSupportActionBar().setTitle(titleId);
     }
 }

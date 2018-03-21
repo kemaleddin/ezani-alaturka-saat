@@ -23,6 +23,13 @@
     <string name="aksam">Akşam</string>
     <string name="yatsi">Yatsı</string>
     <string name="vaktin_cikmasina">VAKTİN ÇIKMASINA</string>
-    <string name="ezani_saat">EZANİ SAAT</string>
-    <string name="umumi">Umumi</string>
+    <string name="ezani_saat">EZANÎ SAAT</string>
+    <string name="umumi">Umûmî</string>
+    <string name="ezani">Ezanî</string>
+    <string name="saat_sifir">00:00</string>
+    <string name="sehir_secin">Şehir Seçin</string>
+    <string name="ilce_secin">İlçe Seçin</string>
+    <string name="sure_to_remove">Silmek istediğinize emin misiniz?</string>
+    <string name="add_loc">Yeni Yer Ekle</string>
+    <string name="info">Uygulama Hakkında</string>
 </resources>

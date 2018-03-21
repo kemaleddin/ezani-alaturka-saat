@@ -23,6 +23,7 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
     private List<? extends Object> items;
     private LayoutInflater mInflater;
     private View.OnClickListener mOnClickListener;
+    private View.OnLongClickListener mOnLongClickListener;
 
     public LocationsAdapter(Activity context, List<? extends Object> items) {
         super(context);
@@ -32,8 +33,9 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
         mInflater = context.getLayoutInflater();
     }
 
-
-
+    public void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.mOnLongClickListener = onLongClickListener;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -56,6 +58,13 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
+    public void remove(Object object) {
+        int index=items.indexOf(object);
+        items.remove(object);
+        notifyItemRemoved(index);
+
+    }
+
 
     class Vh extends RecyclerView.ViewHolder {
         private TextView text;
@@ -63,7 +72,9 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
         public Vh(View itemView) {
             super(itemView);
             itemView.setOnClickListener(mOnClickListener);
-            text = (TextView) gc(R.id.text);
+            if(mOnClickListener!=null)
+                itemView.setOnClickListener(mOnClickListener);
+            text = (TextView) gc(R.id.text_location_item);
         }
 
         void onBind(int pos) {

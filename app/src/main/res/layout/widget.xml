@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black_op1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/text_hicri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/ezani_saat"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/text_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/ezani_saat"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/text_hicri"
+            android:gravity="right"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:alpha=".5"
+        android:background="@color/white" />
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal">
+    <TextView
+        android:id="@+id/text_ezani_tit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/ezani_saat"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/logo"
+        android:drawablePadding="5dp"/>
+    <TextView
+        android:id="@+id/text_ezani"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/ezani_saat"
+        android:textColor="@color/white"
+        android:layout_toRightOf="@+id/text_ezani_tit"
+        android:textSize="20sp" />
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:id="@+id/text_kalan_tit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/vaktin_cikmasina"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/text_kalan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/ezani_saat"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@+id/text_kalan_tit"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/vakitler_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7.5dp"
+        android:layout_marginTop="2.5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_e_tit_day"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:layout_weight="1.44"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_e_tit_aksam"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/aksam"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_e_tit_yatsi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/yatsi"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_e_tit_imsak"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/imsak"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_e_tit_gunes"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/gunes"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_e_tit_ogle"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/ogle"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/text_e_tit_ikindi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/ikindi"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_e_day"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:layout_weight="1.44"
+                android:text="@string/ezani"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/text_e_aksam"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/saat_sifir"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_e_yatsi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/yatsi"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_e_imsak"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/imsak"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_e_gunes"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/gunes"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_e_ogle"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/ogle"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/text_e_ikindi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_weight="1.11"
+                android:gravity="center"
+                android:text="@string/ikindi"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_miladi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/ezani_saat"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:alpha=".5"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_u_tit_day"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:layout_weight="2"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_tit_imsak"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/imsak"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_tit_gunes"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/gunes"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_tit_ogle"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ogle"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_tit_ikindi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ikindi"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_tit_aksam"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/aksam"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_tit_yatsi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/yatsi"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_u_day"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:layout_weight="2"
+                android:text="@string/umumi"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_imsak"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/imsak"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_gunes"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/gunes"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_ogle"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ogle"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_ikindi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/ikindi"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_aksam"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/aksam"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/text_u_yatsi"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_margin="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/yatsi"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
