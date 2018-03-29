@@ -8,6 +8,7 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.kemalettinsargin.mylib.Util;
+import com.semansoft.ezanisaat.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +20,7 @@ import java.util.GregorianCalendar;
 
 @SuppressLint("SimpleDateFormat")
 public class TimesOfDay implements Parcelable {
-    public static final DateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy");
+    public static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     private static final long ONE_DAY_MILLIS = 86400000L;
     @SerializedName("Aksam")
     @Expose
@@ -335,74 +336,75 @@ public class TimesOfDay implements Parcelable {
         Calendar now = Calendar.getInstance();
         Calendar nextTime = getNextTime(now);
         Util.log(nextTime.toString());
-        String st,dk,sn;
-        long min,hr,kalansn=(nextTime.getTimeInMillis()-System.currentTimeMillis());
-        kalansn=(kalansn-(kalansn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-        min=(kalansn-(kalansn % 60))/60;
-        kalansn=kalansn % 60;
-        hr=(min-(min%60))/60;
-        min=min%60;
-        st=hr<10?"0"+hr:String.valueOf(hr);
-        dk=min<10?"0"+min:String.valueOf(min);
-        sn=kalansn<10?"0"+kalansn:String.valueOf(kalansn);
-        return String.format("%s:%s:%s",st,dk,sn);
+        String st, dk, sn;
+        long min, hr, kalansn = (nextTime.getTimeInMillis() - System.currentTimeMillis());
+        kalansn = (kalansn - (kalansn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+        min = (kalansn - (kalansn % 60)) / 60;
+        kalansn = kalansn % 60;
+        hr = (min - (min % 60)) / 60;
+        min = min % 60;
+        st = hr < 10 ? "0" + hr : String.valueOf(hr);
+        dk = min < 10 ? "0" + min : String.valueOf(min);
+        sn = kalansn < 10 ? "0" + kalansn : String.valueOf(kalansn);
+        return String.format("%s:%s:%s", st, dk, sn);
     }
+
     public String getKalanWOsec() {
-        return getKalan().substring(0,5);
+        return getKalan().substring(0, 5);
     }
 
     public Calendar getNextTime(Calendar now) {
-        Calendar nextTime=Calendar.getInstance();
-        String [] hr_min;
+        Calendar nextTime = Calendar.getInstance();
+        String[] hr_min;
         for (int i = 0; i <= 6; i++) {
             switch (i) {
                 case 0:
-                    hr_min=getImsak().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = getImsak().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
                     continue;
                 case 1:
-                    hr_min=getGunes().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = getGunes().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
                     continue;
                 case 2:
-                    hr_min=getOgle().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = getOgle().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
                     continue;
                 case 3:
-                    hr_min=getIkindi().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = getIkindi().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
                     continue;
                 case 4:
-                    hr_min=getAksam().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = getAksam().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
                     continue;
                 case 5:
-                    hr_min=getYatsi().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = getYatsi().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
                     continue;
                 case 6:
                     try {
@@ -410,31 +412,130 @@ public class TimesOfDay implements Parcelable {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    hr_min=toMorrow.getImsak().split(":");
-                    nextTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-                    nextTime.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-                    nextTime.set(Calendar.SECOND,0);
-                    nextTime.set(Calendar.MILLISECOND,0);
-                    if(now.before(nextTime))return nextTime;
+                    hr_min = toMorrow.getImsak().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return nextTime;
             }
         }
         return null;
     }
 
-    public boolean isEveningNight(){
-        Calendar aksam=Calendar.getInstance();
-        Calendar now=Calendar.getInstance();
-        Calendar midNight=Calendar.getInstance();
-        aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-        aksam.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-        aksam.set(Calendar.SECOND,0);
-        aksam.set(Calendar.MILLISECOND,0);
+    public int[] getNextIds() {
+        Calendar now = Calendar.getInstance();
+        Calendar nextTime = Calendar.getInstance();
+        String[] hr_min;
+        for (int i = 0; i <= 6; i++) {
+            switch (i) {
+                case 0:
+                    hr_min = getImsak().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_imsak,
+                            R.id.text_e_tit_imsak,
+                            R.id.text_u_imsak,
+                            R.id.text_u_tit_imsak};
+                    continue;
+                case 1:
+                    hr_min = getGunes().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_gunes,
+                            R.id.text_e_tit_gunes,
+                            R.id.text_u_gunes,
+                            R.id.text_u_tit_gunes};
+                    continue;
+                case 2:
+                    hr_min = getOgle().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_ogle,
+                            R.id.text_e_tit_ogle,
+                            R.id.text_u_ogle,
+                            R.id.text_u_tit_ogle};
+                    continue;
+                case 3:
+                    hr_min = getIkindi().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_ikindi,
+                            R.id.text_e_tit_ikindi,
+                            R.id.text_u_ikindi,
+                            R.id.text_u_tit_ikindi};
+                    continue;
+                case 4:
+                    hr_min = getAksam().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_aksam,
+                            R.id.text_e_tit_aksam,
+                            R.id.text_u_aksam,
+                            R.id.text_u_tit_aksam};
+                    continue;
+                case 5:
+                    hr_min = getYatsi().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_yatsi,
+                            R.id.text_e_tit_yatsi,
+                            R.id.text_u_yatsi,
+                            R.id.text_u_tit_yatsi};
+                    continue;
+                case 6:
+                    try {
+                        nextTime.setTime(dateFormat.parse(toMorrow.getMiladiTarihKisa()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    hr_min = toMorrow.getImsak().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return new int[]{
+                            R.id.text_e_imsak,
+                            R.id.text_e_tit_imsak,
+                            R.id.text_u_imsak,
+                            R.id.text_u_tit_imsak};
+            }
+        }
+        return null;
+    }
 
-        midNight.set(Calendar.HOUR_OF_DAY,23);
-        midNight.set(Calendar.MINUTE,59);
-        midNight.set(Calendar.SECOND,59);
-        midNight.set(Calendar.MILLISECOND,999);
-        return aksam.before(now)&&now.before(midNight);
+    public boolean isEveningNight() {
+        Calendar aksam = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        Calendar midNight = Calendar.getInstance();
+        aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+        aksam.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+        aksam.set(Calendar.SECOND, 0);
+        aksam.set(Calendar.MILLISECOND, 0);
+
+        midNight.set(Calendar.HOUR_OF_DAY, 23);
+        midNight.set(Calendar.MINUTE, 59);
+        midNight.set(Calendar.SECOND, 59);
+        midNight.set(Calendar.MILLISECOND, 999);
+        return aksam.before(now) && now.before(midNight);
     }
 
     public String getEzaniSaat() {
@@ -444,335 +545,388 @@ public class TimesOfDay implements Parcelable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Calendar now=Calendar.getInstance();
-        if(now.get(Calendar.YEAR)==oldTime.get(Calendar.YEAR)&&now.get(Calendar.DAY_OF_YEAR)==oldTime.get(Calendar.DAY_OF_YEAR)&&!isEveningNight()){
+        Calendar now = Calendar.getInstance();
+        if (now.get(Calendar.YEAR) == oldTime.get(Calendar.YEAR) && now.get(Calendar.DAY_OF_YEAR) == oldTime.get(Calendar.DAY_OF_YEAR) && !isEveningNight()) {
             oldTime.setTime(new Date(oldTime.getTimeInMillis() - ONE_DAY_MILLIS));
         }
-        oldTime.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-        oldTime.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-        oldTime.set(Calendar.SECOND,0);
-        oldTime.set(Calendar.MILLISECOND,0);
-        String st,dk,sn;
-        long min,hr,gecenSn=(System.currentTimeMillis()-oldTime.getTimeInMillis());
-        gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-        min=(gecenSn-(gecenSn % 60))/60;
-        gecenSn=gecenSn % 60;
-        hr=(min-(min%60))/60;
-        min=min%60;
-        st=hr<10?"0"+hr:String.valueOf(hr);
-        dk=min<10?"0"+min:String.valueOf(min);
-        sn=gecenSn<10?"0"+gecenSn:String.valueOf(gecenSn);
-        return String.format("%s:%s:%s",st,dk,sn);
-    }
-    public String getEzaniSaatWithoutSec(){
-        return getEzaniSaat().substring(0,5);
+        oldTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+        oldTime.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+        oldTime.set(Calendar.SECOND, 0);
+        oldTime.set(Calendar.MILLISECOND, 0);
+        String st, dk, sn;
+        long min, hr, gecenSn = (System.currentTimeMillis() - oldTime.getTimeInMillis());
+        gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+        min = (gecenSn - (gecenSn % 60)) / 60;
+        gecenSn = gecenSn % 60;
+        hr = (min - (min % 60)) / 60;
+        min = min % 60;
+        st = hr < 10 ? "0" + hr : String.valueOf(hr);
+        dk = min < 10 ? "0" + min : String.valueOf(min);
+        sn = gecenSn < 10 ? "0" + gecenSn : String.valueOf(gecenSn);
+        return String.format("%s:%s:%s", st, dk, sn);
     }
 
-    public String getYatsiEzani(){
-        Calendar aksam=Calendar.getInstance();
-        Calendar yatsi=Calendar.getInstance();
-        if(isEveningNight()){
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+    public String getEzaniSaatWithoutSec() {
+        return getEzaniSaat().substring(0, 5);
+    }
 
-            yatsi.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getYatsi().split(":")[0]));
-            yatsi.set(Calendar.MINUTE,Integer.parseInt(getYatsi().split(":")[1]));
-            yatsi.set(Calendar.SECOND,0);
-            yatsi.set(Calendar.MILLISECOND,0);
+    public String getYatsiEzani() {
+        Calendar aksam = Calendar.getInstance();
+        Calendar yatsi = Calendar.getInstance();
+        if (isEveningNight()) {
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(yatsi.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            yatsi.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getYatsi().split(":")[0]));
+            yatsi.set(Calendar.MINUTE, Integer.parseInt(getYatsi().split(":")[1]));
+            yatsi.set(Calendar.SECOND, 0);
+            yatsi.set(Calendar.MILLISECOND, 0);
 
-        }else {
+            String st, dk;
+            long min, hr, gecenSn = (yatsi.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
+
+        } else {
             try {
                 aksam.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(yesterDay.getMiladiTarihKisa()));
                 yatsi.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(yesterDay.getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(yesterDay.getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(yesterDay.getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(yesterDay.getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            yatsi.set(Calendar.HOUR_OF_DAY,Integer.parseInt(yesterDay.getYatsi().split(":")[0]));
-            yatsi.set(Calendar.MINUTE,Integer.parseInt(yesterDay.getYatsi().split(":")[1]));
-            yatsi.set(Calendar.SECOND,0);
-            yatsi.set(Calendar.MILLISECOND,0);
+            yatsi.set(Calendar.HOUR_OF_DAY, Integer.parseInt(yesterDay.getYatsi().split(":")[0]));
+            yatsi.set(Calendar.MINUTE, Integer.parseInt(yesterDay.getYatsi().split(":")[1]));
+            yatsi.set(Calendar.SECOND, 0);
+            yatsi.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(yatsi.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (yatsi.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
         }
     }
-    public String getImsakEzani(){
-        Calendar aksam=Calendar.getInstance();
-        Calendar imsak=Calendar.getInstance();
-        if(isEveningNight()){
+
+    public String getImsakEzani() {
+        Calendar aksam = Calendar.getInstance();
+        Calendar imsak = Calendar.getInstance();
+        if (isEveningNight()) {
             try {
                 imsak.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            imsak.set(Calendar.HOUR_OF_DAY,Integer.parseInt(toMorrow.getImsak().split(":")[0]));
-            imsak.set(Calendar.MINUTE,Integer.parseInt(toMorrow.getImsak().split(":")[1]));
-            imsak.set(Calendar.SECOND,0);
-            imsak.set(Calendar.MILLISECOND,0);
+            imsak.set(Calendar.HOUR_OF_DAY, Integer.parseInt(toMorrow.getImsak().split(":")[0]));
+            imsak.set(Calendar.MINUTE, Integer.parseInt(toMorrow.getImsak().split(":")[1]));
+            imsak.set(Calendar.SECOND, 0);
+            imsak.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(imsak.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (imsak.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
-        }else {
+        } else {
             try {
                 aksam.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(yesterDay.getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(yesterDay.getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(yesterDay.getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(yesterDay.getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            imsak.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getImsak().split(":")[0]));
-            imsak.set(Calendar.MINUTE,Integer.parseInt(getImsak().split(":")[1]));
-            imsak.set(Calendar.SECOND,0);
-            imsak.set(Calendar.MILLISECOND,0);
+            imsak.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getImsak().split(":")[0]));
+            imsak.set(Calendar.MINUTE, Integer.parseInt(getImsak().split(":")[1]));
+            imsak.set(Calendar.SECOND, 0);
+            imsak.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(imsak.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (imsak.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
         }
     }
-    public String getGunesEzani(){
-        Calendar aksam=Calendar.getInstance();
-        Calendar gunes=Calendar.getInstance();
-        if(isEveningNight()){
+
+    public String getGunesEzani() {
+        Calendar aksam = Calendar.getInstance();
+        Calendar gunes = Calendar.getInstance();
+        if (isEveningNight()) {
             try {
                 gunes.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            gunes.set(Calendar.HOUR_OF_DAY,Integer.parseInt(toMorrow.getGunes().split(":")[0]));
-            gunes.set(Calendar.MINUTE,Integer.parseInt(toMorrow.getGunes().split(":")[1]));
-            gunes.set(Calendar.SECOND,0);
-            gunes.set(Calendar.MILLISECOND,0);
+            gunes.set(Calendar.HOUR_OF_DAY, Integer.parseInt(toMorrow.getGunes().split(":")[0]));
+            gunes.set(Calendar.MINUTE, Integer.parseInt(toMorrow.getGunes().split(":")[1]));
+            gunes.set(Calendar.SECOND, 0);
+            gunes.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(gunes.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (gunes.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
-        }else {
+        } else {
             try {
                 aksam.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(yesterDay.getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(yesterDay.getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(yesterDay.getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(yesterDay.getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            gunes.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getGunes().split(":")[0]));
-            gunes.set(Calendar.MINUTE,Integer.parseInt(getGunes().split(":")[1]));
-            gunes.set(Calendar.SECOND,0);
-            gunes.set(Calendar.MILLISECOND,0);
+            gunes.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getGunes().split(":")[0]));
+            gunes.set(Calendar.MINUTE, Integer.parseInt(getGunes().split(":")[1]));
+            gunes.set(Calendar.SECOND, 0);
+            gunes.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(gunes.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (gunes.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
         }
     }
-    public String getOgleEzani(){
-        Calendar aksam=Calendar.getInstance();
-        Calendar ogle=Calendar.getInstance();
-        if(isEveningNight()){
+
+    public String getOgleEzani() {
+        Calendar aksam = Calendar.getInstance();
+        Calendar ogle = Calendar.getInstance();
+        if (isEveningNight()) {
             try {
                 ogle.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            ogle.set(Calendar.HOUR_OF_DAY,Integer.parseInt(toMorrow.getOgle().split(":")[0]));
-            ogle.set(Calendar.MINUTE,Integer.parseInt(toMorrow.getOgle().split(":")[1]));
-            ogle.set(Calendar.SECOND,0);
-            ogle.set(Calendar.MILLISECOND,0);
+            ogle.set(Calendar.HOUR_OF_DAY, Integer.parseInt(toMorrow.getOgle().split(":")[0]));
+            ogle.set(Calendar.MINUTE, Integer.parseInt(toMorrow.getOgle().split(":")[1]));
+            ogle.set(Calendar.SECOND, 0);
+            ogle.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(ogle.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (ogle.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
-        }else {
+        } else {
             try {
                 aksam.setTime(new SimpleDateFormat("dd.MM.yyyy").parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(yesterDay.getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(yesterDay.getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(yesterDay.getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(yesterDay.getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            ogle.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getOgle().split(":")[0]));
-            ogle.set(Calendar.MINUTE,Integer.parseInt(getOgle().split(":")[1]));
-            ogle.set(Calendar.SECOND,0);
-            ogle.set(Calendar.MILLISECOND,0);
+            ogle.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getOgle().split(":")[0]));
+            ogle.set(Calendar.MINUTE, Integer.parseInt(getOgle().split(":")[1]));
+            ogle.set(Calendar.SECOND, 0);
+            ogle.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(ogle.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (ogle.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
         }
     }
-    public String getIkindiEzani(){
-        Calendar aksam=Calendar.getInstance();
-        Calendar ogle=Calendar.getInstance();
-        if(isEveningNight()){
+
+    public String getIkindiEzani() {
+        Calendar aksam = Calendar.getInstance();
+        Calendar ogle = Calendar.getInstance();
+        if (isEveningNight()) {
             try {
                 ogle.setTime(dateFormat.parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            ogle.set(Calendar.HOUR_OF_DAY,Integer.parseInt(toMorrow.getIkindi().split(":")[0]));
-            ogle.set(Calendar.MINUTE,Integer.parseInt(toMorrow.getIkindi().split(":")[1]));
-            ogle.set(Calendar.SECOND,0);
-            ogle.set(Calendar.MILLISECOND,0);
+            ogle.set(Calendar.HOUR_OF_DAY, Integer.parseInt(toMorrow.getIkindi().split(":")[0]));
+            ogle.set(Calendar.MINUTE, Integer.parseInt(toMorrow.getIkindi().split(":")[1]));
+            ogle.set(Calendar.SECOND, 0);
+            ogle.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(ogle.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (ogle.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
-        }else {
+        } else {
             try {
                 aksam.setTime(dateFormat.parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            aksam.set(Calendar.HOUR_OF_DAY,Integer.parseInt(yesterDay.getAksam().split(":")[0]));
-            aksam.set(Calendar.MINUTE,Integer.parseInt(yesterDay.getAksam().split(":")[1]));
-            aksam.set(Calendar.SECOND,0);
-            aksam.set(Calendar.MILLISECOND,0);
+            aksam.set(Calendar.HOUR_OF_DAY, Integer.parseInt(yesterDay.getAksam().split(":")[0]));
+            aksam.set(Calendar.MINUTE, Integer.parseInt(yesterDay.getAksam().split(":")[1]));
+            aksam.set(Calendar.SECOND, 0);
+            aksam.set(Calendar.MILLISECOND, 0);
 
-            ogle.set(Calendar.HOUR_OF_DAY,Integer.parseInt(getIkindi().split(":")[0]));
-            ogle.set(Calendar.MINUTE,Integer.parseInt(getIkindi().split(":")[1]));
-            ogle.set(Calendar.SECOND,0);
-            ogle.set(Calendar.MILLISECOND,0);
+            ogle.set(Calendar.HOUR_OF_DAY, Integer.parseInt(getIkindi().split(":")[0]));
+            ogle.set(Calendar.MINUTE, Integer.parseInt(getIkindi().split(":")[1]));
+            ogle.set(Calendar.SECOND, 0);
+            ogle.set(Calendar.MILLISECOND, 0);
 
-            String st,dk;
-            long min,hr,gecenSn=(ogle.getTimeInMillis()-aksam.getTimeInMillis());
-            gecenSn=(gecenSn-(gecenSn % 1000))/1000;//milisaniyeyi saniyeye çevirdik-total
-            min=(gecenSn-(gecenSn % 60))/60;
-            hr=(min-(min%60))/60;
-            min=min%60;
-            st=hr<10?"0"+hr:String.valueOf(hr);
-            dk=min<10?"0"+min:String.valueOf(min);
-            return String.format("%s:%s",st,dk);
+            String st, dk;
+            long min, hr, gecenSn = (ogle.getTimeInMillis() - aksam.getTimeInMillis());
+            gecenSn = (gecenSn - (gecenSn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total
+            min = (gecenSn - (gecenSn % 60)) / 60;
+            hr = (min - (min % 60)) / 60;
+            min = min % 60;
+            st = hr < 10 ? "0" + hr : String.valueOf(hr);
+            dk = min < 10 ? "0" + min : String.valueOf(min);
+            return String.format("%s:%s", st, dk);
 
         }
     }
 
     public void setDateToYesterDay() {
-        setMiladiTarihKisa(dateFormat.format(new Date(System.currentTimeMillis()-ONE_DAY_MILLIS)));
+        setMiladiTarihKisa(dateFormat.format(new Date(System.currentTimeMillis() - ONE_DAY_MILLIS)));
     }
 
     @Override
     public boolean equals(Object obj) {
-        try{
-            return ((TimesOfDay)obj).getMiladiTarihKisa().equals(miladiTarihKisa);
-        }catch (Exception e){
+        try {
+            return ((TimesOfDay) obj).getMiladiTarihKisa().equals(miladiTarihKisa);
+        } catch (Exception e) {
 
         }
         return false;
     }
 
     public boolean isYatsiGecti() {
-        Calendar yatsi=Calendar.getInstance();
-        Calendar now=Calendar.getInstance();
-        String[] hr_min=getYatsi().split(":");
-        yatsi.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hr_min[0]));
-        yatsi.set(Calendar.MINUTE,Integer.parseInt(hr_min[1]));
-        yatsi.set(Calendar.SECOND,0);
-        yatsi.set(Calendar.MILLISECOND,0);
-        if(now.after(yatsi))return true;
+        Calendar yatsi = Calendar.getInstance();
+        Calendar now = Calendar.getInstance();
+        String[] hr_min = getYatsi().split(":");
+        yatsi.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+        yatsi.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+        yatsi.set(Calendar.SECOND, 0);
+        yatsi.set(Calendar.MILLISECOND, 0);
+        if (now.after(yatsi)) return true;
         return false;
+    }
+
+    public String getChkImsak() {
+        try {
+            return isYatsiGecti() ? toMorrow.getImsak() : imsak;
+        } catch (NumberFormatException e) {
+            return imsak;
+        }
+    }
+
+    public String getChkGunes() {
+        try {
+            return isYatsiGecti() ? toMorrow.getGunes() : gunes;
+        } catch (NumberFormatException e) {
+            return gunes;
+        }
+    }
+
+    public String getChkOgle() {
+        try {
+            return isYatsiGecti() ? toMorrow.getOgle() : ogle;
+        } catch (NumberFormatException e) {
+            return ogle;
+        }
+    }
+
+    public String getChkIkindi() {
+        try {
+            return isYatsiGecti() ? toMorrow.getIkindi() : ikindi;
+        } catch (NumberFormatException e) {
+            return ikindi;
+        }
+    }
+
+    public String getChkAksam() {
+        try {
+            return isYatsiGecti() ? toMorrow.getAksam() : aksam;
+        } catch (NumberFormatException e) {
+            return aksam;
+        }
+    }
+
+    public String getChkYatsi() {
+        try {
+            return isYatsiGecti() ? toMorrow.getYatsi() : yatsi;
+        } catch (NumberFormatException e) {
+            return yatsi;
+        }
     }
 }

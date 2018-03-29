@@ -7,6 +7,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
 import com.google.gson.Gson;
@@ -27,6 +28,12 @@ public class CollectionWidget extends AppWidgetProvider {
         TimesOfDay toDay;
         List<Town> towns=new Gson().fromJson(Util.getPref(context,C.KEY_LOCATIONS), new TypeToken<List<Town>>(){}.getType());
         Town town=towns.get(0);
+        String id=Util.getPref(context,C.KEY_ACTIVE);
+        for (Town town1 : towns) {
+            if(town1.getIlceID().equals(id))
+                town=town1;
+        }
+
         int index=0;
         for (int i = 0; i < town.getVakitler().size(); i++) {
             TimesOfDay timesOfDay=town.getVakitler().get(i);
@@ -50,22 +57,43 @@ public class CollectionWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
 
-        views.setTextViewText(R.id.text_miladi,toDay.isYatsiGecti()?toDay.getToMorrow().getMiladiTarihUzun():toDay.getMiladiTarihUzun());
-        views.setTextViewText(R.id.text_hicri,toDay.isEveningNight()?toDay.getToMorrow().getHicriTarihUzun():toDay.getHicriTarihUzun());
-        views.setTextViewText(R.id.text_ezani,toDay.isEveningNight()?toDay.getEzaniSaatWithoutSec():toDay.getYesterDay().getEzaniSaatWithoutSec());
-        views.setTextViewText(R.id.text_kalan,toDay.getKalanWOsec());
-        views.setTextViewText(R.id.text_e_yatsi,toDay.getYatsiEzani());
-        views.setTextViewText(R.id.text_e_imsak,toDay.getImsakEzani());
-        views.setTextViewText(R.id.text_e_gunes,toDay.getGunesEzani());
-        views.setTextViewText(R.id.text_e_ogle,toDay.getOgleEzani());
-        views.setTextViewText(R.id.text_e_ikindi,toDay.getIkindiEzani());
-        views.setTextViewText(R.id.text_u_imsak,toDay.getImsak());
-        views.setTextViewText(R.id.text_u_gunes,toDay.getGunes());
-        views.setTextViewText(R.id.text_u_ogle,toDay.getOgle());
-        views.setTextViewText(R.id.text_u_ikindi,toDay.getIkindi());
-        views.setTextViewText(R.id.text_u_aksam,toDay.getAksam());
-        views.setTextViewText(R.id.text_u_yatsi,toDay.getYatsi());
-        views.setTextViewText(R.id.text_location,town.getIlceAdi());
+        views.setTextViewText(R.id.text_miladi,     toDay.isYatsiGecti()?toDay.getToMorrow().getMiladiTarihUzun():toDay.getMiladiTarihUzun());
+        views.setTextViewText(R.id.text_hicri,      toDay.isEveningNight()?toDay.getToMorrow().getHicriTarihUzun():toDay.getHicriTarihUzun());
+        views.setTextViewText(R.id.text_ezani,      toDay.isEveningNight()?toDay.getEzaniSaatWithoutSec():toDay.getYesterDay().getEzaniSaatWithoutSec());
+        views.setTextViewText(R.id.text_kalan,      toDay.getKalanWOsec());
+        views.setTextViewText(R.id.text_e_yatsi,    toDay.getYatsiEzani());
+        views.setTextViewText(R.id.text_e_imsak,    toDay.getImsakEzani());
+        views.setTextViewText(R.id.text_e_gunes,    toDay.getGunesEzani());
+        views.setTextViewText(R.id.text_e_ogle,     toDay.getOgleEzani());
+        views.setTextViewText(R.id.text_e_ikindi,   toDay.getIkindiEzani());
+        views.setTextViewText(R.id.text_u_imsak,    toDay.getChkImsak());
+        views.setTextViewText(R.id.text_u_gunes,    toDay.getChkGunes());
+        views.setTextViewText(R.id.text_u_ogle,     toDay.getChkOgle());
+        views.setTextViewText(R.id.text_u_ikindi,   toDay.getChkIkindi());
+        views.setTextViewText(R.id.text_u_aksam,    toDay.getChkAksam());
+        views.setTextViewText(R.id.text_u_yatsi,    toDay.getChkYatsi());
+        views.setTextViewText(R.id.text_location,   town.getIlceAdi());
+        int text_ids[]=new int[]{R.id.text_miladi,
+                R.id.text_hicri,R.id.text_ezani,R.id.text_kalan, R.id.text_e_yatsi,R.id.text_e_imsak,
+                R.id.text_e_gunes,R.id.text_e_ogle,R.id.text_e_ikindi,R.id.text_e_aksam,R.id.text_u_imsak,
+                R.id.text_u_gunes,R.id.text_u_ogle,R.id.text_u_ikindi,R.id.text_u_aksam,
+                R.id.text_u_yatsi,R.id.text_location,
+                R.id.text_u_tit_yatsi,R.id.text_u_tit_aksam,R.id.text_u_tit_ikindi,
+                R.id.text_u_tit_ogle,R.id.text_u_tit_gunes, R.id.text_u_tit_imsak,R.id.text_e_tit_yatsi,
+                R.id.text_e_tit_aksam,R.id.text_e_tit_ikindi,R.id.text_e_tit_ogle,R.id.text_e_tit_gunes,
+                R.id.text_e_tit_imsak};
+        for (int text_id : text_ids) {
+            views.setTextColor(text_id, ContextCompat.getColor(context,R.color.white));
+        }
+        int ids[] =toDay.getNextIds();
+        if(ids!=null)
+        for (int i : ids) {
+            views.setTextColor(i, ContextCompat.getColor(context,R.color.colorPrimary));
+        }
+
+
+
+
 //        views.setRemoteAdapter(R.id.text_kalan,new Intent(context, WidgetService.class));
 //        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.layout.widget);
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -87,7 +115,6 @@ public class CollectionWidget extends AppWidgetProvider {
         }
         for (int appWidgetId : appWidgetIds) {
 //            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.text_kalan);
-
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
         try {

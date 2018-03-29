@@ -7,5 +7,8 @@ package com.semansoft.ezanisaat;
 
 public class C {
 
-    public static final String KEY_LOCATIONS="locations";
+    public static final String
+            KEY_LOCATIONS="locations",
+            KEY_ACTIVE="active",
+            KEY_TOWN="town";
 }

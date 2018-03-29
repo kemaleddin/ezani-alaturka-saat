@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.kemalettinsargin.mylib.adapter.MyRecyclerAdapter;
 import com.semansoft.ezanisaat.R;
+import com.semansoft.ezanisaat.model.Town;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,7 +23,7 @@ import java.util.List;
  */
 
 public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder> {
-    private List<? extends Object> items;
+    private List<Object> items;
     private LayoutInflater mInflater;
     private View.OnClickListener mOnClickListener;
     private View.OnLongClickListener mOnLongClickListener;
@@ -53,8 +56,8 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
         return items.size();
     }
 
-    public void setItems(List<? extends Object> items) {
-        this.items = items;
+    public void setItems(Object[] items) {
+        this.items = Arrays.asList(items);
         notifyDataSetChanged();
     }
 
@@ -64,6 +67,16 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
         notifyItemRemoved(index);
 
     }
+    public Town remove(int pos) {
+        Town town= (Town) items.get(pos);
+        items.remove(pos);
+        notifyItemRemoved(pos);
+        return town;
+    }
+    public void add(Object town,int pos){
+        items.add(pos,town);
+        notifyItemInserted(pos);
+    }
 
 
     class Vh extends RecyclerView.ViewHolder {
@@ -72,8 +85,10 @@ public class LocationsAdapter extends MyRecyclerAdapter<RecyclerView.ViewHolder>
         public Vh(View itemView) {
             super(itemView);
             itemView.setOnClickListener(mOnClickListener);
-            if(mOnClickListener!=null)
-                itemView.setOnClickListener(mOnClickListener);
+            if(mOnLongClickListener!=null){
+                itemView.setLongClickable(true);
+                itemView.setOnLongClickListener(mOnLongClickListener);
+            }
             text = (TextView) gc(R.id.text_location_item);
         }
 

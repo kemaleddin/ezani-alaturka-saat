@@ -5,7 +5,12 @@
     <item
         android:id="@+id/add_location"
         android:orderInCategory="100"
-        android:title="@string/add_loc"
+        android:title="@string/konumlar"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/gecerli_konum"
+        android:orderInCategory="100"
+        android:title="@string/set_active"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_info"

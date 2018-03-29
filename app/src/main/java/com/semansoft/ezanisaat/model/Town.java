@@ -40,11 +40,13 @@ public class Town implements Parcelable {
         }
 
     };
+    private boolean active;
 
     protected Town(Parcel in) {
         this.ilceAdi = ((String) in.readValue((String.class.getClassLoader())));
         this.ilceAdiEn = ((String) in.readValue((String.class.getClassLoader())));
         this.ilceID = ((String) in.readValue((String.class.getClassLoader())));
+        this.active=((Boolean) in.readValue(Boolean.class.getClassLoader()));
         in.readList(vakitler,TimesOfDay.class.getClassLoader());
     }
 
@@ -87,10 +89,9 @@ public class Town implements Parcelable {
         dest.writeValue(ilceAdi);
         dest.writeValue(ilceAdiEn);
         dest.writeValue(ilceID);
+        dest.writeValue(active);
         dest.writeList(vakitler);
     }
-
-
 
     public int describeContents() {
         return 0;
@@ -112,4 +113,14 @@ public class Town implements Parcelable {
         return ilceAdi;
     }
 
+    public void setActive(String active) {
+        this.active = ilceID.equals(active);
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
 }

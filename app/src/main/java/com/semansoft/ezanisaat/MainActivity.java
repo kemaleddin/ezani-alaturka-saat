@@ -2,22 +2,22 @@ package com.semansoft.ezanisaat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
-import com.semansoft.ezanisaat.model.TimesOfDay;
+import com.kemalettinsargin.mylib.ui.DepthPageTransformer;
+import com.semansoft.ezanisaat.fragment.MainFragment;
 import com.semansoft.ezanisaat.model.Town;
 
 import java.util.List;
@@ -27,22 +27,10 @@ import java.util.List;
  * Written by "كمال الدّين صارغين"  on 09.03.2018.
  * و من الله توفیق
  */
-public class MainActivity extends MyFragmentActivity {//fragment yapıcan
+public class MainActivity extends MyFragmentActivity {
     private static final int ADD_LOC_REQ_CODE = 1;
-    private TextView textKalan,textMiladi,textHicri,textEzani;
-    private LinearLayout vakitlerLinear;
     private List<Town> towns;
-    private LayoutInflater layoutInflater;
-    private Handler mHandler=new Handler(Looper.getMainLooper());
-    private TimesOfDay toDay;
-    private Runnable updateKalanRunnable=new Runnable() {
-        @Override
-        public void run() {
-            textKalan.setText(toDay.getKalan());
-            textEzani.setText(toDay.isEveningNight()?toDay.getEzaniSaat():toDay.getYesterDay().getEzaniSaat());
-            mHandler.postDelayed(this,1000);
-        }
-    };
+    private ViewPager pager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,110 +40,44 @@ public class MainActivity extends MyFragmentActivity {//fragment yapıcan
         createItems();
         load();
     }
-    private void createItems(){
-        layoutInflater=getLayoutInflater();
-        TextView titleEzani,titleVakit;
-        titleEzani=(TextView) getChild(R.id.text_ezani_tit);
-        vakitlerLinear=(LinearLayout) getChild(R.id.vakitler_linear);
-        titleVakit=(TextView) getChild(R.id.text_vaktin_cikmasi);
-        textKalan= (TextView) getChild(R.id.text_kalan);
-        textMiladi= (TextView) getChild(R.id.text_miladi);
-        textHicri= (TextView) getChild(R.id.text_hicri);
-        textEzani= (TextView) getChild(R.id.text_ezani);
-        towns=getGson().fromJson(Util.getPref(this,C.KEY_LOCATIONS), new TypeToken<List<Town>>(){}.getType());
-    }
-    private void load(){
-        Town town=towns.get(0);
-        int index=0;
-        for (int i = 0; i < town.getVakitler().size(); i++) {
-            TimesOfDay timesOfDay=town.getVakitler().get(i);
-            if(!timesOfDay.isOld()){
-                index=i;
-                break;
+
+    private void createItems() {
+        pager = (ViewPager) getChild(R.id.pager);
+        towns = getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS), new TypeToken<List<Town>>() {
+        }.getType());
+        if(Util.hasPref(this,C.KEY_ACTIVE)){
+            String id=Util.getPref(this,C.KEY_ACTIVE);
+            for (Town town : towns) {
+                town.setActive(id);
             }
-        }
-        toDay=town.getVakitler().get(index);
-        if(index>0)
-        toDay.setYesterDay(town.getVakitler().get(index-1));
-        else {
-            TimesOfDay yesterDay=getGson().fromJson(getGson().toJson(toDay),TimesOfDay.class);
-            yesterDay.setDateToYesterDay();
-            toDay.setYesterDay(yesterDay);
-        }
-        toDay.setToMorrow(town.getVakitler().get(index+1));
-        textMiladi.setText(toDay.getMiladiTarihUzun());
-        textHicri.setText(toDay.isEveningNight()?toDay.getToMorrow().getHicriTarihUzun():toDay.getHicriTarihUzun());
-        textKalan.setText(toDay.getKalan());
-        toDay.setName(getString(R.string.umumi));
-        vakitlerLinear.addView(getRow(new TimesOfDay(getString(R.string.aksam),
-                getString(R.string.yatsi),getString(R.string.imsak),getString(R.string.gunes),
-                getString(R.string.ogle),getString(R.string.ikindi))));
-        vakitlerLinear.addView(getRowEzani(toDay));
-        vakitlerLinear.addView(getLine());
-        vakitlerLinear.addView(getRow(new TimesOfDay(getString(R.string.imsak),getString(R.string.gunes),
-                getString(R.string.ogle),getString(R.string.ikindi),getString(R.string.aksam),
-                getString(R.string.yatsi))));
-        vakitlerLinear.addView(getRow(toDay));
-        vakitlerLinear.addView(getLine());
+        }else towns.get(0).setActive(true);
     }
 
-    private View getLine(){
-        View line=new View(this);
-        line.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getScale()));
-        line.setBackgroundResource(R.color.white);
-        line.setAlpha(.5f);
-        int mar= (int) (5*getScale());
-        ((LinearLayout.MarginLayoutParams)line.getLayoutParams()).setMargins(mar,0,mar, (int) (2.5f*getScale()));
-        return line;
+    private void load() {
+        pager.setPageTransformer(false, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(View page, float position) {
+                if(position<-1||position>1)return;
+                View titleEzani,titleVakit,vakitlerLinear,textKalan,textTown,textMiladi,textHicri,textEzani;
+                titleEzani= page.findViewById(R.id.text_ezani_tit);
+                vakitlerLinear= (View) getChild(R.id.vakitler_linear).getParent();
+                titleVakit=page.findViewById(R.id.text_vaktin_cikmasi);
+                textKalan= page.findViewById(R.id.text_kalan);
+                textTown=  page.findViewById(R.id.text_town);
+                textMiladi= page.findViewById(R.id.text_miladi);
+                textHicri= page.findViewById(R.id.text_hicri);
+                textEzani= page.findViewById(R.id.text_ezani);
+
+                vakitlerLinear.setTranslationX(getWidth()*position);
+                Util.log("position=%s width=%s",position,getWidth());
+
+            }
+        });
+        pager.setPageTransformer(false,new DepthPageTransformer());
+        pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
     }
 
-    private View getRow(TimesOfDay tod){
-        View row=layoutInflater.inflate(R.layout.day_times_row,vakitlerLinear,false);
-        TextView
-                textImsak   =(TextView) row.findViewById(R.id.text_imsak),
-                textGunes   =(TextView) row.findViewById(R.id.text_gunes),
-                textOgle    =(TextView) row.findViewById(R.id.text_ogle),
-                textIkindi  =(TextView) row.findViewById(R.id.text_ikindi),
-                textAksam   =(TextView) row.findViewById(R.id.text_aksam),
-                textYatsi   =(TextView) row.findViewById(R.id.text_yatsi),
-                textGun     =(TextView) row.findViewById(R.id.text_day);
-        textGun     .setText(tod.getGun());
-        textImsak  .setText(tod.getImsak());
-        textGunes  .setText(tod.getGunes());
-        textOgle   .setText(tod.getOgle());
-        textIkindi .setText(tod.getIkindi());
-        textAksam  .setText(tod.getAksam());
-        textYatsi  .setText(tod.getYatsi());
-        return row;
-    }
-    private View getRowEzani(TimesOfDay tod){
-        View row=layoutInflater.inflate(R.layout.day_times_row,vakitlerLinear,false);
-        TextView
-                textImsak   =(TextView) row.findViewById(R.id.text_imsak),
-                textGunes   =(TextView) row.findViewById(R.id.text_gunes),
-                textOgle    =(TextView) row.findViewById(R.id.text_ogle),
-                textIkindi  =(TextView) row.findViewById(R.id.text_ikindi),
-                textAksam   =(TextView) row.findViewById(R.id.text_aksam),
-                textYatsi   =(TextView) row.findViewById(R.id.text_yatsi),
-                textGun     =(TextView) row.findViewById(R.id.text_day);
 
-        textImsak .setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        textGunes .setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        textOgle  .setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        textIkindi.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        textAksam .setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        textYatsi .setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-        textGun   .setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
-
-        textGun     .setText(getString(R.string.ezani));
-        textImsak  .setText(R.string.saat_sifir);
-        textGunes  .setText(tod.getYatsiEzani());
-        textOgle   .setText(tod.getImsakEzani());
-        textIkindi .setText(tod.getGunesEzani());
-        textAksam  .setText(tod.getOgleEzani());
-        textYatsi  .setText(tod.getIkindiEzani());
-        return row;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -169,7 +91,16 @@ public class MainActivity extends MyFragmentActivity {//fragment yapıcan
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.add_location:
-                startActivityForResult(new Intent(this,AddLocationsActivity.class),ADD_LOC_REQ_CODE);
+                startActivityForResult(new Intent(this, LocationsActivity.class), ADD_LOC_REQ_CODE);
+                return true;
+            case R.id.gecerli_konum:
+                for (Town town : towns) {
+                    town.setActive(false);
+                }
+                Town town=towns.get(pager.getCurrentItem());
+                town.setActive(true);
+                Util.savePref(this,C.KEY_ACTIVE,town.getIlceID());
+                sendBroadcast(new Intent(MainFragment.ACTION_ACTIVE_LOCATION_CHANGED));
                 return true;
             case R.id.action_info:
                 return true;
@@ -178,15 +109,30 @@ public class MainActivity extends MyFragmentActivity {//fragment yapıcan
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mHandler.post(updateKalanRunnable);
+    class MyAdapter extends FragmentPagerAdapter {
+
+        public MyAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return MainFragment.newInstance(towns.get(position));
+        }
+
+        @Override
+        public int getCount() {
+            return towns.size();
+        }
+
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mHandler.removeCallbacksAndMessages(null);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (RESULT_OK == resultCode && requestCode == ADD_LOC_REQ_CODE) {
+            createItems();
+            load();
+        }
     }
 }

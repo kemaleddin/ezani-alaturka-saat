@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.kemalettinsargin.mylib.LocaleHelper;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.objects.TypeFaces;
@@ -184,5 +185,9 @@ public class MyFragment extends Fragment {
 
     public boolean canGoback(){
         return false;
+    }
+
+    public Gson getGson(){
+        return getAct().getGson();
     }
 }

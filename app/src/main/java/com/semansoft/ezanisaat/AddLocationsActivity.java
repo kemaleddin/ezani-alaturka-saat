@@ -69,14 +69,14 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
         this.sehirler = sehirler;
         type = IL;
         setBarTitle(R.string.sehir_secin);
-        ((LocationsAdapter) recyclerView.getAdapter()).setItems(sehirler);
+        ((LocationsAdapter) recyclerView.getAdapter()).setItems(sehirler.toArray());
     }
 
     public void setIlceler(List<Town> ilceler) {
         this.ilceler = ilceler;
         type = ILCE;
         setBarTitle(R.string.ilce_secin);
-        ((LocationsAdapter) recyclerView.getAdapter()).setItems(ilceler);
+        ((LocationsAdapter) recyclerView.getAdapter()).setItems(ilceler.toArray());
     }
 
     private void setSaatler(Town townNew) {
@@ -105,11 +105,11 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
         if (firstOpen) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }else {
+        } else {
             setResult(RESULT_OK);
-            onBackPressed();
+            super.onBackPressed();
         }
-        }
+    }
 
     public void getUlkeler() {
         showLoading();
@@ -306,7 +306,7 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
                 break;
         }
         LocationsAdapter adapter = (LocationsAdapter) recyclerView.getAdapter();
-        adapter.setItems(array);
+        adapter.setItems(array.toArray());
         return false;
     }
 

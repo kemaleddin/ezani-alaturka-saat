@@ -32,4 +32,7 @@
     <string name="sure_to_remove">Silmek istediğinize emin misiniz?</string>
     <string name="add_loc">Yeni Yer Ekle</string>
     <string name="info">Uygulama Hakkında</string>
+    <string name="set_active">Geçerli Konum Yap</string>
+    <string name="undo">Geri Al</string>
+    <string name="deleted_suc">Başarıyla Silindi</string>
 </resources>
