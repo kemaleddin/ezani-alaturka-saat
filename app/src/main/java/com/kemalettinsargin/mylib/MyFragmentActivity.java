@@ -22,8 +22,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kemalettinsargin.mylib.objects.TypeFaces;
-import com.semansoft.ezanisaat.R;
-import com.semansoft.ezanisaat.retro.RetroInterface;
+import com.sahnisemanyazilim.ezanisaat.R;
+import com.sahnisemanyazilim.ezanisaat.retro.RetroInterface;
 
 import java.util.concurrent.TimeUnit;
 

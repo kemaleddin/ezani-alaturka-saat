@@ -57,4 +57,7 @@ Memleketimizde, az da olsa, bu saati kullananlar hâlâ mevcuttur. Üstelik bu s
 Ezânî saat kullananlar, vasatî saate göre akşam namazı vakti geldiğinde saatlerini mutlaka 12.00’ye getirmelidirler. En azından 2-3 günde bir bu ayarlamayı yapmalıdırlar.
 İstanbul dışındaki vilâyet ve kazalarımızın ezânî (Alaturka) saate göre namaz vakitlerini şöyle tesbit etmek mümkündür: Hangi mahallin ezânî saatini tesbit etmek istiyorsak, o mahallin vasatî akşam vaktinden 12 saat çıkarıldıktan sonra, kalan saat o mahallin bütün vasatî vakitlerinden teker teker çıkarılırsa, o mahalle ait ezânî saatler bulunmuş olur.\nMeselâ: Ankara’da 1 Ocak günü akşam namazı vakti 16.45’dir. Bundan 12 saat çıkardığımızda 4.45 kalacaktır. Ankara’da 1 Ocak günü öğle vakti ise 12.02’dir. 12.02’den 4.45’ı çıkardığımız zaman 7.17 kalacaktır ki, bu, Ankara’nın 1 Ocak günü için ezânî öğle vaktidir. 1 Ocak’ın vasatî vaktinden 4.45 saat çıkarılırsa, o vakte ait ezânî saat bulunacaktır. Sadece vasatî yatsı namazı vaktinden, vasatî aksam namazı vaktini çıkardığımız zaman ezani yatsı vakti bulunur.
 </string>
+    <string name="konum_yok">En az bir konum eklemelisiniz!</string>
+    <string name="konum_ekle">Ezani Saat pencere öğesinin çalışması için lütfen bir konum ekleyin!</string>
+    <string name="konum_sil_swipe">Konum silmek için sola kaydırın.</string>
 </resources>

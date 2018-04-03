@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.kemalettinsargin.mylib.LocaleHelper;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.objects.TypeFaces;
-import com.semansoft.ezanisaat.R;
+import com.sahnisemanyazilim.ezanisaat.R;
 
 
 /**

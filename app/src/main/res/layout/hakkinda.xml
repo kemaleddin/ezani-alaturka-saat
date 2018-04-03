@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.semansoft.ezanisaat.HakkindaActivity"
+    tools:context="com.sahnisemanyazilim.ezanisaat.HakkindaActivity"
     tools:showIn="@layout/activity_hakkinda">
 
     <ImageView
@@ -19,13 +19,15 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/main_content_bg"
+        android:background="@drawable/main_content_bg_1"
         android:padding="10dp"
         android:layout_margin="10dp">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:overScrollMode="never">
 
             <RelativeLayout
                 android:layout_width="match_parent"

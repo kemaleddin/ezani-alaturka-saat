@@ -70,6 +70,50 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:897769046222:android:b31bc7c30fa3c82f",
+        "android_client_info": {
+          "package_name": "com.sahnisemanyazilim.ezanisaat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897769046222-icoodr5m48vva4tsislgf8embvmkfius.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sahnisemanyazilim.ezanisaat",
+            "certificate_hash": "6155088e2f65db2fa1c8181d373268f834ff6e6e"
+          }
+        },
+        {
+          "client_id": "897769046222-bebae06mhinclr60eqcc6cd22ltumsh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg_uydAJEF75eHCNuqYH_HxuTulOgwqN8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897769046222-bebae06mhinclr60eqcc6cd22ltumsh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:897769046222:android:43ea9cad41aeced3",
         "android_client_info": {
           "package_name": "com.semansoft.ezanisaat"

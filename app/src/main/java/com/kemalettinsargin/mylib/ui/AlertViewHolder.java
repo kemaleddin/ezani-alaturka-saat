@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.kemalettinsargin.mylib.Util;
 import com.kemalettinsargin.mylib.customListeners.OnInputListener;
 import com.kemalettinsargin.mylib.objects.TypeFaces;
-import com.semansoft.ezanisaat.R;
+import com.sahnisemanyazilim.ezanisaat.R;
 
 
 /**

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
-import com.semansoft.ezanisaat.R;
+import com.sahnisemanyazilim.ezanisaat.R;
 
 
 public class CustomDialog extends Dialog {

@@ -1,4 +1,4 @@
-package com.semansoft.ezanisaat
+package com.sahnisemanyazilim.ezanisaat
 
 import org.junit.Test
 

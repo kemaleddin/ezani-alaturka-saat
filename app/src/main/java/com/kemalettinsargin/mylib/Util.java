@@ -36,8 +36,8 @@ import com.kemalettinsargin.mylib.ui.CustomDialog;
 import org.json.JSONObject;
 
 import com.kemalettinsargin.mylib.ui.AlertViewHolder;
-import com.semansoft.ezanisaat.BuildConfig;
-import com.semansoft.ezanisaat.R;
+import com.sahnisemanyazilim.ezanisaat.BuildConfig;
+import com.sahnisemanyazilim.ezanisaat.R;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
