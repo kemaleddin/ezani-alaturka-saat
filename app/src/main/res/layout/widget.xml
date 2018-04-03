@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/main_content_bg"
+    android:id="@+id/widget"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -58,7 +59,8 @@
         android:layout_marginBottom="5dp"
         android:text="@string/ezani_saat"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:gravity="center_vertical|left"
         android:drawableLeft="@drawable/logo"
         android:drawablePadding="5dp"/>
     <TextView
@@ -70,9 +72,10 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:text="@string/ezani_saat"
+        android:layout_centerVertical="true"
         android:textColor="@color/white"
         android:layout_toRightOf="@+id/text_ezani_tit"
-        android:textSize="20sp" />
+        android:textSize="24sp" />
 </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"

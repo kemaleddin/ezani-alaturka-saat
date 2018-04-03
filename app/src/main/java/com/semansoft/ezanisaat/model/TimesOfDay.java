@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.Parcelable.Creator;
+import android.os.SystemClock;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -521,6 +522,76 @@ public class TimesOfDay implements Parcelable {
         }
         return null;
     }
+    public int getNextId() {
+        Calendar now = Calendar.getInstance();
+        Calendar nextTime = Calendar.getInstance();
+        String[] hr_min;
+        for (int i = 0; i <= 6; i++) {
+            switch (i) {
+                case 0:
+                    hr_min = getImsak().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_imsak;
+                    continue;
+                case 1:
+                    hr_min = getGunes().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_gunes;
+                    continue;
+                case 2:
+                    hr_min = getOgle().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_ogle;
+                    continue;
+                case 3:
+                    hr_min = getIkindi().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_ikindi;
+                    continue;
+                case 4:
+                    hr_min = getAksam().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_aksam;
+                    continue;
+                case 5:
+                    hr_min = getYatsi().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_yatsi;
+                    continue;
+                case 6:
+                    try {
+                        nextTime.setTime(dateFormat.parse(toMorrow.getMiladiTarihKisa()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    hr_min = toMorrow.getImsak().split(":");
+                    nextTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hr_min[0]));
+                    nextTime.set(Calendar.MINUTE, Integer.parseInt(hr_min[1]));
+                    nextTime.set(Calendar.SECOND, 0);
+                    nextTime.set(Calendar.MILLISECOND, 0);
+                    if (now.before(nextTime)) return R.id.text_imsak;
+            }
+        }
+        return 0;
+    }
 
     public boolean isEveningNight() {
         Calendar aksam = Calendar.getInstance();
@@ -928,5 +999,11 @@ public class TimesOfDay implements Parcelable {
         } catch (NumberFormatException e) {
             return yatsi;
         }
+    }
+
+    public static TimesOfDay getToDay() {
+        TimesOfDay timesOfDay=new TimesOfDay();
+        timesOfDay.miladiTarihKisa=dateFormat.format(Calendar.getInstance().getTime());
+        return timesOfDay;
     }
 }

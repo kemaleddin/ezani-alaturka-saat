@@ -105,10 +105,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
                         android:text="@string/ezani_saat"
                         android:textColor="@color/white"
                         android:textSize="12sp"
+                        android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/text_hicri"
                         android:layout_alignParentLeft="true"/>
 
@@ -117,16 +117,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
                         android:text="@string/ezani_saat"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="16sp"
+                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/white"
+                    android:background="@color/colorPrimary"
                     android:alpha=".5"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
@@ -137,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginTop="2.5dp"
-                    android:layout_marginBottom="7.5dp">
+                    android:layout_marginBottom="10dp">
 
                 </LinearLayout>
 

@@ -1,7 +1,10 @@
 package com.semansoft.ezanisaat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,18 +12,21 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
 import com.kemalettinsargin.mylib.ui.DepthPageTransformer;
 import com.semansoft.ezanisaat.fragment.MainFragment;
+import com.semansoft.ezanisaat.model.TimesOfDay;
 import com.semansoft.ezanisaat.model.Town;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -29,8 +35,9 @@ import java.util.List;
  */
 public class MainActivity extends MyFragmentActivity {
     private static final int ADD_LOC_REQ_CODE = 1;
-    private List<Town> towns;
+    private List<Town> towns, updatingTimes = new ArrayList<>();
     private ViewPager pager;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,35 +52,56 @@ public class MainActivity extends MyFragmentActivity {
         pager = (ViewPager) getChild(R.id.pager);
         towns = getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS), new TypeToken<List<Town>>() {
         }.getType());
-        if(Util.hasPref(this,C.KEY_ACTIVE)){
-            String id=Util.getPref(this,C.KEY_ACTIVE);
+
+        for (Town town : towns) {
+            int index=town.getVakitler().indexOf(TimesOfDay.getToDay());
+            if (index > 1) {
+                town.setVakitler(town.getVakitler().subList(index - 1, town.getVakitler().size()));
+            }
+        }
+        Util.savePref(this, C.KEY_LOCATIONS, getGson().toJson(towns));
+
+        if (Util.hasPref(this, C.KEY_ACTIVE)) {
+            String id = Util.getPref(this, C.KEY_ACTIVE);
             for (Town town : towns) {
                 town.setActive(id);
             }
-        }else towns.get(0).setActive(true);
+        } else towns.get(0).setActive(true);
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (Town town : towns) {
+                    if (town.getVakitler().size() < 3) {
+                        updatingTimes.add(town);
+                    }
+                }
+                if (updatingTimes.size() > 0)
+                    getSaatler(updatingTimes.get(0));
+            }
+        }, 2000);
+    }
+
+    private void setSaatler(Town newTown) {
+        Town oldTown = towns.get(towns.indexOf(newTown));
+        int index = 0;
+        TimesOfDay toDayTimes = newTown.getVakitler().get(0);
+        for (TimesOfDay timesOfDay : oldTown.getVakitler()) {
+            if (timesOfDay.equals(toDayTimes)) {
+                index = oldTown.getVakitler().indexOf(timesOfDay);
+                break;
+            }
+        }
+        oldTown.setVakitler(oldTown.getVakitler().subList(0, index));
+        oldTown.getVakitler().addAll(newTown.getVakitler());
+        Util.savePref(this, C.KEY_LOCATIONS, getGson().toJson(towns));
+        int townIndex = updatingTimes.indexOf(newTown) + 1;
+        if (townIndex < updatingTimes.size())
+            getSaatler(updatingTimes.get(townIndex));
     }
 
     private void load() {
-        pager.setPageTransformer(false, new ViewPager.PageTransformer() {
-            @Override
-            public void transformPage(View page, float position) {
-                if(position<-1||position>1)return;
-                View titleEzani,titleVakit,vakitlerLinear,textKalan,textTown,textMiladi,textHicri,textEzani;
-                titleEzani= page.findViewById(R.id.text_ezani_tit);
-                vakitlerLinear= (View) getChild(R.id.vakitler_linear).getParent();
-                titleVakit=page.findViewById(R.id.text_vaktin_cikmasi);
-                textKalan= page.findViewById(R.id.text_kalan);
-                textTown=  page.findViewById(R.id.text_town);
-                textMiladi= page.findViewById(R.id.text_miladi);
-                textHicri= page.findViewById(R.id.text_hicri);
-                textEzani= page.findViewById(R.id.text_ezani);
-
-                vakitlerLinear.setTranslationX(getWidth()*position);
-                Util.log("position=%s width=%s",position,getWidth());
-
-            }
-        });
-        pager.setPageTransformer(false,new DepthPageTransformer());
+        pager.setPageTransformer(false, new DepthPageTransformer());
         pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
     }
 
@@ -97,12 +125,13 @@ public class MainActivity extends MyFragmentActivity {
                 for (Town town : towns) {
                     town.setActive(false);
                 }
-                Town town=towns.get(pager.getCurrentItem());
+                Town town = towns.get(pager.getCurrentItem());
                 town.setActive(true);
-                Util.savePref(this,C.KEY_ACTIVE,town.getIlceID());
+                Util.savePref(this, C.KEY_ACTIVE, town.getIlceID());
                 sendBroadcast(new Intent(MainFragment.ACTION_ACTIVE_LOCATION_CHANGED));
                 return true;
             case R.id.action_info:
+                startActivity(new Intent(this,HakkindaActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,5 +163,35 @@ public class MainActivity extends MyFragmentActivity {
             createItems();
             load();
         }
+    }
+
+    public void getSaatler(final Town town) {
+        setLoadingMessage(getString(R.string.updating_times, town.getIlceAdi()));
+        showLoading();
+        getApi().getTimes(town.getIlceID()).enqueue(new Callback<List<TimesOfDay>>() {
+            @Override
+            public void onResponse(Call<List<TimesOfDay>> call, Response<List<TimesOfDay>> response) {
+                if (isDestroyed()) return;
+                dismissLoading();
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    town.setVakitler(response.body());
+                    setSaatler(town);
+                } else onFailure(null, null);
+            }
+
+            @Override
+            public void onFailure(Call<List<TimesOfDay>> call, Throwable t) {
+                if (isDestroyed()) return;
+                dismissLoading();
+                showErrorDialogRetry(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
+                            getSaatler(town);
+                        } else finish();
+                    }
+                });
+            }
+        });
     }
 }

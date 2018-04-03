@@ -35,14 +35,19 @@ public class CollectionWidget extends AppWidgetProvider {
         }
 
         int index=0;
+        toDay=town.getVakitler().get(0);
         for (int i = 0; i < town.getVakitler().size(); i++) {
             TimesOfDay timesOfDay=town.getVakitler().get(i);
             if(!timesOfDay.isOld()){
+                toDay=timesOfDay;
                 index=i;
                 break;
             }
         }
-        toDay=town.getVakitler().get(index);
+      /*  if(index>1){
+            town.setVakitler(town.getVakitler().subList(index-1,town.getVakitler().size()));
+            Util.savePref(context,C.KEY_LOCATIONS,getGson().toJson(towns));
+        }*/
         if(index>0)
             toDay.setYesterDay(town.getVakitler().get(index-1));
         else {
@@ -56,7 +61,9 @@ public class CollectionWidget extends AppWidgetProvider {
 
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-
+        Intent configIntent = new Intent(context, MainActivity.class);
+        PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+        views.setOnClickPendingIntent(R.id.widget, configPendingIntent);
         views.setTextViewText(R.id.text_miladi,     toDay.isYatsiGecti()?toDay.getToMorrow().getMiladiTarihUzun():toDay.getMiladiTarihUzun());
         views.setTextViewText(R.id.text_hicri,      toDay.isEveningNight()?toDay.getToMorrow().getHicriTarihUzun():toDay.getHicriTarihUzun());
         views.setTextViewText(R.id.text_ezani,      toDay.isEveningNight()?toDay.getEzaniSaatWithoutSec():toDay.getYesterDay().getEzaniSaatWithoutSec());
@@ -98,7 +105,7 @@ public class CollectionWidget extends AppWidgetProvider {
 //        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.layout.widget);
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
-        Util.log("update=%s",System.currentTimeMillis()%60000);
+//        Util.log("update=%s",System.currentTimeMillis()%60000);
     }
 
 
@@ -128,7 +135,7 @@ public class CollectionWidget extends AppWidgetProvider {
         }catch (Exception e){
             e.printStackTrace();
         }
-        Util.log("onUpdate asdasd");
+//        Util.log("onUpdate asdasd");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 

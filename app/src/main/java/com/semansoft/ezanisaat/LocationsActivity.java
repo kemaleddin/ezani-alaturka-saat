@@ -79,12 +79,12 @@ public class LocationsActivity extends MyFragmentActivity implements View.OnClic
 
             Drawable background;
             Drawable xMark;
-            int xMarkMargin;
+            int xMarkMargin= (int) (5*getScale());
             boolean initiated;
 
             private void init() {
                 background = new ColorDrawable(Color.RED);
-                xMark = ContextCompat.getDrawable(LocationsActivity.this, R.drawable.ic_add_white_48dp);
+                xMark = ContextCompat.getDrawable(LocationsActivity.this, R.drawable.ic_delete_48pt);
                 xMark.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                 initiated = true;
             }
@@ -151,15 +151,11 @@ public class LocationsActivity extends MyFragmentActivity implements View.OnClic
 
                 int xMarkLeft = 0;
                 int xMarkRight = 0;
-                int xMarkTop = (int) (itemView.getTop() + (itemView.getHeight() - getHeight()) / 2);
-                int xMarkBottom = (int) (xMarkTop + getHeight());
-                if (dX < 0) {
-                    xMarkLeft = (int) (itemView.getRight() - xMarkMargin - getWidth());
-                    xMarkRight = itemView.getRight() - xMarkMargin;
-                } else {
-                    xMarkLeft = itemView.getLeft() + xMarkMargin;
-                    xMarkRight = (int) (itemView.getLeft() + xMarkMargin + getWidth());
-                }
+                int xMarkTop = (int) (itemView.getTop()-xMarkMargin);
+                int xMarkBottom = (int) (xMarkTop + itemView.getHeight()-xMarkMargin);
+                    xMarkLeft = (int) (getWidth()-xMarkMargin-20*getScale());
+                    xMarkRight = (int) (getWidth() - xMarkMargin);
+
                 xMark.setBounds(xMarkLeft, xMarkTop, xMarkRight, xMarkBottom);
                 xMark.draw(c);
 
