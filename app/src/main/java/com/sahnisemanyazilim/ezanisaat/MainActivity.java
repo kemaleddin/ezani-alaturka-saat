@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
@@ -26,6 +27,10 @@ import com.kemalettinsargin.mylib.ui.DepthPageTransformer;
 import com.sahnisemanyazilim.ezanisaat.fragment.MainFragment;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
+import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
+import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
+import com.sahnisemanyazilim.ezanisaat.widget.EzaniBigWidget;
+import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +57,46 @@ public class MainActivity extends MyFragmentActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         createItems();
         load();
+       checkAppWidget(this);
+    }
+
+    private void checkAppWidget(Context context){
+        try {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,EzaniBigWidget.class));
+            if(appWidgetIds.length==0)return;
+            final Intent intent = new Intent(context, BigWidgetService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
+            final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
+            final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarm.cancel(pending);
+            long interval = 60000;
+            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            for (int appWidgetId : appWidgetIds) {
+                Util.log("Big_widget_id"+appWidgetId);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            FirebaseCrash.report(e);
+        }
+        try {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,EzaniSaatWidget.class));
+            if(appWidgetIds.length==0)return;
+            final Intent intent = new Intent(context, SaatWidgetService.class);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
+            final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
+            final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarm.cancel(pending);
+            long interval = 60000;
+            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            for (int appWidgetId : appWidgetIds) {
+                Util.log("Saat_widget_id"+appWidgetId);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            FirebaseCrash.report(e);
+        }
     }
 
     private void createItems() {
@@ -169,21 +214,7 @@ public class MainActivity extends MyFragmentActivity {
             createItems();
             load();
             if(towns.size()==1){
-                try {
-
-                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
-                            .getApplicationContext());
-                    int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(this,CollectionWidget.class));
-                    final Intent intent = new Intent(this, WidgetService.class);
-                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
-                    final PendingIntent pending = PendingIntent.getService(this, 0, intent, 0);
-                    final AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    alarm.cancel(pending);
-                    long interval = 60000;
-                    alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                checkAppWidget(this);
             }
         }
     }

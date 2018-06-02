@@ -177,6 +177,9 @@ public class TimesOfDay implements Parcelable {
     public String getHicriTarihUzun() {
         return hicriTarihUzun;
     }
+    public String getHicriTarihUzunGunlu() {
+        return String.format( "%s %s", hicriTarihUzun,getGun_());
+    }
 
     public void setHicriTarihUzun(String hicriTarihUzun) {
         this.hicriTarihUzun = hicriTarihUzun;
@@ -327,6 +330,19 @@ public class TimesOfDay implements Parcelable {
             if (calendar.get(Calendar.DAY_OF_YEAR) == myCalendar.get(Calendar.DAY_OF_YEAR)) {
                 return "Umumi";
             } else return dayFormat.format(myCalendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    public String getGun_() {
+        DateFormat dayFormat = new SimpleDateFormat("EEEE");
+        try {
+            Date myDay = dateFormat.parse(miladiTarihKisa);
+            Calendar calendar, myCalendar = Calendar.getInstance();
+            myCalendar.setTime(myDay);
+            calendar = Calendar.getInstance();
+             return dayFormat.format(myCalendar.getTime());
         } catch (Exception e) {
             e.printStackTrace();
             return "";

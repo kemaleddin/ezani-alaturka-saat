@@ -3,7 +3,7 @@
     android:initialLayout="@layout/widget"
     android:minHeight="200dp"
     android:minWidth="320dp"
-    android:previewImage="@drawable/ezani_logo"
+    android:previewImage="@drawable/big_widget"
     android:resizeMode="vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen">

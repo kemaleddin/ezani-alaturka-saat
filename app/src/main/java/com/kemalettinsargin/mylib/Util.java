@@ -280,12 +280,12 @@ public class Util {
     }
 
     public static void log(String msg) {
-        if (BuildConfig.DEBUG)
+//        if (BuildConfig.DEBUG)
             Log.d("mylib", msg);
     }
 
     public static void log(String msg, Object... format) {
-        if (BuildConfig.DEBUG)
+//        if (BuildConfig.DEBUG)
             Log.d("mylib", String.format(msg, format));
     }
 
