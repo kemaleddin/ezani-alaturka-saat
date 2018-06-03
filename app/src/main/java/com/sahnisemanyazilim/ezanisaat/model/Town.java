@@ -77,7 +77,7 @@ public class Town implements Parcelable {
         this.ilceID = ilceID;
     }
 
-    public List<TimesOfDay> getVakitler() {
+    public List<TimesOfDay> getTimesOfDays() {
         return vakitler;
     }
 
@@ -122,5 +122,13 @@ public class Town implements Parcelable {
 
     public boolean isActive() {
         return active;
+    }
+
+    public Town getClone() {
+        Town town= new Town();
+        town.setIlceAdi(ilceAdi);
+        town.setIlceAdiEn(ilceAdiEn);
+        town.setIlceID(ilceID);
+        return town;
     }
 }

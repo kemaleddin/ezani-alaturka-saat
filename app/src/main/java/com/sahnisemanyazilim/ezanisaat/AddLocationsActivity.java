@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
@@ -89,12 +88,12 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
         } else towns = new ArrayList<>();
         if (towns.contains(townNew)) {
             Town townOld = towns.get(towns.indexOf(townNew));
-            TimesOfDay first = townNew.getVakitler().get(0);
+            TimesOfDay first = townNew.getTimesOfDays().get(0);
             try {
-                TimesOfDay lastDay = townOld.getVakitler().get(townOld.getVakitler().indexOf(first) - 1);
-                townNew.getVakitler().add(0, lastDay);
-                lastDay = townOld.getVakitler().get(townOld.getVakitler().indexOf(first) - 2);
-                townNew.getVakitler().add(0, lastDay);
+                TimesOfDay lastDay = townOld.getTimesOfDays().get(townOld.getTimesOfDays().indexOf(first) - 1);
+                townNew.getTimesOfDays().add(0, lastDay);
+                lastDay = townOld.getTimesOfDays().get(townOld.getTimesOfDays().indexOf(first) - 2);
+                townNew.getTimesOfDays().add(0, lastDay);
             } catch (Exception e) {
                 e.printStackTrace();
             }

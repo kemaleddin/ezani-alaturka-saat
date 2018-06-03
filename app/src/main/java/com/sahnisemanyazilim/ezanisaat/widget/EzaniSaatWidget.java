@@ -7,8 +7,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PowerManager;
 import android.os.SystemClock;
-import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
 import com.google.firebase.crash.FirebaseCrash;
@@ -20,6 +20,7 @@ import com.sahnisemanyazilim.ezanisaat.MainActivity;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
+import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 
 import java.util.List;
@@ -43,11 +44,14 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             if(town1.getIlceID().equals(id))
                 town=town1;
         }
-
+        if(town.getTimesOfDays().size()<3){
+            context.startService(new Intent(context,SaatWidgetService.class));
+            return;
+        }
         int index=0;
-        toDay=town.getVakitler().get(0);
-        for (int i = 0; i < town.getVakitler().size(); i++) {
-            TimesOfDay timesOfDay=town.getVakitler().get(i);
+        toDay=town.getTimesOfDays().get(0);
+        for (int i = 0; i < town.getTimesOfDays().size(); i++) {
+            TimesOfDay timesOfDay=town.getTimesOfDays().get(i);
             if(!timesOfDay.isOld()){
                 toDay=timesOfDay;
                 index=i;
@@ -55,17 +59,17 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             }
         }
       /*  if(index>1){
-            town.setVakitler(town.getVakitler().subList(index-1,town.getVakitler().size()));
+            town.setVakitler(town.getTimesOfDays().subList(index-1,town.getTimesOfDays().size()));
             Util.savePref(context,C.KEY_LOCATIONS,getGson().toJson(towns));
         }*/
         if(index>0)
-            toDay.setYesterDay(town.getVakitler().get(index-1));
+            toDay.setYesterDay(town.getTimesOfDays().get(index-1));
         else {
             TimesOfDay yesterDay=getGson().fromJson(getGson().toJson(toDay),TimesOfDay.class);
             yesterDay.setDateToYesterDay();
             toDay.setYesterDay(yesterDay);
         }
-        toDay.setToMorrow(town.getVakitler().get(index+1));
+        toDay.setToMorrow(town.getTimesOfDays().get(index+1));
         toDay.setName(context.getString(R.string.umumi));
 
 
@@ -98,10 +102,14 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             super.onUpdate(context,appWidgetManager,appWidgetIds);
             return;
         }
+
+        PowerManager.WakeLock wakeLock = ((PowerManager)context.getSystemService(Context.POWER_SERVICE)).newWakeLock(1, "WAKE LOCK");
+        wakeLock.acquire(60000);
         for (int appWidgetId : appWidgetIds) {
 //            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.text_kalan);
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+        wakeLock.release();
         try {
             final Intent intent = new Intent(context, SaatWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
@@ -109,7 +117,8 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
             long interval = 60000;
-            alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+//            alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%interval)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
         }catch (Exception e){
             e.printStackTrace();
             FirebaseCrash.report(e);
@@ -129,7 +138,8 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
             long interval = 60000;
-            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
         }catch (Exception e){
             e.printStackTrace();
             FirebaseCrash.report(e);

@@ -56,44 +56,57 @@ public class MainActivity extends MyFragmentActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         createItems();
-        load();
-       checkAppWidget(this);
+        checkTimes();
+        checkAppWidget(this);
     }
 
-    private void checkAppWidget(Context context){
+    private void checkTimes(){
+        for (Town town : towns) {
+            if (town.getTimesOfDays().size() < 3) {
+                updatingTimes.add(town);
+            }
+        }
+        if (updatingTimes.size() > 0)
+            getSaatler(updatingTimes.get(0));
+        else load();
+    }
+
+    private void checkAppWidget(Context context) {
         try {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,EzaniBigWidget.class));
-            if(appWidgetIds.length==0)return;
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniBigWidget.class));
+            if (appWidgetIds.length == 0) return;
             final Intent intent = new Intent(context, BigWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
             long interval = 60000;
-            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (interval - (SystemClock.elapsedRealtime() % 60000)), interval, pending);
             for (int appWidgetId : appWidgetIds) {
-                Util.log("Big_widget_id"+appWidgetId);
+                Util.log("Big_widget_id" + appWidgetId);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
         }
         try {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,EzaniSaatWidget.class));
-            if(appWidgetIds.length==0)return;
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniSaatWidget.class));
+            if (appWidgetIds.length == 0) return;
             final Intent intent = new Intent(context, SaatWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
             long interval = 60000;
-            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (interval - (SystemClock.elapsedRealtime() % 60000)), interval, pending);
             for (int appWidgetId : appWidgetIds) {
-                Util.log("Saat_widget_id"+appWidgetId);
+                Util.log("Saat_widget_id" + appWidgetId);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
         }
@@ -105,9 +118,9 @@ public class MainActivity extends MyFragmentActivity {
         }.getType());
 
         for (Town town : towns) {
-            int index=town.getVakitler().indexOf(TimesOfDay.getToDay());
+            int index = town.getTimesOfDays().indexOf(TimesOfDay.getToDay());
             if (index > 1) {
-                town.setVakitler(town.getVakitler().subList(index - 1, town.getVakitler().size()));
+                town.setVakitler(town.getTimesOfDays().subList(index - 1, town.getTimesOfDays().size()));
             }
         }
         Util.savePref(this, C.KEY_LOCATIONS, getGson().toJson(towns));
@@ -119,36 +132,26 @@ public class MainActivity extends MyFragmentActivity {
             }
         } else towns.get(0).setActive(true);
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                for (Town town : towns) {
-                    if (town.getVakitler().size() < 3) {
-                        updatingTimes.add(town);
-                    }
-                }
-                if (updatingTimes.size() > 0)
-                    getSaatler(updatingTimes.get(0));
-            }
-        }, 2000);
+
     }
 
     private void setSaatler(Town newTown) {
         Town oldTown = towns.get(towns.indexOf(newTown));
         int index = 0;
-        TimesOfDay toDayTimes = newTown.getVakitler().get(0);
-        for (TimesOfDay timesOfDay : oldTown.getVakitler()) {
+        TimesOfDay toDayTimes = newTown.getTimesOfDays().get(0);
+        for (TimesOfDay timesOfDay : oldTown.getTimesOfDays()) {
             if (timesOfDay.equals(toDayTimes)) {
-                index = oldTown.getVakitler().indexOf(timesOfDay);
+                index = oldTown.getTimesOfDays().indexOf(timesOfDay);
                 break;
             }
         }
-        oldTown.setVakitler(oldTown.getVakitler().subList(0, index));
-        oldTown.getVakitler().addAll(newTown.getVakitler());
+        oldTown.setVakitler(oldTown.getTimesOfDays().subList(0, index));
+        oldTown.getTimesOfDays().addAll(newTown.getTimesOfDays());
         Util.savePref(this, C.KEY_LOCATIONS, getGson().toJson(towns));
         int townIndex = updatingTimes.indexOf(newTown) + 1;
         if (townIndex < updatingTimes.size())
             getSaatler(updatingTimes.get(townIndex));
+        else load();
     }
 
     private void load() {
@@ -182,7 +185,7 @@ public class MainActivity extends MyFragmentActivity {
                 sendBroadcast(new Intent(MainFragment.ACTION_ACTIVE_LOCATION_CHANGED));
                 return true;
             case R.id.action_info:
-                startActivity(new Intent(this,HakkindaActivity.class));
+                startActivity(new Intent(this, HakkindaActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -212,8 +215,8 @@ public class MainActivity extends MyFragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (RESULT_OK == resultCode && requestCode == ADD_LOC_REQ_CODE) {
             createItems();
-            load();
-            if(towns.size()==1){
+            checkTimes();
+            if (towns.size() == 1) {
                 checkAppWidget(this);
             }
         }
@@ -228,8 +231,10 @@ public class MainActivity extends MyFragmentActivity {
                 if (isDestroyed()) return;
                 dismissLoading();
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    town.setVakitler(response.body());
-                    setSaatler(town);
+//                    town.setVakitler(response.body());
+                    Town newTown=town.getClone();
+                    newTown.setVakitler(response.body());
+                    setSaatler(newTown);
                 } else onFailure(null, null);
             }
 
@@ -248,4 +253,6 @@ public class MainActivity extends MyFragmentActivity {
             }
         });
     }
+
+
 }

@@ -17,16 +17,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.Util;
 import com.kemalettinsargin.mylib.fragments.MyFragment;
 import com.sahnisemanyazilim.ezanisaat.C;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -97,22 +93,22 @@ public class MainFragment extends MyFragment {
         if (town.isActive())
             textTown.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
         int index = 0;
-        for (int i = 0; i < town.getVakitler().size(); i++) {
-            TimesOfDay timesOfDay = town.getVakitler().get(i);
+        for (int i = 0; i < town.getTimesOfDays().size(); i++) {
+            TimesOfDay timesOfDay = town.getTimesOfDays().get(i);
             if (!timesOfDay.isOld()) {
                 index = i;
                 break;
             }
         }
-        toDay = town.getVakitler().get(index);
+        toDay = town.getTimesOfDays().get(index);
         if (index > 0)
-            toDay.setYesterDay(town.getVakitler().get(index - 1));
+            toDay.setYesterDay(town.getTimesOfDays().get(index - 1));
         else {
             TimesOfDay yesterDay = getGson().fromJson(getGson().toJson(toDay), TimesOfDay.class);
             yesterDay.setDateToYesterDay();
             toDay.setYesterDay(yesterDay);
         }
-        toDay.setToMorrow(town.getVakitler().get(index + 1));
+        toDay.setToMorrow(town.getTimesOfDays().get(index + 1));
         textMiladi.setText(toDay.getMiladiTarihUzun());
         textHicri.setText(toDay.isEveningNight() ? toDay.getToMorrow().getHicriTarihUzun() : toDay.getHicriTarihUzun());
         textKalan.setText(toDay.getKalan());

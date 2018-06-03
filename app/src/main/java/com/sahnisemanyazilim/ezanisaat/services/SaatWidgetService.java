@@ -16,7 +16,6 @@ import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.retro.RetroInterface;
-import com.sahnisemanyazilim.ezanisaat.widget.EzaniBigWidget;
 import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
 
 import java.util.ArrayList;
@@ -46,30 +45,24 @@ public class SaatWidgetService extends Service {
             return super.onStartCommand(intent,flags,startId);
         }
 
-        for (int allWidgetId : allWidgetIds) {
+       /* for (int allWidgetId : allWidgetIds) {
             Util.log("widget_id=%s",allWidgetId);
             EzaniSaatWidget.updateAppWidget(this,appWidgetManager,allWidgetId);
-        }
-        Util.log("service");
-
-        /*try {
-            ((AlarmManager)getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC_WAKEUP, 60000L, PendingIntent.getService(this, 0, new Intent(this, WidgetService.class), 0));
-        } catch (Exception e) {
-            e.printStackTrace();
         }*/
+        new EzaniSaatWidget().onUpdate(this,appWidgetManager,allWidgetIds);
+        Util.log("service");
         updatingTimes.clear();
         List<Town> towns= Util.getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
             for (Town town : towns) {
-                if(town.getVakitler().size()<4){
+                if(town.getTimesOfDays().size()<4){
                     updatingTimes.add(town);
                 }
             }
             if(updatingTimes.size()>0) {
                 createApi();
                 getSaatler(updatingTimes.get(0));
-            }
-
-        stopSelf();
+            } else
+                stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -109,8 +102,9 @@ public class SaatWidgetService extends Service {
             @Override
             public void onResponse(Call<List<TimesOfDay>> call, Response<List<TimesOfDay>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    town.setVakitler(response.body());
-                    setSaatler(town);
+                    Town newTown=town.getClone();
+                    newTown.setVakitler(response.body());
+                    setSaatler(newTown);
                 }
             }
 
@@ -125,18 +119,19 @@ public class SaatWidgetService extends Service {
         List<Town> towns = gson.fromJson(Util.getPref(this,C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
         Town oldTown=towns.get(towns.indexOf(newTown));
         int index=0;
-        TimesOfDay toDayTimes=newTown.getVakitler().get(0);
-        for (TimesOfDay timesOfDay : oldTown.getVakitler()) {
+        TimesOfDay toDayTimes=newTown.getTimesOfDays().get(0);
+        for (TimesOfDay timesOfDay : oldTown.getTimesOfDays()) {
             if(timesOfDay.equals(toDayTimes)){
-                index=oldTown.getVakitler().indexOf(timesOfDay);
+                index=oldTown.getTimesOfDays().indexOf(timesOfDay);
                 break;
             }
         }
-        oldTown.setVakitler(oldTown.getVakitler().subList(0,index));
-        oldTown.getVakitler().addAll(newTown.getVakitler());
+        oldTown.setVakitler(oldTown.getTimesOfDays().subList(0,index));
+        oldTown.getTimesOfDays().addAll(newTown.getTimesOfDays());
         Util.savePref(this,C.KEY_LOCATIONS,gson.toJson(towns));
         int townIndex=updatingTimes.indexOf(newTown)+1;
         if(townIndex<updatingTimes.size())
             getSaatler(updatingTimes.get(townIndex));
+        else stopSelf();
     }
 }

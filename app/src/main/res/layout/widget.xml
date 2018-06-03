@@ -90,6 +90,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:text="@string/vaktin_cikmasina"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="20sp" />
         <TextView
@@ -102,6 +103,7 @@
             android:layout_marginBottom="5dp"
             android:text="@string/ezani_saat"
             android:textColor="@color/white"
+            android:drawableLeft="@drawable/waiting_"
             android:layout_toRightOf="@+id/text_kalan_tit"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -117,7 +119,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="8"
+            android:layout_weight="7"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginLeft="2.5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -125,10 +129,8 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2.5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="2.5dp"
                 android:layout_marginTop="2.5dp"
-                android:layout_weight="1.44"
+                android:layout_weight="1"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -138,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/aksam"
                 android:textColor="@color/white"
@@ -150,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/yatsi"
                 android:textColor="@color/white"
@@ -162,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/imsak"
                 android:textColor="@color/white"
@@ -174,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/gunes"
                 android:textColor="@color/white"
@@ -186,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ogle"
                 android:textColor="@color/white"
@@ -198,7 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ikindi"
                 android:textColor="@color/white"
@@ -209,7 +211,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="8"
+            android:layout_weight="7"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginLeft="2.5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -217,11 +221,11 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2.5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="2.5dp"
                 android:layout_marginTop="2.5dp"
-                android:layout_weight="1.44"
+                android:layout_weight="1"
                 android:text="@string/ezani"
+                android:paddingRight="2.5dp"
+                android:paddingLeft="2.5dp"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -232,11 +236,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/saat_sifir"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_e_yatsi"
@@ -244,11 +248,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/yatsi"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_e_imsak"
@@ -256,11 +260,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/imsak"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_e_gunes"
@@ -268,11 +272,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/gunes"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_e_ogle"
@@ -280,11 +284,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ogle"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_e_ikindi"
@@ -292,11 +296,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2.5dp"
                 android:layout_marginBottom="2.5dp"
-                android:layout_weight="1.11"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ikindi"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
@@ -323,7 +327,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_weight="7"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginLeft="2.5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -331,10 +337,8 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2.5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="2.5dp"
                 android:layout_marginTop="2.5dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -342,7 +346,6 @@
                 android:id="@+id/text_u_tit_imsak"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/imsak"
@@ -353,7 +356,6 @@
                 android:id="@+id/text_u_tit_gunes"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/gunes"
@@ -364,7 +366,6 @@
                 android:id="@+id/text_u_tit_ogle"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ogle"
@@ -375,7 +376,6 @@
                 android:id="@+id/text_u_tit_ikindi"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ikindi"
@@ -386,7 +386,6 @@
                 android:id="@+id/text_u_tit_aksam"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/aksam"
@@ -397,7 +396,6 @@
                 android:id="@+id/text_u_tit_yatsi"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/yatsi"
@@ -408,7 +406,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_weight="7"
+            android:layout_marginRight="2.5dp"
+            android:layout_marginLeft="2.5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -416,10 +416,8 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2.5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="2.5dp"
                 android:layout_marginTop="2.5dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:text="@string/umumi"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -428,7 +426,6 @@
                 android:id="@+id/text_u_imsak"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/imsak"
@@ -439,7 +436,6 @@
                 android:id="@+id/text_u_gunes"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/gunes"
@@ -450,7 +446,6 @@
                 android:id="@+id/text_u_ogle"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ogle"
@@ -461,7 +456,6 @@
                 android:id="@+id/text_u_ikindi"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/ikindi"
@@ -472,7 +466,6 @@
                 android:id="@+id/text_u_aksam"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/aksam"
@@ -483,7 +476,6 @@
                 android:id="@+id/text_u_yatsi"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:layout_margin="2.5dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/yatsi"
