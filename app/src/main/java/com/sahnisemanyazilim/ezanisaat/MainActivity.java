@@ -33,6 +33,7 @@ import com.sahnisemanyazilim.ezanisaat.widget.EzaniBigWidget;
 import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -81,12 +82,8 @@ public class MainActivity extends MyFragmentActivity {
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
-            long interval = 60000;
-            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (interval - (SystemClock.elapsedRealtime() % 60000)), interval, pending);
-            for (int appWidgetId : appWidgetIds) {
-                Util.log("Big_widget_id" + appWidgetId);
-            }
+            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);
@@ -100,12 +97,8 @@ public class MainActivity extends MyFragmentActivity {
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
-            long interval = 60000;
-            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (interval - (SystemClock.elapsedRealtime() % 60000)), interval, pending);
-            for (int appWidgetId : appWidgetIds) {
-                Util.log("Saat_widget_id" + appWidgetId);
-            }
+            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
         } catch (Exception e) {
             e.printStackTrace();
             FirebaseCrash.report(e);

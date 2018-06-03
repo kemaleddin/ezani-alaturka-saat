@@ -48,7 +48,7 @@ public class BigWidgetService extends Service {
             EzaniBigWidget.updateAppWidget(this,appWidgetManager,allWidgetId);
         }*/
         new EzaniBigWidget().onUpdate(this,appWidgetManager,allWidgetIds);
-        Util.log("service");
+//        Util.log("service");
 
         /*try {
             ((AlarmManager)getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC_WAKEUP, 60000L, PendingIntent.getService(this, 0, new Intent(this, WidgetService.class), 0));

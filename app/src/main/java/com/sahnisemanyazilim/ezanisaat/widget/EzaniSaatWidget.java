@@ -20,9 +20,9 @@ import com.sahnisemanyazilim.ezanisaat.MainActivity;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
-import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -116,9 +116,8 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
-            long interval = 60000;
-//            alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%interval)), interval, pending);
-            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
+//            alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime()+(interval-(new Date().getTime()%interval)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
         }catch (Exception e){
             e.printStackTrace();
             FirebaseCrash.report(e);
@@ -137,9 +136,8 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
-            long interval = 60000;
-            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime()+(interval-(new Date().getTime()%60000)), interval, pending);
         }catch (Exception e){
             e.printStackTrace();
             FirebaseCrash.report(e);

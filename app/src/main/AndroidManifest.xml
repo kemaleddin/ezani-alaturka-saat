@@ -49,7 +49,8 @@
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".widget.EzaniBigWidget">
+        <receiver android:name=".widget.EzaniBigWidget"
+            android:label="@string/ezani_datayli">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -59,7 +60,8 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver android:name=".widget.EzaniSaatWidget">
+        <receiver android:name=".widget.EzaniSaatWidget"
+            android:label="@string/ezani_saat_">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

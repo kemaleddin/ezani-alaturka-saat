@@ -11,4 +11,5 @@ public class C {
             KEY_LOCATIONS="locations",
             KEY_ACTIVE="active",
             KEY_TOWN="town";
+    public static long interval_1=30000;
 }

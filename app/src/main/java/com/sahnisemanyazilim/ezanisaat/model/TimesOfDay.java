@@ -352,7 +352,6 @@ public class TimesOfDay implements Parcelable {
     public String getKalan() {
         Calendar now = Calendar.getInstance();
         Calendar nextTime = getNextTime(now);
-        Util.log(nextTime.toString());
         String st, dk, sn;
         long min, hr, kalansn = (nextTime.getTimeInMillis() - System.currentTimeMillis());
         kalansn = (kalansn - (kalansn % 1000)) / 1000;//milisaniyeyi saniyeye çevirdik-total

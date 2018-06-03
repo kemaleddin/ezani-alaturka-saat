@@ -23,6 +23,7 @@ import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -147,9 +148,8 @@ public class EzaniBigWidget extends AppWidgetProvider {
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
-            long interval = 60000;
-            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime()+(interval-(new Date().getTime()%60000)), interval, pending);
         }catch (Exception e){
             e.printStackTrace();
             FirebaseCrash.report(e);
@@ -168,9 +168,8 @@ public class EzaniBigWidget extends AppWidgetProvider {
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
             final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             alarm.cancel(pending);
-            long interval = 60000;
-            alarm.set(AlarmManager.RTC_WAKEUP,SystemClock.elapsedRealtime()+interval,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+(interval-(SystemClock.elapsedRealtime()%60000)), interval, pending);
+            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
+//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime()+(interval-(new Date().getTime()%60000)), interval, pending);
         }catch (Exception e){
             e.printStackTrace();
             FirebaseCrash.report(e);

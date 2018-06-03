@@ -50,7 +50,7 @@ public class SaatWidgetService extends Service {
             EzaniSaatWidget.updateAppWidget(this,appWidgetManager,allWidgetId);
         }*/
         new EzaniSaatWidget().onUpdate(this,appWidgetManager,allWidgetIds);
-        Util.log("service");
+//        Util.log("service");
         updatingTimes.clear();
         List<Town> towns= Util.getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
             for (Town town : towns) {
