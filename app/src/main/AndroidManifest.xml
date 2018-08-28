@@ -79,6 +79,9 @@
         <service
             android:name=".services.SaatWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fd46145cff7622224aeaa1ef4c910df34b6de1c4" />
     </application>
 
 

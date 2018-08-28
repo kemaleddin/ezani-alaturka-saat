@@ -131,4 +131,8 @@ public class Town implements Parcelable {
         town.setIlceID(ilceID);
         return town;
     }
+
+    public boolean needUpdate() {
+        return vakitler.size()<10||vakitler.get(vakitler.size()-1).isOld();
+    }
 }

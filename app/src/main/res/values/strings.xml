@@ -7,7 +7,7 @@
     <string name="base_url">https://ezanvakti.herokuapp.com</string>
     <string name="yukleniyor">Yükleniyor...</string>
     <string name="error">Hata</string>
-    <string name="err_msg">Beklenmeyen bir hata oluştu!</string>
+    <string name="err_msg">Güncel namaz vakitleri alınırken bir hata oluştu!</string>
     <string name="net_err_msg">İnternet bağlantınızı kontrol edip tekrar deneyin!</string>
     <string name="tamam">Tamam</string>
     <string name="kapat">Kapat</string>

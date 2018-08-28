@@ -43,22 +43,14 @@ public class BigWidgetService extends Service {
             return super.onStartCommand(intent,flags,startId);
         }
 
-        /*for (int allWidgetId : allWidgetIds) {
-            Util.log("widget_id=%s",allWidgetId);
-            EzaniBigWidget.updateAppWidget(this,appWidgetManager,allWidgetId);
-        }*/
+
         new EzaniBigWidget().onUpdate(this,appWidgetManager,allWidgetIds);
 //        Util.log("service");
 
-        /*try {
-            ((AlarmManager)getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC_WAKEUP, 60000L, PendingIntent.getService(this, 0, new Intent(this, WidgetService.class), 0));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         updatingTimes.clear();
         List<Town> towns= Util.getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
             for (Town town : towns) {
-                if(town.getTimesOfDays().size()<4){
+                if(town.needUpdate()){
                     updatingTimes.add(town);
                 }
             }
@@ -76,17 +68,9 @@ public class BigWidgetService extends Service {
                 .excludeFieldsWithoutExposeAnnotation().create();
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                /*.addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Interceptor.Chain chain) throws IOException {
-                        Request request = chain.request();
-                        Response response = chain.proceed(request);
-
-                        return response;
-                    }
-                })*/
+                .readTimeout(10, TimeUnit.SECONDS)
                 .build();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.base_url))
                 .client(client)
@@ -123,9 +107,9 @@ public class BigWidgetService extends Service {
         List<Town> towns = gson.fromJson(Util.getPref(this,C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
         Town oldTown=towns.get(towns.indexOf(newTown));
         int index=0;
-        TimesOfDay toDayTimes=newTown.getTimesOfDays().get(0);
+        TimesOfDay firstDay=newTown.getTimesOfDays().get(0);
         for (TimesOfDay timesOfDay : oldTown.getTimesOfDays()) {
-            if(timesOfDay.equals(toDayTimes)){
+            if(timesOfDay.equals(firstDay)){
                 index=oldTown.getTimesOfDays().indexOf(timesOfDay);
                 break;
             }

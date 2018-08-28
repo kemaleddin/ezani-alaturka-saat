@@ -949,7 +949,7 @@ public class TimesOfDay implements Parcelable {
     @Override
     public boolean equals(Object obj) {
         try {
-            return ((TimesOfDay) obj).getMiladiTarihKisa().equals(miladiTarihKisa);
+            return ((TimesOfDay) obj).miladiTarihKisa.equals(miladiTarihKisa);
         } catch (Exception e) {
 
         }

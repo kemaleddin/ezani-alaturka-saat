@@ -103,7 +103,8 @@
             android:layout_marginBottom="5dp"
             android:text="@string/ezani_saat"
             android:textColor="@color/white"
-            android:drawableLeft="@drawable/waiting_"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_left_19dp"
             android:layout_toRightOf="@+id/text_kalan_tit"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -312,6 +313,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:text="@string/ezani_saat"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

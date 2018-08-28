@@ -54,7 +54,7 @@ public class SaatWidgetService extends Service {
         updatingTimes.clear();
         List<Town> towns= Util.getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
             for (Town town : towns) {
-                if(town.getTimesOfDays().size()<4){
+                if(town.needUpdate()){
                     updatingTimes.add(town);
                 }
             }

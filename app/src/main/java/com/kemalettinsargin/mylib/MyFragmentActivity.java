@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -311,6 +312,7 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
     }
 
     @Override
+    @SuppressLint("inlinedApi")
     public boolean isDestroyed() {
         if (Build.VERSION.SDK_INT > 16)
             return super.isDestroyed();

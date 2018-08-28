@@ -19,7 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
@@ -63,7 +62,7 @@ public class MainActivity extends MyFragmentActivity {
 
     private void checkTimes(){
         for (Town town : towns) {
-            if (town.getTimesOfDays().size() < 3) {
+            if(town.needUpdate()){
                 updatingTimes.add(town);
             }
         }
@@ -86,7 +85,6 @@ public class MainActivity extends MyFragmentActivity {
 //            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
         } catch (Exception e) {
             e.printStackTrace();
-            FirebaseCrash.report(e);
         }
         try {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -101,7 +99,6 @@ public class MainActivity extends MyFragmentActivity {
 //            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
         } catch (Exception e) {
             e.printStackTrace();
-            FirebaseCrash.report(e);
         }
     }
 

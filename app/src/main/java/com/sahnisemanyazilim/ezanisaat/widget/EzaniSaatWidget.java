@@ -11,7 +11,7 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.widget.RemoteViews;
 
-import com.google.firebase.crash.FirebaseCrash;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.Util;
@@ -44,7 +44,7 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             if(town1.getIlceID().equals(id))
                 town=town1;
         }
-        if(town.getTimesOfDays().size()<3){
+        if(town.needUpdate()){
             context.startService(new Intent(context,SaatWidgetService.class));
             return;
         }
@@ -120,7 +120,7 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
         }catch (Exception e){
             e.printStackTrace();
-            FirebaseCrash.report(e);
+            Crashlytics.logException(e);
         }
 //        Util.log("onUpdate asdasd");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -140,7 +140,7 @@ public class EzaniSaatWidget extends AppWidgetProvider {
 //            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime()+(interval-(new Date().getTime()%60000)), interval, pending);
         }catch (Exception e){
             e.printStackTrace();
-            FirebaseCrash.report(e);
+            Crashlytics.logException(e);
         }
         super.onEnabled(context);
 
