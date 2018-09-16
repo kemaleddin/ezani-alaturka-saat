@@ -135,4 +135,11 @@ public class Town implements Parcelable {
     public boolean needUpdate() {
         return vakitler.size()<10||vakitler.get(vakitler.size()-1).isOld();
     }
+
+    public int getIlceIDInt() {
+        try{
+            return Integer.parseInt(ilceID);
+        }catch (Exception e){}
+        return 0;
+    }
 }

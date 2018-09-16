@@ -103,7 +103,9 @@ public class TimesOfDay implements Parcelable {
         this.ogle = ogle;
         this.yatsi = yatsi;
     }
-
+    public TimesOfDay(String miladiTarihKisa){
+        this.miladiTarihKisa=miladiTarihKisa;
+    }
     protected TimesOfDay(Parcel in) {
         this.aksam = ((String) in.readValue((String.class.getClassLoader())));
         this.ayinSekliURL = ((String) in.readValue((String.class.getClassLoader())));
@@ -1021,4 +1023,5 @@ public class TimesOfDay implements Parcelable {
         timesOfDay.miladiTarihKisa=dateFormat.format(Calendar.getInstance().getTime());
         return timesOfDay;
     }
+
 }

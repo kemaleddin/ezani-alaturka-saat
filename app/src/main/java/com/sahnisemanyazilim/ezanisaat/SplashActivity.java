@@ -6,8 +6,17 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.crashlytics.android.Crashlytics;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
+import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
+
 import io.fabric.sdk.android.Fabric;
 
 

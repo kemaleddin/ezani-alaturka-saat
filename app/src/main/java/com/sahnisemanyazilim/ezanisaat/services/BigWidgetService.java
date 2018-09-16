@@ -4,12 +4,16 @@ import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.JobService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.kemalettinsargin.mylib.MyApp;
 import com.kemalettinsargin.mylib.Util;
 import com.sahnisemanyazilim.ezanisaat.C;
 import com.sahnisemanyazilim.ezanisaat.widget.EzaniBigWidget;
@@ -30,96 +34,24 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class BigWidgetService extends Service {
-    private RetroInterface mApi;
-    private List<Town> updatingTimes=new ArrayList<>();
+public class BigWidgetService extends JobService {
+    public static final String TAG="BigWidgetService";
+    private List<Town> updatingTimes = new ArrayList<>();
+
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this                .getApplicationContext());
-        int[] allWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(this,EzaniBigWidget.class));
-        if(allWidgetIds==null){
-            stopSelf();
-            return super.onStartCommand(intent,flags,startId);
+    public boolean onStartJob(JobParameters job) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this.getApplicationContext());
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, EzaniBigWidget.class));
+        if (allWidgetIds == null) {
+            return false;
         }
-
-
-        new EzaniBigWidget().onUpdate(this,appWidgetManager,allWidgetIds);
-//        Util.log("service");
-
-        updatingTimes.clear();
-        List<Town> towns= Util.getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
-            for (Town town : towns) {
-                if(town.needUpdate()){
-                    updatingTimes.add(town);
-                }
-            }
-            if(updatingTimes.size()>0) {
-                createApi();
-                getSaatler(updatingTimes.get(0));
-            }else
-                stopSelf();
-        return super.onStartCommand(intent, flags, startId);
+        new EzaniBigWidget().onUpdate(this, appWidgetManager, allWidgetIds);
+        return false;
     }
 
-
-    private void createApi(){
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation().create();
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(10, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.base_url))
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        mApi = retrofit.create(RetroInterface.class);
-
-    }
-    @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    public void getSaatler(final Town town) {
-        mApi.getTimes(town.getIlceID()).enqueue(new Callback<List<TimesOfDay>>() {
-            @Override
-            public void onResponse(Call<List<TimesOfDay>> call, Response<List<TimesOfDay>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    Town newTown=town.getClone();
-                    newTown.setVakitler(response.body());
-                    setSaatler(newTown);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<TimesOfDay>> call, Throwable t) {
-                stopSelf();
-            }
-        });
-    }
-    private void setSaatler(Town newTown){
-        Gson gson=Util.getGson();
-        List<Town> towns = gson.fromJson(Util.getPref(this,C.KEY_LOCATIONS),new TypeToken<List<Town>>(){}.getType());
-        Town oldTown=towns.get(towns.indexOf(newTown));
-        int index=0;
-        TimesOfDay firstDay=newTown.getTimesOfDays().get(0);
-        for (TimesOfDay timesOfDay : oldTown.getTimesOfDays()) {
-            if(timesOfDay.equals(firstDay)){
-                index=oldTown.getTimesOfDays().indexOf(timesOfDay);
-                break;
-            }
-        }
-        oldTown.setVakitler(oldTown.getTimesOfDays().subList(0,index));
-        oldTown.getTimesOfDays().addAll(newTown.getTimesOfDays());
-        Util.savePref(this,C.KEY_LOCATIONS,gson.toJson(towns));
-        int townIndex=updatingTimes.indexOf(newTown)+1;
-        if(townIndex<updatingTimes.size())
-            getSaatler(updatingTimes.get(townIndex));
-        else stopSelf();
+    public boolean onStopJob(JobParameters job) {
+        return false;
     }
 }

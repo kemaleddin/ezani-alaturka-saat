@@ -42,42 +42,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class MyFragmentActivity extends AppCompatActivity implements DialogInterface.OnShowListener {
     private ProgressDialog mDialog;
-    private RetroInterface mApi;
-    private Retrofit retrofit;
     private float mheight, mweight, scale;
     private DisplayMetrics metrics = new DisplayMetrics();
     public TypeFaces typeFaces = new TypeFaces();
-    private Gson gson = new Gson();
     public static boolean isPaused = false, itemsLoaded = false, isExecuting = false;
     private boolean isDestroyed = true;
-    private OkHttpClient client;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isDestroyed = false;
-        gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation().create();
-        client = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                /*.addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Interceptor.Chain chain) throws IOException {
-                        Request request = chain.request();
-                        Response response = chain.proceed(request);
 
-                        return response;
-                    }
-                })*/
-                .build();
-        retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.base_url))
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        mApi = retrofit.create(RetroInterface.class);
 
         int theme = Build.VERSION.SDK_INT >= 23 ? android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar : ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT;
         mDialog = new ProgressDialog(this, theme);
@@ -211,7 +187,7 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
     }
 
     public Gson getGson() {
-        return gson;
+        return ((MyApp)getApplication()).getGson();
     }
 
     @Override
@@ -308,7 +284,7 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
 
 
     public RetroInterface getApi() {
-        return mApi;
+        return ((MyApp)getApplication()).getApi();
     }
 
     @Override
@@ -396,11 +372,11 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
     @Override
     protected void onDestroy() {
         isDestroyed=true;
-        try {
-            client.dispatcher().cancelAll();
+        /*try {
+            ((MyApp)getApplication()).getClient().dispatcher().cancelAll();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         super.onDestroy();
     }
 }

@@ -42,17 +42,24 @@ public class MainFragment extends MyFragment {
         public void run() {
             textKalan.setText(toDay.getKalan());
             textEzani.setText(toDay.isEveningNight() ? toDay.getEzaniSaat() : toDay.getYesterDay().getEzaniSaat());
+            if(toDay.isOld()||toDay.getNextId()!=nextVakitId)
+                load();
             mHandler.postDelayed(this, 1000);
+
         }
     };
+    private int nextVakitId;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (ACTION_ACTIVE_LOCATION_CHANGED.equals(intent.getAction())) {
+            if(intent.getAction()!=null)
+            switch (intent.getAction()) {
+                case ACTION_ACTIVE_LOCATION_CHANGED:
                 town.setActive(Util.getPref(getActivity(), C.KEY_ACTIVE));
                 if (town.isActive())
                     textTown.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
                 else textTown.setTextColor(Color.WHITE);
+                break;
             }
         }
     };
@@ -161,7 +168,7 @@ public class MainFragment extends MyFragment {
         textAksam.setText(tod.getChkAksam());
         textYatsi.setText(tod.getChkYatsi());
         try {
-            ((TextView) row.findViewById(toDay.getNextId())).setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            ((TextView) row.findViewById(nextVakitId=toDay.getNextId())).setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         } catch (Exception e) {
             e.printStackTrace();
         }

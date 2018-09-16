@@ -1,17 +1,20 @@
 package com.sahnisemanyazilim.ezanisaat.widget;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.widget.RemoteViews;
 
-import com.crashlytics.android.Crashlytics;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.Util;
@@ -21,7 +24,9 @@ import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
+import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -44,19 +49,19 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             if(town1.getIlceID().equals(id))
                 town=town1;
         }
-        if(town.needUpdate()){
-            context.startService(new Intent(context,SaatWidgetService.class));
-            return;
-        }
-        int index=0;
+        int index=-1;
         toDay=town.getTimesOfDays().get(0);
         for (int i = 0; i < town.getTimesOfDays().size(); i++) {
             TimesOfDay timesOfDay=town.getTimesOfDays().get(i);
-            if(!timesOfDay.isOld()){
+            if(timesOfDay.equals(TimesOfDay.getToDay())){
                 toDay=timesOfDay;
                 index=i;
                 break;
             }
+        }
+        if(index<0){
+            UpdateTimesService.scheduleUpdateJob(context);
+            return;
         }
       /*  if(index>1){
             town.setVakitler(town.getTimesOfDays().subList(index-1,town.getTimesOfDays().size()));
@@ -110,7 +115,7 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
         wakeLock.release();
-        try {
+   /*     try {
             final Intent intent = new Intent(context, SaatWidgetService.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetIds);
             final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
@@ -121,14 +126,16 @@ public class EzaniSaatWidget extends AppWidgetProvider {
         }catch (Exception e){
             e.printStackTrace();
             Crashlytics.logException(e);
-        }
+        }*/
+
+        scheduleJob(context);
 //        Util.log("onUpdate asdasd");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
     public void onEnabled(Context context) {
-        try {
+/*        try {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds=appWidgetManager.getAppWidgetIds(new ComponentName(context,EzaniSaatWidget.class));
             final Intent intent = new Intent(context, SaatWidgetService.class);
@@ -141,19 +148,40 @@ public class EzaniSaatWidget extends AppWidgetProvider {
         }catch (Exception e){
             e.printStackTrace();
             Crashlytics.logException(e);
-        }
+        }*/
+
+        scheduleJob(context);
+        Util.getPrefs(context).edit().putBoolean(SaatWidgetService.TAG,true).apply();
         super.onEnabled(context);
 
     }
 
+    private void scheduleJob(Context context){
+        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        Job myJob = mDispatcher.newJobBuilder()
+                .setService(SaatWidgetService.class)
+                .setTag(SaatWidgetService.TAG)
+                .setRecurring(true)
+                .setTrigger(Trigger.executionWindow(0, 30))
+                .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
+                .setReplaceCurrent(true)
+                .setConstraints(Constraint.ON_ANY_NETWORK)
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                .build();
+        mDispatcher.mustSchedule(myJob);
+    }
+
     @Override
     public void onDisabled(Context context) {
-        PendingIntent localPendingIntent = PendingIntent.getService(context, 0, new Intent(context, SaatWidgetService.class), 0);
+       /* PendingIntent localPendingIntent = PendingIntent.getService(context, 0, new Intent(context, SaatWidgetService.class), 0);
         try {
             ((AlarmManager)context.getSystemService(Context.ALARM_SERVICE)).cancel(localPendingIntent);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+        mDispatcher.cancel(SaatWidgetService.TAG);
+        Util.getPrefs(context).edit().putBoolean(SaatWidgetService.TAG,false).apply();
     }
 
 }

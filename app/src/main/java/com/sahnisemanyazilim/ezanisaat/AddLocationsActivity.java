@@ -13,7 +13,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
@@ -22,6 +30,7 @@ import com.sahnisemanyazilim.ezanisaat.model.City;
 import com.sahnisemanyazilim.ezanisaat.model.Country;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
+import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -338,4 +347,5 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
     public void setBarTitle(int titleId) {
         getSupportActionBar().setTitle(titleId);
     }
+
 }

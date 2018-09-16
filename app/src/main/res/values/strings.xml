@@ -5,7 +5,8 @@
     <string name="konumlar">Konumlar</string>
     <string name="ulke_sec">Ülke Seçin</string>
     <string name="base_url">https://ezanvakti.herokuapp.com</string>
-    <string name="yukleniyor">Yükleniyor...</string>
+    <!--<string name="base_url">https://4be23e26-bd5e-43d5-8f94-60489d4dadc7.mock.pstmn.io</string>-->
+    <string name="yukleniyor">Yükleniyor…</string>
     <string name="error">Hata</string>
     <string name="err_msg">Güncel namaz vakitleri alınırken bir hata oluştu!</string>
     <string name="net_err_msg">İnternet bağlantınızı kontrol edip tekrar deneyin!</string>
@@ -36,6 +37,7 @@
     <string name="undo">Geri Al</string>
     <string name="deleted_suc">Başarıyla Silindi</string>
     <string name="updating_times" formatted="false">%s konumu için vakitler güncelleniyor.</string>
+    <string name="updating_times_all" formatted="false">Tüm konumlar için vakitler güncelleniyor.</string>
     <string name="ezan_saat_hakkinda">Ezanî Saat Hakkında</string>
     <string name="ezan_saat_inf">EZÂNÎ SAAT NEDİR?
 \nAnadolumuz’un birçok yerlerinde, az da olsa, bu saati kullananlar hâlâ mevcuttur. Üstelik bu saat bize bir ecdad yâdigârıdır. Ecdâdımıza saygı ve sevgimizin bir nişânesi olarak, ezânî saati bir köşeye terketmeye râzı olamıyoruz. Sadece İstanbul için de olsa, bu saati muhâfaza ediyoruz.
@@ -62,4 +64,6 @@ Ezânî saat kullananlar, vasatî saate göre akşam namazı vakti geldiğinde s
     <string name="konum_sil_swipe">Konum silmek için sola kaydırın.</string>
     <string name="ezani_saat_">Ezani Saat</string>
     <string name="ezani_datayli">Ezani Vakitler (Detaylı)</string>
+    <string name="channel_update">ezani_update</string>
+    <string name="update">Güncelleme</string>
 </resources>

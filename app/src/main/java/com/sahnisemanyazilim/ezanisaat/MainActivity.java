@@ -19,6 +19,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.MyFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
@@ -28,6 +35,7 @@ import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
+import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 import com.sahnisemanyazilim.ezanisaat.widget.EzaniBigWidget;
 import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
 
@@ -58,11 +66,12 @@ public class MainActivity extends MyFragmentActivity {
         createItems();
         checkTimes();
         checkAppWidget(this);
+        scheduleJob();
     }
 
-    private void checkTimes(){
+    private void checkTimes() {
         for (Town town : towns) {
-            if(town.needUpdate()){
+            if (town.needUpdate()) {
                 updatingTimes.add(town);
             }
         }
@@ -72,7 +81,7 @@ public class MainActivity extends MyFragmentActivity {
     }
 
     private void checkAppWidget(Context context) {
-        try {
+/*        try {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniBigWidget.class));
             if (appWidgetIds.length == 0) return;
@@ -99,7 +108,37 @@ public class MainActivity extends MyFragmentActivity {
 //            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
         } catch (Exception e) {
             e.printStackTrace();
+        }*/
+        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
+        Job myJob;
+        if (Util.getPrefs(this).getBoolean(SaatWidgetService.TAG, false)) {
+            myJob = mDispatcher.newJobBuilder()
+                    .setService(SaatWidgetService.class)
+                    .setTag(SaatWidgetService.TAG)
+                    .setRecurring(true)
+                    .setTrigger(Trigger.executionWindow(0, 30))
+                    .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
+                    .setReplaceCurrent(true)
+                    .setConstraints(Constraint.ON_ANY_NETWORK)
+                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                    .build();
+            mDispatcher.mustSchedule(myJob);
         }
+        if (Util.getPrefs(this).getBoolean(BigWidgetService.TAG, false)) {
+            myJob = mDispatcher.newJobBuilder()
+                    .setService(BigWidgetService.class)
+                    .setTag(BigWidgetService.TAG)
+                    .setRecurring(true)
+                    .setTrigger(Trigger.executionWindow(0, 30))
+                    .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
+                    .setReplaceCurrent(true)
+                    .setConstraints(Constraint.ON_ANY_NETWORK)
+                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                    .build();
+            mDispatcher.mustSchedule(myJob);
+
+        }
+
     }
 
     private void createItems() {
@@ -222,7 +261,7 @@ public class MainActivity extends MyFragmentActivity {
                 dismissLoading();
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
 //                    town.setVakitler(response.body());
-                    Town newTown=town.getClone();
+                    Town newTown = town.getClone();
                     newTown.setVakitler(response.body());
                     setSaatler(newTown);
                 } else onFailure(null, null);
@@ -244,5 +283,19 @@ public class MainActivity extends MyFragmentActivity {
         });
     }
 
+    private void scheduleJob() {
+        UpdateTimesService.scheduleUpdateJob(this);
+//        Toast.makeText(this, R.string.job_scheduled, Toast.LENGTH_LONG).show();
+    }
+
+    private void cancelJob(String jobTag) {
+        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
+        if ("".equals(jobTag)) {
+            mDispatcher.cancelAll();
+        } else {
+            mDispatcher.cancel(jobTag);
+        }
+//        Toast.makeText(this, R.string.job_cancelled, Toast.LENGTH_LONG).show();
+    }
 
 }
