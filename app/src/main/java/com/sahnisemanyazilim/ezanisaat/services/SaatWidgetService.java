@@ -1,31 +1,16 @@
 package com.sahnisemanyazilim.ezanisaat.services;
 
-import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.content.Intent;
-import android.os.Build;
-import android.os.IBinder;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.kemalettinsargin.mylib.MyApp;
-import com.kemalettinsargin.mylib.Util;
-import com.sahnisemanyazilim.ezanisaat.C;
-import com.sahnisemanyazilim.ezanisaat.R;
-import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
-import com.sahnisemanyazilim.ezanisaat.model.Town;
-import com.sahnisemanyazilim.ezanisaat.retro.RetroInterface;
 import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

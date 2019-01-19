@@ -5,15 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -30,7 +29,6 @@ import com.sahnisemanyazilim.ezanisaat.model.City;
 import com.sahnisemanyazilim.ezanisaat.model.Country;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
-import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +54,7 @@ public class AddLocationsActivity extends MyFragmentActivity implements View.OnC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_locations);
-        setSupportActionBar((android.support.v7.widget.Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar((androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar));
         recyclerView = (RecyclerView) getChild(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         getUlkeler();

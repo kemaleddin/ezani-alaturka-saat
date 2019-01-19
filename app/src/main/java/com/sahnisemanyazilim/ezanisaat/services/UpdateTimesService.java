@@ -2,16 +2,12 @@ package com.sahnisemanyazilim.ezanisaat.services;
 
 import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -31,7 +27,6 @@ import com.sahnisemanyazilim.ezanisaat.C;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
-import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
 
 import java.util.ArrayList;
 import java.util.List;

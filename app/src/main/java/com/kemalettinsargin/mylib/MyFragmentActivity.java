@@ -11,8 +11,8 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +25,6 @@ import com.google.gson.GsonBuilder;
 import com.kemalettinsargin.mylib.objects.TypeFaces;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.retro.RetroInterface;
-
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

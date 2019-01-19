@@ -1,21 +1,17 @@
 package com.sahnisemanyazilim.ezanisaat;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,11 +32,8 @@ import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
-import com.sahnisemanyazilim.ezanisaat.widget.EzaniBigWidget;
-import com.sahnisemanyazilim.ezanisaat.widget.EzaniSaatWidget;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
