@@ -49,8 +49,8 @@
                 android:text="@string/ezani_saat"
                 android:textColor="@color/white"
                 android:textSize="65sp"
-                android:paddingRight="5dp"
-                android:paddingLeft="5dp"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
                 android:background="@drawable/main_content_bg"/>
             <TextView
                 android:id="@+id/text_vaktin_cikmasi"
@@ -79,8 +79,8 @@
                 android:text="@string/vaktin_cikmasina"
                 android:textColor="@color/white"
                 android:textSize="40sp"
-                android:paddingRight="5dp"
-                android:paddingLeft="5dp"
+                android:paddingRight="25dp"
+                android:paddingLeft="25dp"
                 android:background="@drawable/main_content_bg" />
 
 

@@ -40,8 +40,8 @@ public class MainFragment extends MyFragment {
     private Runnable updateKalanRunnable = new Runnable() {
         @Override
         public void run() {
-            textKalan.setText(toDay.getKalan());
-            textEzani.setText(toDay.isEveningNight() ? toDay.getEzaniSaat() : toDay.getYesterDay().getEzaniSaat());
+            textKalan.setText(toDay.getKalan().substring(0,5));
+            textEzani.setText(TimesOfDay.getSaat12(toDay.isEveningNight() ? toDay.getEzaniSaat() : toDay.getYesterDay().getEzaniSaat()));
             if(toDay.isOld()||toDay.getNextId()!=nextVakitId)
                 load();
             mHandler.postDelayed(this, 1000);
@@ -225,11 +225,11 @@ public class MainFragment extends MyFragment {
             textGun.setTextSize(TypedValue.COMPLEX_UNIT_SP,     14);
         } else {
             textAksam.setText(R.string.saat_sifir);
-            textYatsi.setText(tod.getYatsiEzani());
-            textImsak.setText(tod.getImsakEzani());
-            textGunes.setText(tod.getGunesEzani());
-            textOgle.setText(tod.getOgleEzani());
-            textIkindi.setText(tod.getIkindiEzani());
+            textYatsi.setText(TimesOfDay.getSaat12(tod.getYatsiEzani()));
+            textImsak.setText(TimesOfDay.getSaat12(tod.getImsakEzani()));
+            textGunes.setText(TimesOfDay.getSaat12(tod.getGunesEzani()));
+            textOgle.setText(TimesOfDay.getSaat12(tod.getOgleEzani()));
+            textIkindi.setText(TimesOfDay.getSaat12(tod.getIkindiEzani()));
         }
         try {
             ((TextView) row.findViewById(toDay.getNextId())).setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));

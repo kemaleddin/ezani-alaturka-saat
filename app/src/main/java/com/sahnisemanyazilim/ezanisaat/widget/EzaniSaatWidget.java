@@ -26,8 +26,6 @@ import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,7 +83,7 @@ public class EzaniSaatWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.saat_widget, configPendingIntent);
         views.setTextViewText(R.id.text_saat_widget_kalan,     toDay.getKalanWOsec());
         views.setTextViewText(R.id.text_hicri_tarih,      toDay.isEveningNight()?toDay.getToMorrow().getHicriTarihUzunGunlu():toDay.getHicriTarihUzunGunlu());
-        views.setTextViewText(R.id.text_ezani_saat,      toDay.isEveningNight()?toDay.getEzaniSaatWithoutSec():toDay.getYesterDay().getEzaniSaatWithoutSec());
+        views.setTextViewText(R.id.text_ezani_saat,      TimesOfDay.getSaat12(toDay.isEveningNight()?toDay.getEzaniSaatWithoutSec():toDay.getYesterDay().getEzaniSaatWithoutSec()));
 
 
 //        views.setRemoteAdapter(R.id.text_kalan,new Intent(context, WidgetService.class));
@@ -108,7 +106,7 @@ public class EzaniSaatWidget extends AppWidgetProvider {
             return;
         }
 
-        PowerManager.WakeLock wakeLock = ((PowerManager)context.getSystemService(Context.POWER_SERVICE)).newWakeLock(1, "WAKE LOCK");
+        PowerManager.WakeLock wakeLock = ((PowerManager)context.getSystemService(Context.POWER_SERVICE)).newWakeLock(1, "Ezani Saat : WAKE LOCK");
         wakeLock.acquire(60000);
         for (int appWidgetId : appWidgetIds) {
 //            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.text_kalan);

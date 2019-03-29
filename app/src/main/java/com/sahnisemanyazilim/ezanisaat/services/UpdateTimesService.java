@@ -5,10 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -31,6 +27,8 @@ import com.sahnisemanyazilim.ezanisaat.model.Town;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,8 +42,8 @@ public class UpdateTimesService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters job) {
-        if(BuildConfig.DEBUG)
-        Util.showToast(getApplicationContext(),"job started");
+        if(BuildConfig.BUILD_TYPE.equals("debug"))
+            Util.showToast(getApplicationContext(),"job started");
         List<Town> towns = Util.getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS), new TypeToken<List<Town>>(){}.getType());
         if(towns==null)return false;
         updatingTimes.clear();
@@ -91,7 +89,7 @@ public class UpdateTimesService extends JobService {
     }
 
     private void setSaatler(Town newTown,JobParameters job) {
-        if(BuildConfig.DEBUG)
+        if(BuildConfig.BUILD_TYPE.equals("debug"))
         Util.showToast(getApplicationContext(),"saatler geldi");
         Gson gson = Util.getGson();
         List<Town> towns = gson.fromJson(Util.getPref(this, C.KEY_LOCATIONS), new TypeToken<List<Town>>() {

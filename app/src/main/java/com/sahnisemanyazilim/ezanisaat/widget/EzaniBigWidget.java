@@ -7,7 +7,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import androidx.core.content.ContextCompat;
 import android.widget.RemoteViews;
 
 import com.firebase.jobdispatcher.Constraint;
@@ -29,6 +28,8 @@ import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * Implementation of App Widget functionality.
@@ -85,13 +86,13 @@ public class EzaniBigWidget extends AppWidgetProvider {
         views.setOnClickPendingIntent(R.id.widget, configPendingIntent);
         views.setTextViewText(R.id.text_miladi, toDay.isYatsiGecti() ? toDay.getToMorrow().getMiladiTarihUzun() : toDay.getMiladiTarihUzun());
         views.setTextViewText(R.id.text_hicri, toDay.isEveningNight() ? toDay.getToMorrow().getHicriTarihUzun() : toDay.getHicriTarihUzun());
-        views.setTextViewText(R.id.text_ezani, toDay.isEveningNight() ? toDay.getEzaniSaatWithoutSec() : toDay.getYesterDay().getEzaniSaatWithoutSec());
+        views.setTextViewText(R.id.text_ezani, TimesOfDay.getSaat12(toDay.isEveningNight() ? toDay.getEzaniSaatWithoutSec() : toDay.getYesterDay().getEzaniSaatWithoutSec()));
         views.setTextViewText(R.id.text_kalan, toDay.getKalanWOsec());
-        views.setTextViewText(R.id.text_e_yatsi, toDay.getYatsiEzani());
-        views.setTextViewText(R.id.text_e_imsak, toDay.getImsakEzani());
-        views.setTextViewText(R.id.text_e_gunes, toDay.getGunesEzani());
-        views.setTextViewText(R.id.text_e_ogle, toDay.getOgleEzani());
-        views.setTextViewText(R.id.text_e_ikindi, toDay.getIkindiEzani());
+        views.setTextViewText(R.id.text_e_yatsi, TimesOfDay.getSaat12(toDay.getYatsiEzani()));
+        views.setTextViewText(R.id.text_e_imsak, TimesOfDay.getSaat12(toDay.getImsakEzani()));
+        views.setTextViewText(R.id.text_e_gunes, TimesOfDay.getSaat12(toDay.getGunesEzani()));
+        views.setTextViewText(R.id.text_e_ogle, TimesOfDay.getSaat12(toDay.getOgleEzani()));
+        views.setTextViewText(R.id.text_e_ikindi, TimesOfDay.getSaat12(toDay.getIkindiEzani()));
         views.setTextViewText(R.id.text_u_imsak, toDay.getChkImsak());
         views.setTextViewText(R.id.text_u_gunes, toDay.getChkGunes());
         views.setTextViewText(R.id.text_u_ogle, toDay.getChkOgle());
@@ -137,7 +138,7 @@ public class EzaniBigWidget extends AppWidgetProvider {
             super.onUpdate(context, appWidgetManager, appWidgetIds);
             return;
         }
-        PowerManager.WakeLock wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(1, "WAKE LOCK");
+        PowerManager.WakeLock wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(1, "Ezani Saat:WAKE LOCK");
         wakeLock.acquire(60000);
         for (int appWidgetId : appWidgetIds) {
 //            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.text_kalan);
