@@ -7,3 +7,10 @@
 /build
 /captures
 .externalNativeBuild
+*.aab
+*.apk
+/app/release
+/.idea/caches
+/.idea/modules.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml

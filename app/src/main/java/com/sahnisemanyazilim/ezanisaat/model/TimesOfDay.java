@@ -180,7 +180,7 @@ public class TimesOfDay implements Parcelable {
     }
 
     public String getHicriTarihUzunGunlu() {
-        return String.format("%s %s", hicriTarihUzun, getGun_());
+        return String.format("%s %s", getHicriTarih(), getGun_());
     }
 
     public void setHicriTarihUzun(String hicriTarihUzun) {
