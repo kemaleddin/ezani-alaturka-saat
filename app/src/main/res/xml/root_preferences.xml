@@ -1,0 +1,151 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <!-- <PreferenceCategory app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="reply"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="reply"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/bildirim_ayarlari">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+    -->
+    <PreferenceCategory app:title="@string/bildirim_ayarlari">
+
+        <SwitchPreferenceCompat
+            app:key="notificationBar"
+            app:title="@string/bildirim_cubugu" />
+
+        <PreferenceCategory app:title="@string/vakitlerde_uyarilar">
+            <SwitchPreferenceCompat
+                app:key="imsakVakti"
+                app:title="@string/imsak_vakti" />
+            <SwitchPreferenceCompat
+                app:key="gunDogumu"
+                app:title="@string/gun_dogumu" />
+            <SwitchPreferenceCompat
+                app:key="gunDogumuKerahetCikmasi"
+                app:title="@string/gun_dogumu_kerahet_cikmasi" />
+            <SwitchPreferenceCompat
+                app:key="ogleVakti"
+                app:title="@string/ogle_vakti" />
+            <SwitchPreferenceCompat
+                app:key="ikindiVakti"
+                app:title="@string/ikindi_vakti" />
+            <SwitchPreferenceCompat
+                app:key="ikindiKerahetVakti"
+                app:title="@string/ikindi_kerahet" />
+            <SwitchPreferenceCompat
+                app:key="aksamVakti"
+                app:title="@string/aksamVakti" />
+            <SwitchPreferenceCompat
+                app:key="yatsiVakti"
+                app:title="@string/yatsidan_vakti" />
+
+        </PreferenceCategory>
+
+        <PreferenceCategory app:title="@string/vakitlerden_once_uyarilar">
+            <SwitchPreferenceCompat
+                app:key="imsaktanOnce"
+                app:title="@string/imsaktan_once" />
+            <ListPreference
+                app:dependency="imsaktanOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="15"
+                app:useSimpleSummaryProvider="true" />
+            <SwitchPreferenceCompat
+                app:key="gunestenOnce"
+                app:title="@string/gun_dog_once" />
+            <ListPreference
+                app:dependency="gunestenOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="15"
+                app:useSimpleSummaryProvider="true" />
+            <SwitchPreferenceCompat
+                app:key="ogledenOnce"
+                app:title="@string/ogleden_once" />
+            <ListPreference
+                app:dependency="ogledenOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="15"
+                app:useSimpleSummaryProvider="true" />
+            <SwitchPreferenceCompat
+                app:key="ikindidenOnce"
+                app:title="@string/ikiniden_once" />
+            <ListPreference
+                app:dependency="ikindidenOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="15"
+                app:useSimpleSummaryProvider="true" />
+            <SwitchPreferenceCompat
+                app:key="ikindiKerahetOnce"
+                app:title="@string/ikindiKerahetOnce" />
+            <ListPreference
+                app:dependency="ikindiKerahetOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="30"
+                app:useSimpleSummaryProvider="true" />
+            <SwitchPreferenceCompat
+                app:key="aksamdanOnce"
+                app:title="@string/aksamdan_once" />
+            <ListPreference
+                app:dependency="aksamdanOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="15"
+                app:useSimpleSummaryProvider="true" />
+            <SwitchPreferenceCompat
+                app:key="yatsidanOnce"
+                app:title="@string/yatsidan_once" />
+            <ListPreference
+                app:dependency="yatsidanOnce"
+                app:entries="@array/sureler"
+                app:entryValues="@array/sure_values"
+                app:key="time_to_imsak"
+                app:title="@string/sure"
+                app:defaultValue="15"
+                app:useSimpleSummaryProvider="true" />
+
+        </PreferenceCategory>
+    </PreferenceCategory>
+</PreferenceScreen>

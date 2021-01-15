@@ -310,13 +310,17 @@ public class TimesOfDay implements Parcelable {
     public boolean isOld() {
         try {
             Date myDay = dateFormat.parse(miladiTarihKisa);
-            Calendar now=Calendar.getInstance(), myCalendar = Calendar.getInstance();
-            myCalendar.setTime(myDay);
+            Calendar now=Calendar.getInstance(), thisDay = Calendar.getInstance();
+            thisDay.setTime(myDay);
             now.set(Calendar.HOUR_OF_DAY,0);
             now.set(Calendar.MINUTE,0);
             now.set(Calendar.SECOND,0);
             now.set(Calendar.MILLISECOND,0);
-            return (now.getTimeInMillis()-myCalendar.getTimeInMillis())>ONE_DAY_MILLIS;
+            thisDay.set(Calendar.HOUR_OF_DAY,0);
+            thisDay.set(Calendar.MINUTE,0);
+            thisDay.set(Calendar.SECOND,0);
+            thisDay.set(Calendar.MILLISECOND,0);
+            return thisDay.before(now);
         } catch (ParseException e) {
             e.printStackTrace();
             return true;

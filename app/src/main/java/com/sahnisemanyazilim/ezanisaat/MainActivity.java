@@ -153,8 +153,6 @@ public class MainActivity extends MyFragmentActivity {
                 town.setActive(id);
             }
         } else towns.get(0).setActive(true);
-
-
     }
 
     private void setSaatler(Town newTown) {
@@ -208,6 +206,9 @@ public class MainActivity extends MyFragmentActivity {
                 return true;
             case R.id.action_info:
                 startActivity(new Intent(this, HakkindaActivity.class));
+                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,0 +1,25 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+    <string-array name="sure_values">
+        <item>60</item>
+        <item>45</item>
+        <item>30</item>
+        <item>15</item>
+    </string-array>
+
+    <string-array name="sureler">
+        <item>1 Saat</item>
+        <item>45 Dk.</item>
+        <item>30 Dk.</item>
+        <item>15 Dk.</item>
+    </string-array>
+</resources>

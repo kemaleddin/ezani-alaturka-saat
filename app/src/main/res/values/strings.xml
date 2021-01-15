@@ -66,4 +66,42 @@ Ezânî saat kullananlar, vasatî saate göre akşam namazı vakti geldiğinde s
     <string name="ezani_datayli">Ezani Vakitler (Detaylı)</string>
     <string name="channel_update">ezani_update</string>
     <string name="update">Güncelleme</string>
+    <string name="ayarlar">Ayarlar</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="bildirim_ayarlari">Bildirim Ayarları</string>
+    <string name="bildirim_cubugu">Bildirim Çubuğu</string>
+    <string name="vakitlerden_once_uyarilar">Vakitlerden Önce Uyarılar</string>
+    <string name="imsaktan_once">İmsaktan Önce</string>
+    <string name="sure_once_uyar">Süre Önce Uyar</string>
+    <string name="sure">Süre</string>
+    <string name="gun_dog_once">Gün Doğumundan Önce</string>
+    <string name="ogleden_once">Öğleden Önce</string>
+    <string name="ikiniden_once">İkindiden Önce</string>
+    <string name="ikindiKerahetOnce">Gün Batımı Kerahet Vaktinden Önce</string>
+    <string name="aksamdan_once">Akşam Vaktinden Önce</string>
+    <string name="yatsidan_once">Yatsıdan Önce</string>
+    <string name="vakitlerde_uyarilar">Vakitlerde Uyarılar</string>
+    <string name="gun_dogumu">Gün Doğumu</string>
+    <string name="ikindi_kerahet">Gün Batımı Kerahet Vakti</string>
+    <string name="gun_dogumu_kerahet_cikmasi">Gün Doğumu Kerahet Bitiş Vakti</string>
+    <string name="ikindi_vakti">İkindi Vakti</string>
+    <string name="aksamVakti">Akşam Vakti</string>
+    <string name="imsak_vakti">İmsak Vakti</string>
+    <string name="ogle_vakti">Öğle Vakti</string>
+    <string name="yatsidan_vakti">Yatsı Vakti</string>
 </resources>
