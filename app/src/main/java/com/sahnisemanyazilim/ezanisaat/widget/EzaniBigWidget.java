@@ -9,13 +9,13 @@ import android.content.Intent;
 import android.os.PowerManager;
 import android.widget.RemoteViews;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
+import androidx.core.content.ContextCompat;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.Util;
@@ -25,11 +25,11 @@ import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
 import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
+import com.sahnisemanyazilim.ezanisaat.services.DelayedWidgetWorker;
 import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
 import java.util.List;
-
-import androidx.core.content.ContextCompat;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of App Widget functionality.
@@ -61,14 +61,10 @@ public class EzaniBigWidget extends AppWidgetProvider {
                 break;
             }
         }
-        if(index<0){
+        if (index < 0) {
             UpdateTimesService.scheduleUpdateJob(context);
             return;
         }
-      /*  if(index>1){
-            town.setVakitler(town.getTimesOfDays().subList(index-1,town.getTimesOfDays().size()));
-            Util.savePref(context,C.KEY_LOCATIONS,getGson().toJson(towns));
-        }*/
         if (index > 0)
             toDay.setYesterDay(town.getTimesOfDays().get(index - 1));
         else {
@@ -82,7 +78,7 @@ public class EzaniBigWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
         Intent configIntent = new Intent(context, MainActivity.class);
-        PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+        PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, PendingIntent.FLAG_MUTABLE);
         views.setOnClickPendingIntent(R.id.widget, configPendingIntent);
         views.setTextViewText(R.id.text_miladi, toDay.isYatsiGecti() ? toDay.getToMorrow().getMiladiTarihUzun() : toDay.getMiladiTarihUzun());
         views.setTextViewText(R.id.text_hicri, toDay.isEveningNight() ? toDay.getToMorrow().getHicriTarihUzun() : toDay.getHicriTarihUzun());
@@ -117,13 +113,8 @@ public class EzaniBigWidget extends AppWidgetProvider {
             for (int i : ids) {
                 views.setTextColor(i, ContextCompat.getColor(context, R.color.colorPrimary));
             }
-
-
-//        views.setRemoteAdapter(R.id.text_kalan,new Intent(context, WidgetService.class));
-//        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.layout.widget);
         appWidgetManager.updateAppWidget(appWidgetId, views);
 
-//        Util.log("update=%s",System.currentTimeMillis()%60000);
     }
 
 
@@ -133,7 +124,7 @@ public class EzaniBigWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        scheduleJob(context);
+        BigWidgetService.Companion.scheduleWork(context);
         if (appWidgetIds == null) {
             super.onUpdate(context, appWidgetManager, appWidgetIds);
             return;
@@ -141,79 +132,32 @@ public class EzaniBigWidget extends AppWidgetProvider {
         PowerManager.WakeLock wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(1, "Ezani Saat:WAKE LOCK");
         wakeLock.acquire(60000);
         for (int appWidgetId : appWidgetIds) {
-//            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.text_kalan);
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
         wakeLock.release();
-   /*     try {
-            final Intent intent = new Intent(context, BigWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
-            final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarm.cancel(pending);
-            alarm.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + C.interval_1, pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime()+(interval-(new Date().getTime()%60000)), interval, pending);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }*/
-
-//        Util.log("onUpdate asdasd");
+        Util.log("onUpdate @EzaniBigWidget");
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     @Override
     public void onEnabled(Context context) {
 
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniBigWidget.class));
-       /*    try {      final Intent intent = new Intent(context, BigWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
-            final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarm.cancel(pending);
-            alarm.set(AlarmManager.RTC_WAKEUP, new Date().getTime() + C.interval_1, pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime()+(interval-(new Date().getTime()%60000)), interval, pending);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
-        }*/
-       for (int appWidgetId : appWidgetIds) {
-           updateAppWidget(context,appWidgetManager,appWidgetId);
-       }
-        scheduleJob(context);
-        Util.getPrefs(context).edit().putBoolean(BigWidgetService.TAG,true).apply();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniBigWidget.class));
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
+        }
+        BigWidgetService.Companion.scheduleWork(context);
+        Util.getPrefs(context).edit().putBoolean(BigWidgetService.TAG, true).apply();
         super.onEnabled(context);
 
-    }
-    private void scheduleJob(Context context){
-        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = mDispatcher.newJobBuilder()
-                .setService(BigWidgetService.class)
-                .setTag(BigWidgetService.TAG)
-                .setRecurring(true)
-                .setTrigger(Trigger.executionWindow(0, 30))
-                .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
-                .setReplaceCurrent(true)
-                .setConstraints(Constraint.ON_ANY_NETWORK)
-                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                .build();
-        mDispatcher.mustSchedule(myJob);
     }
 
 
     @Override
     public void onDisabled(Context context) {
-      /*  PendingIntent localPendingIntent = PendingIntent.getService(context, 0, new Intent(context, BigWidgetService.class), 0);
-        try {
-            ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(localPendingIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        mDispatcher.cancel(BigWidgetService.TAG);
-        Util.getPrefs(context).edit().putBoolean(BigWidgetService.TAG,false).apply();
+        BigWidgetService.Companion.disableWork(context);
+        Util.getPrefs(context).edit().putBoolean(BigWidgetService.TAG, false).apply();
     }
 
 }

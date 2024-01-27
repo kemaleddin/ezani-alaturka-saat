@@ -5,10 +5,10 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.kemalettinsargin.mylib.MyFragmentActivity;
+import com.kemalettinsargin.mylib.BaseFragmentActivity;
 
 
-public class HakkindaActivity extends MyFragmentActivity {
+public class HakkindaActivity extends BaseFragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

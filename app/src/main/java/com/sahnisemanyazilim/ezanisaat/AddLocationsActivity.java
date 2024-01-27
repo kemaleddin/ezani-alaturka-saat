@@ -14,15 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
 import com.google.gson.reflect.TypeToken;
-import com.kemalettinsargin.mylib.MyFragmentActivity;
+import com.kemalettinsargin.mylib.BaseFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
 import com.sahnisemanyazilim.ezanisaat.adapter.LocationsAdapter;
 import com.sahnisemanyazilim.ezanisaat.model.City;
@@ -41,7 +34,7 @@ import retrofit2.Response;
  * Written by "كمال الدّين صارغين"  on 09.03.2018.
  * و من الله توفیق
  */
-public class AddLocationsActivity extends MyFragmentActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class AddLocationsActivity extends BaseFragmentActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
     private List<Country> ulkeler;
     private List<City> sehirler;
     private List<Town> ilceler;

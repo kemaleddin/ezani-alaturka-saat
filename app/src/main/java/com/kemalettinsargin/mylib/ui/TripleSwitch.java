@@ -21,30 +21,30 @@ import com.kemalettinsargin.mylib.Util;
  * و من الله توفیق
  */
 
-public class MyTripleSwitch extends FrameLayout {
+public class TripleSwitch extends FrameLayout {
     private ImageView mThumb;
     private boolean measured;
     private MarginLayoutParams thumbLayoutParams;
     private int state = 1;
     public static final int ON = 1, OFF = 2, CLOSING=3,OPENING = 4;
 
-    public MyTripleSwitch(@NonNull Context context) {
+    public TripleSwitch(@NonNull Context context) {
         super(context);
         init(context,null);
     }
 
-    public MyTripleSwitch(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public TripleSwitch(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public MyTripleSwitch(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
+    public TripleSwitch(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     @TargetApi(21)
-    public MyTripleSwitch(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
+    public TripleSwitch(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr, @StyleRes int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }

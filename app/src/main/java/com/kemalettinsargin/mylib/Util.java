@@ -30,20 +30,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kemalettinsargin.mylib.customListeners.OnInputListener;
-import com.kemalettinsargin.mylib.objects.TypeFaces;
-import com.kemalettinsargin.mylib.ui.CustomDialog;
-
-import org.json.JSONObject;
-
 import com.kemalettinsargin.mylib.ui.AlertViewHolder;
+import com.kemalettinsargin.mylib.ui.CustomDialog;
 import com.sahnisemanyazilim.ezanisaat.BuildConfig;
 import com.sahnisemanyazilim.ezanisaat.R;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 /**
@@ -60,55 +53,6 @@ public class Util {
                     .setDateFormat("yyyy-MM-dd HH:mm:ss")
                     .create();
         return gson;
-    }
-
-    public static String getTarihSaat(Date tarih) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return format.format(tarih);
-    }
-
-    public static boolean isResultSuccess(String result) {
-        try {
-            JSONObject obj = new JSONObject(result);
-            if ("success".equals(obj.getString("data")))
-                return true;
-        } catch (Exception e) {
-
-        }
-        return false;
-    }
-
-    public static String getTarih(String tarih) {
-        try {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = format.parse(tarih);
-            return new SimpleDateFormat("dd.MM.yyyy").format(date);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public static Date getTarihAsDate(String tarih) {
-        try {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = format.parse(tarih);
-            return date;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static String getSaat(String tarih) {
-        try {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = format.parse(tarih);
-            return new SimpleDateFormat("HH:mm").format(date);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
 
@@ -143,7 +87,7 @@ public class Util {
     }
 
     public static String md5(String input) {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         try {
             MessageDigest algorithm = MessageDigest.getInstance("MD5");
             algorithm.reset();
@@ -153,14 +97,14 @@ public class Util {
             for (int i = 0; i < md5.length; i++) {
                 tmp = (Integer.toHexString(0xFF & md5[i]));
                 if (tmp.length() == 1) {
-                    res += "0" + tmp;
+                    res.append("0").append(tmp);
                 } else {
-                    res += tmp;
+                    res.append(tmp);
                 }
             }
         } catch (NoSuchAlgorithmException ex) {
         }
-        return res;
+        return res.toString();
     }
 
     public static boolean isStatusBarAtTop(Activity act) {
@@ -223,9 +167,10 @@ public class Util {
         if (context == null) return false;
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(
                 Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null && activeNetwork.isConnected())
-            return true;
+        if(cm != null){
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            return activeNetwork != null && activeNetwork.isConnected();
+        }
         return false;
     }
 
@@ -272,7 +217,7 @@ public class Util {
         v.setText(msg);
 //        v.setTypeface(new TypeFaces().createTypefaces(context).book);
         Toast toast = new Toast(context.getApplicationContext());
-        toast.setGravity(Gravity.BOTTOM, 0, 200);
+        //toast.setGravity(Gravity.BOTTOM, 0, 200);
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setView(v);
 
@@ -280,12 +225,12 @@ public class Util {
     }
 
     public static void log(String msg) {
-//        if (BuildConfig.DEBUG)
+       if (BuildConfig.DEBUG)
             Log.d("mylib", msg);
     }
 
     public static void log(String msg, Object... format) {
-//        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG)
             Log.d("mylib", String.format(msg, format));
     }
 

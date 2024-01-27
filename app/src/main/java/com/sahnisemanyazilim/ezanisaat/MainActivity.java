@@ -15,15 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
 import com.google.gson.reflect.TypeToken;
-import com.kemalettinsargin.mylib.MyFragmentActivity;
+import com.kemalettinsargin.mylib.BaseFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
 import com.kemalettinsargin.mylib.ui.DepthPageTransformer;
 import com.sahnisemanyazilim.ezanisaat.fragment.MainFragment;
@@ -45,7 +38,7 @@ import retrofit2.Response;
  * Written by "كمال الدّين صارغين"  on 09.03.2018.
  * و من الله توفیق
  */
-public class MainActivity extends MyFragmentActivity {
+public class MainActivity extends BaseFragmentActivity {
     private static final int ADD_LOC_REQ_CODE = 1;
     private List<Town> towns, updatingTimes = new ArrayList<>();
     private ViewPager pager;
@@ -74,62 +67,11 @@ public class MainActivity extends MyFragmentActivity {
     }
 
     private void checkAppWidget(Context context) {
-/*        try {
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniBigWidget.class));
-            if (appWidgetIds.length == 0) return;
-            final Intent intent = new Intent(context, BigWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
-            final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarm.cancel(pending);
-            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, EzaniSaatWidget.class));
-            if (appWidgetIds.length == 0) return;
-            final Intent intent = new Intent(context, SaatWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            final PendingIntent pending = PendingIntent.getService(context, 0, intent, 0);
-            final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarm.cancel(pending);
-            alarm.set(AlarmManager.RTC_WAKEUP,new Date().getTime()+C.interval_1,pending);
-//            alarm.setRepeating(AlarmManager.ELAPSED_REALTIME, new Date().getTime() + (interval - (new Date().getTime() % 60000)), interval, pending);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
-        Job myJob;
         if (Util.getPrefs(this).getBoolean(SaatWidgetService.TAG, false)) {
-            myJob = mDispatcher.newJobBuilder()
-                    .setService(SaatWidgetService.class)
-                    .setTag(SaatWidgetService.TAG)
-                    .setRecurring(true)
-                    .setTrigger(Trigger.executionWindow(0, 30))
-                    .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
-                    .setReplaceCurrent(true)
-                    .setConstraints(Constraint.ON_ANY_NETWORK)
-                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                    .build();
-            mDispatcher.mustSchedule(myJob);
+            SaatWidgetService.Companion.scheduleWork(context);
         }
         if (Util.getPrefs(this).getBoolean(BigWidgetService.TAG, false)) {
-            myJob = mDispatcher.newJobBuilder()
-                    .setService(BigWidgetService.class)
-                    .setTag(BigWidgetService.TAG)
-                    .setRecurring(true)
-                    .setTrigger(Trigger.executionWindow(0, 30))
-                    .setLifetime(Lifetime.UNTIL_NEXT_BOOT)
-                    .setReplaceCurrent(true)
-                    .setConstraints(Constraint.ON_ANY_NETWORK)
-                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                    .build();
-            mDispatcher.mustSchedule(myJob);
-
+            BigWidgetService.Companion.scheduleWork(context);
         }
 
     }
@@ -279,17 +221,6 @@ public class MainActivity extends MyFragmentActivity {
 
     private void scheduleJob() {
         UpdateTimesService.scheduleUpdateJob(this);
-//        Toast.makeText(this, R.string.job_scheduled, Toast.LENGTH_LONG).show();
-    }
-
-    private void cancelJob(String jobTag) {
-        FirebaseJobDispatcher mDispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(this));
-        if ("".equals(jobTag)) {
-            mDispatcher.cancelAll();
-        } else {
-            mDispatcher.cancel(jobTag);
-        }
-//        Toast.makeText(this, R.string.job_cancelled, Toast.LENGTH_LONG).show();
     }
 
 }

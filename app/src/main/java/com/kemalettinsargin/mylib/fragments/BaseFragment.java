@@ -11,8 +11,7 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.kemalettinsargin.mylib.LocaleHelper;
-import com.kemalettinsargin.mylib.MyFragmentActivity;
-import com.kemalettinsargin.mylib.objects.TypeFaces;
+import com.kemalettinsargin.mylib.BaseFragmentActivity;
 import com.sahnisemanyazilim.ezanisaat.R;
 
 
@@ -20,7 +19,7 @@ import com.sahnisemanyazilim.ezanisaat.R;
  * Created by "كمال الدّين صارغين" on 06.12.2014.
  * و من الله توفیق
  */
-public class MyFragment extends Fragment {
+public class BaseFragment extends Fragment {
     public static final String KEY_RES_ID = "res_id";
     protected LayoutInflater mInflater;
     private View mRoot;
@@ -81,19 +80,19 @@ public class MyFragment extends Fragment {
     }
 
     public void setLoadingMessage(String message) {
-        ((MyFragmentActivity) getActivity()).setLoadingMessage(message);
+        ((BaseFragmentActivity) getActivity()).setLoadingMessage(message);
     }
 
     public void showLoading() {
         try {
-            ((MyFragmentActivity) getActivity()).showLoading();
+            ((BaseFragmentActivity) getActivity()).showLoading();
         } catch (Exception e) {
         }
     }
 
     public void dismissLoading() {
         try {
-            ((MyFragmentActivity) getActivity()).dismissLoading();
+            ((BaseFragmentActivity) getActivity()).dismissLoading();
         } catch (Exception e) {
         }
     }
@@ -104,63 +103,61 @@ public class MyFragment extends Fragment {
 
 
     public float getHeight() {
-        return ((MyFragmentActivity) getActivity()).getHeight();
+        return ((BaseFragmentActivity) getActivity()).getHeight();
     }
 
     public float getWidth() {
-        return ((MyFragmentActivity) getActivity()).getWidth();
+        return ((BaseFragmentActivity) getActivity()).getWidth();
     }
 
     public float getScale() {
-        return ((MyFragmentActivity) getActivity()).getScale();
+        return ((BaseFragmentActivity) getActivity()).getScale();
     }
 
-    public TypeFaces getTypeFaces() {
-        return ((MyFragmentActivity) getActivity()).getTypeFaces();
-    }
+
 
     public void showErrorDialog() {
-        ((MyFragmentActivity) getActivity()).showErrorDialog();
+        ((BaseFragmentActivity) getActivity()).showErrorDialog();
     }
 
     public void showErrorDialog(String msg) {
-        ((MyFragmentActivity) getActivity()).showErrorDialog(msg);
+        ((BaseFragmentActivity) getActivity()).showErrorDialog(msg);
     }
 
     public void showErrorDialog(String msg, DialogInterface.OnClickListener listener) {
-        ((MyFragmentActivity) getActivity()).showErrorDialog(msg, listener);
+        ((BaseFragmentActivity) getActivity()).showErrorDialog(msg, listener);
     }
 
     public void showErrorDialogRetry(DialogInterface.OnClickListener listener) {
-        ((MyFragmentActivity) getActivity()).showErrorDialogRetry(listener);
+        ((BaseFragmentActivity) getActivity()).showErrorDialogRetry(listener);
     }
 
     public void showErrorDialogRetry(String msg, String tittle, DialogInterface.OnClickListener listener) {
-        ((MyFragmentActivity) getActivity()).showErrorDialogRetry(msg, tittle, listener);
+        ((BaseFragmentActivity) getActivity()).showErrorDialogRetry(msg, tittle, listener);
     }
 
     public void showInfo(String msg) {
-        ((MyFragmentActivity) getActivity()).showInfo(msg);
+        ((BaseFragmentActivity) getActivity()).showInfo(msg);
     }
 
     public void showInfo(String msg, DialogInterface.OnClickListener listener) {
-        ((MyFragmentActivity) getActivity()).showInfo(msg, listener);
+        ((BaseFragmentActivity) getActivity()).showInfo(msg, listener);
     }
 
     public void showInfo1(String msg) {
-        ((MyFragmentActivity) getActivity()).showInfo_1(msg, null);
+        ((BaseFragmentActivity) getActivity()).showInfo_1(msg, null);
     }
 
     public void showSuccess(String msg) {
-        ((MyFragmentActivity) getActivity()).showSuccess(msg);
+        ((BaseFragmentActivity) getActivity()).showSuccess(msg);
     }
 
     public void showSuccess(String msg, DialogInterface.OnClickListener listener) {
-        ((MyFragmentActivity) getActivity()).showSuccess(msg, listener);
+        ((BaseFragmentActivity) getActivity()).showSuccess(msg, listener);
     }
 
-    public MyFragmentActivity getAct() {
-        return (MyFragmentActivity) getActivity();
+    public BaseFragmentActivity getAct() {
+        return (BaseFragmentActivity) getActivity();
     }
 
     public int getmRootResId() {

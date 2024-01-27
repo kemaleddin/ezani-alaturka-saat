@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.kemalettinsargin.mylib.Util;
 import com.kemalettinsargin.mylib.customListeners.OnInputListener;
-import com.kemalettinsargin.mylib.objects.TypeFaces;
 import com.sahnisemanyazilim.ezanisaat.R;
 
 
@@ -42,13 +41,7 @@ public class AlertViewHolder implements View.OnClickListener, DialogInterface.On
         title = (TextView) gC(R.id.text_title);
         message = (TextView) gC(R.id.text_message);
         editEmail = (EditText) gC(R.id.edit_mail);
-        TypeFaces tf = new TypeFaces().createTypefaces(getContext());
-        editEmail.setTypeface(tf.medium);
         editEmail.setVisibility(View.GONE);
-        btnOk.setTypeface(tf.bold);
-        btnCancel.setTypeface(tf.bold);
-        title.setTypeface(tf.bold);
-        message.setTypeface(tf.book);
         btnOk.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
     }

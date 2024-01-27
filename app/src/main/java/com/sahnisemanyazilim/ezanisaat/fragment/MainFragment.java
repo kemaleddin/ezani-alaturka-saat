@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kemalettinsargin.mylib.Util;
-import com.kemalettinsargin.mylib.fragments.MyFragment;
+import com.kemalettinsargin.mylib.fragments.BaseFragment;
 import com.sahnisemanyazilim.ezanisaat.C;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
@@ -29,7 +29,7 @@ import com.sahnisemanyazilim.ezanisaat.model.Town;
  * Written by "كمال الدّين صارغين"  on 09.03.2018.
  * و من الله توفیق
  */
-public class MainFragment extends MyFragment {
+public class MainFragment extends BaseFragment {
     private TextView textKalan, textMiladi, textHicri, textEzani, textTown;
     private LinearLayout vakitlerLinear;
     private LayoutInflater layoutInflater;
@@ -42,7 +42,7 @@ public class MainFragment extends MyFragment {
         public void run() {
             textKalan.setText(toDay.getKalan().substring(0,5));
             textEzani.setText(TimesOfDay.getSaat12(toDay.isEveningNight() ? toDay.getEzaniSaat() : toDay.getYesterDay().getEzaniSaat()));
-            if(toDay.isOld()||toDay.getNextId()!=nextVakitId)
+            if(toDay.isOld() || toDay.getNextId() != nextVakitId)
                 load();
             mHandler.postDelayed(this, 1000);
 
@@ -52,7 +52,7 @@ public class MainFragment extends MyFragment {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction()!=null)
+            if(intent.getAction() != null)
             switch (intent.getAction()) {
                 case ACTION_ACTIVE_LOCATION_CHANGED:
                 town.setActive(Util.getPref(getActivity(), C.KEY_ACTIVE));

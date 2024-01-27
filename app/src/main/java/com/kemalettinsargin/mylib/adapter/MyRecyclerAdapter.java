@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.WindowManager;
 
 import com.kemalettinsargin.mylib.LocaleHelper;
-import com.kemalettinsargin.mylib.objects.TypeFaces;
 
 
 /**
@@ -17,7 +16,6 @@ import com.kemalettinsargin.mylib.objects.TypeFaces;
  */
 public abstract class MyRecyclerAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
     private float mheight, mweight,scale;
-    public TypeFaces typeFaces=new TypeFaces();
     private Context context;
     private LayoutInflater mInflater;
     public boolean isEn;
@@ -33,7 +31,6 @@ public abstract class MyRecyclerAdapter<T extends RecyclerView.ViewHolder> exten
         mheight = dm.heightPixels;
         mweight = dm.widthPixels;
         scale=dm.density;
-        typeFaces.createTypefaces(context);
         mInflater= LayoutInflater.from(context);
     }
     public float getHeight() {

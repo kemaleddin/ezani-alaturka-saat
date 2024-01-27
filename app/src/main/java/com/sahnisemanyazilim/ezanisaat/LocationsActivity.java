@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
-import com.kemalettinsargin.mylib.MyFragmentActivity;
+import com.kemalettinsargin.mylib.BaseFragmentActivity;
 import com.kemalettinsargin.mylib.Util;
 import com.sahnisemanyazilim.ezanisaat.adapter.LocationsAdapter;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
@@ -31,7 +31,7 @@ import java.util.List;
  * Written by "كمال الدّين صارغين"  on 21.12.2017.
  * و من الله توفیق
  */
-public class LocationsActivity extends MyFragmentActivity implements View.OnClickListener {
+public class LocationsActivity extends BaseFragmentActivity implements View.OnClickListener {
     private static final int ADD_REQ_CODE = 0;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;

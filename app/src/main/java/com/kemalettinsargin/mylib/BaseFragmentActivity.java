@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -21,28 +22,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.kemalettinsargin.mylib.objects.TypeFaces;
 import com.sahnisemanyazilim.ezanisaat.R;
-import com.sahnisemanyazilim.ezanisaat.retro.RetroInterface;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.sahnisemanyazilim.ezanisaat.retro.Api;
 
 
 /**
  * Created by "كمال الدّين صارغين"  on 4.11.2015.
  * و من الله توفیق
  */
-public class MyFragmentActivity extends AppCompatActivity implements DialogInterface.OnShowListener {
+public class BaseFragmentActivity extends AppCompatActivity implements DialogInterface.OnShowListener {
     private ProgressDialog mDialog;
     private float mheight, mweight, scale;
     private DisplayMetrics metrics = new DisplayMetrics();
-    public TypeFaces typeFaces = new TypeFaces();
     public static boolean isPaused = false, itemsLoaded = false, isExecuting = false;
     private boolean isDestroyed = true;
 
@@ -58,7 +49,6 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
         mDialog.setOnShowListener(this);
         resetLoadingMessage();
         SetDisplaySizes();
-        typeFaces.createTypefaces(this);
 
     }
 
@@ -69,34 +59,6 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
                 .replace(holderId, fragment, fragment.getClass().getSimpleName())
                 .commitAllowingStateLoss();
     }
-
-/*
-
-    public T getApi(Class<T> clazz,final String creds){
-        OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
-                        Request originalRequest = chain.request();
-
-                        Request.Builder builder = originalRequest.newBuilder().header("Authorization",
-                                creds);
-
-                        Request newRequest = builder.build();
-                        return chain.proceed(newRequest);
-                    }
-                }).build();
-        retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.base_url))
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        mApi = retrofit.create(clazz);
-        return mApi;
-    }
-*/
 
     private void SetDisplaySizes() {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -180,18 +142,14 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
         return metrics;
     }
 
-    public TypeFaces getTypeFaces() {
-        return typeFaces;
-    }
 
     public Gson getGson() {
-        return ((MyApp)getApplication()).getGson();
+        return Util.getGson();
     }
 
     @Override
     public void onShow(DialogInterface dialog) {
         ((ProgressBar) mDialog.findViewById(android.R.id.progress)).getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-        ((TextView) mDialog.findViewById(android.R.id.message)).setTypeface(typeFaces.book);
         ((TextView) mDialog.findViewById(android.R.id.message)).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
@@ -281,8 +239,8 @@ public class MyFragmentActivity extends AppCompatActivity implements DialogInter
     }
 
 
-    public RetroInterface getApi() {
-        return ((MyApp)getApplication()).getApi();
+    public Api getApi() {
+        return ((BaseApp)getApplication()).getApi();
     }
 
     @Override
