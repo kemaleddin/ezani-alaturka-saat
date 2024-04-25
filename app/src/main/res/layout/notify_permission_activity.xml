@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splash_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_minare"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:adjustViewBounds="true"/>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vazgec"
+        android:background="@color/transparent"
+        android:textColor="@color/colorAccent"
+        android:padding="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notify_info"
+        android:layout_below="@+id/splash_logo"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        />
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/iamin"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"/>
+
+
+
+</RelativeLayout>

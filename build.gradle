@@ -24,5 +24,5 @@ allprojects {
 }
 
 tasks.register('clean', Delete) {
-    it rootProject.buildDir
+    it.delete(rootProject.buildDir)
 }

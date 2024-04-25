@@ -3,6 +3,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -37,6 +42,12 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".NotifyPermissionActivity"
+            android:label="@string/notify_permissions"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false">
         </activity>
         <activity
             android:name=".LocationsActivity"
@@ -77,22 +88,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/saat_widget_info" />
         </receiver>
-        <!--
- 2. The service that will send our collection data to our widget. It needs the
-                       permission android.permission.BIND_REMOTEVIEWS
-        -->
-        <!--
-   <service
-            android:name=".services.UpdateTimesService"
-            />
+        <receiver
+            android:name=".notifications.AlarmReceiver"
+            android:label="@string/ezani_saat_"
+            android:exported="true">
 
-        <service
-            android:name=".services.BigWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service
-            android:name=".services.SaatWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
-        -->
+        </receiver>
 
         <meta-data
             android:name="io.fabric.ApiKey"

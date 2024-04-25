@@ -1,19 +1,21 @@
 package com.sahnisemanyazilim.ezanisaat;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.BaseFragmentActivity;
@@ -22,8 +24,8 @@ import com.kemalettinsargin.mylib.ui.DepthPageTransformer;
 import com.sahnisemanyazilim.ezanisaat.fragment.MainFragment;
 import com.sahnisemanyazilim.ezanisaat.model.TimesOfDay;
 import com.sahnisemanyazilim.ezanisaat.model.Town;
-import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.BigWidgetService;
+import com.sahnisemanyazilim.ezanisaat.services.SaatWidgetService;
 import com.sahnisemanyazilim.ezanisaat.services.UpdateTimesService;
 
 import java.util.ArrayList;
@@ -48,12 +50,14 @@ public class MainActivity extends BaseFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar(findViewById(R.id.toolbar));
         createItems();
         checkTimes();
         checkAppWidget(this);
         scheduleJob();
     }
+
+
 
     private void checkTimes() {
         for (Town town : towns) {
@@ -124,15 +128,11 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.add_location:
                 startActivityForResult(new Intent(this, LocationsActivity.class), ADD_LOC_REQ_CODE);
