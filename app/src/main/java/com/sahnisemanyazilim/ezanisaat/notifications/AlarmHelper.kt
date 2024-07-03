@@ -59,7 +59,7 @@ class AlarmHelper {
                     it.cancel(alarmIntent)
                     return
                 }
-                if(BuildConfig.DEBUG){
+                if(BuildConfig.DEBUG && false ){
                     val date = Calendar.getInstance()
                     date.add(Calendar.MINUTE,1)
                     time=date.time.time

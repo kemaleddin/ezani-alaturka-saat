@@ -8,7 +8,7 @@ import com.sahnisemanyazilim.ezanisaat.model.Town
 
 /**
  * Written by "كمال الدّين صارغين"  on 23.04.2024.
- * و من الله توفیق
+ *وَمَا تَوْف۪يق۪ٓي اِلَّا بِاللّٰهِ
  */
 
 fun Context.getDefaultTown():Town?{

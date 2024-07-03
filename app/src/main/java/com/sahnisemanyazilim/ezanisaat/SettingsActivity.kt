@@ -13,10 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceFragmentCompat
 import com.google.gson.reflect.TypeToken
 import com.kemalettinsargin.mylib.Util
-import com.sahnisemanyazilim.ezanisaat.enums.TimeEnum
 import com.sahnisemanyazilim.ezanisaat.model.Town
 import com.sahnisemanyazilim.ezanisaat.notifications.AlarmHelper
-import java.util.concurrent.TimeUnit
 
 class SettingsActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
