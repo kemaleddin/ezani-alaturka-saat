@@ -9,11 +9,21 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.reflect.TypeToken;
 import com.kemalettinsargin.mylib.BaseFragmentActivity;
@@ -41,8 +51,7 @@ import retrofit2.Response;
 public class MainActivity extends BaseFragmentActivity {
     private static final int ADD_LOC_REQ_CODE = 1;
     private List<Town> towns, updatingTimes = new ArrayList<>();
-    private ViewPager pager;
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private ViewPager2 pager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +60,10 @@ public class MainActivity extends BaseFragmentActivity {
         setSupportActionBar(findViewById(R.id.toolbar));
         createItems();
         checkTimes();
-        checkAppWidget(this);
+        checkAppWidget();
         scheduleJob();
     }
+
 
 
 
@@ -68,18 +78,19 @@ public class MainActivity extends BaseFragmentActivity {
         else load();
     }
 
-    private void checkAppWidget(Context context) {
+    private void checkAppWidget() {
         if (Util.getPrefs(this).getBoolean(SaatWidgetService.TAG, false)) {
-            SaatWidgetService.Companion.scheduleWork(context);
+            SaatWidgetService.Companion.scheduleWork(this);
         }
         if (Util.getPrefs(this).getBoolean(BigWidgetService.TAG, false)) {
-            BigWidgetService.Companion.scheduleWork(context);
+            BigWidgetService.Companion.scheduleWork(this);
         }
 
     }
 
     private void createItems() {
-        pager = (ViewPager) getChild(R.id.pager);
+        pager = (ViewPager2) getChild(R.id.pager);
+        pager.setOffscreenPageLimit(6);
         towns = getGson().fromJson(Util.getPref(this, C.KEY_LOCATIONS), new TypeToken<List<Town>>() {
         }.getType());
 
@@ -119,8 +130,8 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void load() {
-        pager.setPageTransformer(false, new DepthPageTransformer());
-        pager.setAdapter(new MyAdapter(getSupportFragmentManager()));
+        pager.setPageTransformer(new DepthPageTransformer());
+        pager.setAdapter(new MyAdapter(this));
     }
 
 
@@ -155,22 +166,21 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
-    class MyAdapter extends FragmentPagerAdapter {
-
-        public MyAdapter(FragmentManager fm) {
-            super(fm);
+    class MyAdapter extends FragmentStateAdapter {
+        public MyAdapter(@NonNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
         }
 
+        @NonNull
         @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             return MainFragment.newInstance(towns.get(position));
         }
 
         @Override
-        public int getCount() {
+        public int getItemCount() {
             return towns.size();
         }
-
     }
 
     @Override
@@ -180,7 +190,7 @@ public class MainActivity extends BaseFragmentActivity {
             createItems();
             checkTimes();
             if (towns.size() == 1) {
-                checkAppWidget(this);
+                checkAppWidget();
             }
         }
     }

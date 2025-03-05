@@ -1,37 +1,5 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-   <!-- <PreferenceCategory app:title="@string/messages_header">
-
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/bildirim_ayarlari">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
-    </PreferenceCategory>
-    -->
     <PreferenceCategory app:title="@string/bildirim_ayarlari">
 
         <SwitchPreferenceCompat
@@ -41,37 +9,37 @@
 
         <PreferenceCategory app:title="@string/vakitlerde_uyarilar">
             <SwitchPreferenceCompat
-                app:key="imsakVakti"
+                app:key="imsak_vakti"
                 app:title="@string/imsak_vakti"
                 app:dependency="notifications" />
             <SwitchPreferenceCompat
-                app:key="gunDogumu"
+                app:key="gun_dogumu"
                 app:title="@string/gun_dogumu"
                 app:dependency="notifications"/>
             <SwitchPreferenceCompat
-                app:key="gunDogumuKerahetCikmasi"
+                app:key="gun_dogumu_kerahet_cikmasi"
                 app:dependency="notifications"
                 app:title="@string/gun_dogumu_kerahet_cikmasi" />
             <SwitchPreferenceCompat
-                app:key="ogleVakti"
+                app:key="ogle_vakti"
                 app:title="@string/ogle_vakti"
                 app:dependency="notifications"/>
 
             <SwitchPreferenceCompat
-                app:key="ikindiVakti"
+                app:key="ikindi_vakti"
                 app:dependency="notifications"
                 app:title="@string/ikindi_vakti" />
             <SwitchPreferenceCompat
-                app:key="ikindiKerahetVakti"
+                app:key="ikindi_kerahet_vakti"
                 app:dependency="notifications"
                 app:title="@string/ikindi_kerahet" />
             <SwitchPreferenceCompat
-                app:key="aksamVakti"
+                app:key="aksam_vakti"
                 app:title="@string/aksamVakti"
                 app:dependency="notifications"/>
 
             <SwitchPreferenceCompat
-                app:key="yatsiVakti"
+                app:key="yatsi_vakti"
                 app:title="@string/yatsidan_vakti"
                 app:dependency="notifications"/>
 
@@ -80,106 +48,98 @@
 
         <PreferenceCategory app:title="@string/vakitlerden_once_uyarilar">
             <SwitchPreferenceCompat
-                app:key="imsaktanOnce"
+                app:key="imsaktan_once"
                 app:dependency="notifications"
                 app:title="@string/imsaktan_once" />
-            <ListPreference
-                app:dependency="imsaktanOnce"
-                app:entries="@array/sureler"
-                app:entryValues="@array/sure_values"
-                app:key="time_to_imsak"
-                app:title="@string/sure"
+            <SeekBarPreference
+                app:dependency="imsaktan_once"
+                app:key="time_to__imsak"
                 app:defaultValue="15"
-                app:useSimpleSummaryProvider="true" />
+                app:min="5"
+                app:seekBarIncrement="2"
+                app:showSeekBarValue="true"
+                app:title="Süre" />
             <SwitchPreferenceCompat
-                app:key="gunestenOnce"
+                app:key="gunesten_once"
                 app:dependency="notifications"
                 app:title="@string/gun_dog_once" />
-            <ListPreference
-                app:dependency="gunestenOnce"
-                app:entries="@array/sureler"
-                app:entryValues="@array/sure_values"
-                app:key="time_to_gunes"
-                app:title="@string/sure"
+            <SeekBarPreference
+                app:dependency="gunesten_once"
+                app:key="time_to__gunes"
                 app:defaultValue="15"
-                app:useSimpleSummaryProvider="true" />
+                app:min="5"
+                app:seekBarIncrement="2"
+                app:showSeekBarValue="true"
+                app:title="Süre" />
             <SwitchPreferenceCompat
-                app:key="ogledenOnce"
+                app:key="ogleden_once"
                 app:dependency="notifications"
                 app:title="@string/ogleden_once" />
-            <ListPreference
-                app:dependency="ogledenOnce"
-                app:entries="@array/sureler"
-                app:entryValues="@array/sure_values"
-                app:key="time_to_ogle"
-                app:title="@string/sure"
+            <SeekBarPreference
+                app:dependency="ogleden_once"
+                app:key="time_to__ogle"
                 app:defaultValue="15"
-                app:useSimpleSummaryProvider="true" />
+                app:min="5"
+                app:seekBarIncrement="2"
+                app:showSeekBarValue="true"
+                app:title="Süre"/>
             <SwitchPreferenceCompat
-                app:key="ikindidenOnce"
+                app:key="ikindiden_once"
                 app:dependency="notifications"
                 app:title="@string/ikiniden_once" />
-            <ListPreference
-                app:dependency="ikindidenOnce"
-                app:entries="@array/sureler"
-                app:entryValues="@array/sure_values"
-                app:key="time_to_ikindi"
-                app:title="@string/sure"
+            <SeekBarPreference
+                app:dependency="ikindiden_once"
+                app:key="time_to__ikindi"
                 app:defaultValue="15"
-                app:useSimpleSummaryProvider="true" />
+                app:min="5"
+                app:seekBarIncrement="2"
+                app:showSeekBarValue="true"
+                app:title="Süre" />
             <SwitchPreferenceCompat
-                app:key="ikindiKerahetOnce"
+                app:key="ikindi_kerahet_once"
                 app:dependency="notifications"
                 app:title="@string/ikindiKerahetOnce" />
-            <ListPreference
-                app:dependency="ikindiKerahetOnce"
-                app:entries="@array/sureler"
-                app:entryValues="@array/sure_values"
-                app:key="time_to_ikindi_kerahet"
-                app:title="@string/sure"
-                app:defaultValue="30"
-                app:useSimpleSummaryProvider="true" />
+            <SeekBarPreference
+                app:dependency="ikindi_kerahet_once"
+                app:key="time_to__ikindi_kerahet"
+                app:defaultValue="15"
+                app:min="5"
+                app:seekBarIncrement="2"
+                app:showSeekBarValue="true"
+                app:title="Süre" />
             <SwitchPreferenceCompat
-                app:key="aksamdanOnce"
+                app:key="aksamdan_once"
                 app:dependency="notifications"
                 app:title="@string/aksamdan_once" />
             <SeekBarPreference
-                app:key="time_to_aksam"
+                app:key="time_to__aksam"
                 app:defaultValue="15"
                 app:min="5"
                 app:seekBarIncrement="2"
                 app:showSeekBarValue="true"
                 app:title="Süre"
-                app:dependency="aksamdanOnce"
+                app:dependency="aksamdan_once"
                 />
-            <!--<ListPreference
-                app:dependency="aksamdanOnce"
-                app:entries="@array/sureler"
-                app:entryValues="@array/sure_values"
-                app:key="time_to_aksam"
-                app:title="@string/sure"
-                app:defaultValue="15"
-                app:useSimpleSummaryProvider="true" />-->
             <SwitchPreferenceCompat
-                app:key="yatsidanOnce"
+                app:key="yatsidan_once"
                 app:dependency="notifications"
                 app:title="@string/yatsidan_once" />
 
             <SeekBarPreference
-                app:key="time_to_yatsi"
+                app:key="time_to__yatsi"
                 app:defaultValue="15"
                 app:min="5"
                 app:seekBarIncrement="2"
                 app:showSeekBarValue="true"
                 app:title="Süre"
-                app:dependency="yatsidanOnce"
+                app:dependency="yatsidan_once"
                 />
             <!--
             <ListPreference
-                app:dependency="yatsidanOnce"
+                app:dependency="yatsidan_once"
                 app:entries="@array/sureler"
                 app:entryValues="@array/sure_values"
-                app:key="time_to_yatsi"
+                app:key="time_to__yatsi"
                 app:title="@string/sure"
                 app:defaultValue="15"
                 app:useSimpleSummaryProvider="true" />-->

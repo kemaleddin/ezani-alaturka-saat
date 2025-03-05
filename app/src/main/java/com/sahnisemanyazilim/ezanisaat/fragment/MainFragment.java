@@ -40,27 +40,32 @@ public class MainFragment extends BaseFragment {
     private Runnable updateKalanRunnable = new Runnable() {
         @Override
         public void run() {
-            textKalan.setText(toDay.getKalan().substring(0,5));
-            textEzani.setText(TimesOfDay.getSaat12(toDay.isEveningNight() ? toDay.getEzaniSaat() : toDay.getYesterDay().getEzaniSaat()));
-            if(toDay.isOld() || toDay.getNextId() != nextVakitId)
-                load();
-            mHandler.postDelayed(this, 1000);
+           updateKalan();
+           mHandler.postDelayed(this, 1000);
 
         }
     };
+
+    private void updateKalan() {
+        textKalan.setText(toDay.getKalan().substring(0,5));
+        textEzani.setText(TimesOfDay.getSaat12(toDay.isEveningNight() ? toDay.getEzaniSaat() : toDay.getYesterDay().getEzaniSaat()));
+        if(toDay.isOld() || toDay.getNextId() != nextVakitId)
+            load();
+    }
+
     private int nextVakitId;
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction() != null)
-            switch (intent.getAction()) {
-                case ACTION_ACTIVE_LOCATION_CHANGED:
-                town.setActive(Util.getPref(getActivity(), C.KEY_ACTIVE));
-                if (town.isActive())
-                    textTown.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-                else textTown.setTextColor(Color.WHITE);
-                break;
-            }
+                switch (intent.getAction()) {
+                    case ACTION_ACTIVE_LOCATION_CHANGED:
+                    town.setActive(Util.getPref(getActivity(), C.KEY_ACTIVE));
+                    if (town.isActive())
+                        textTown.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+                    else textTown.setTextColor(Color.WHITE);
+                    break;
+                }
         }
     };
 
@@ -131,6 +136,7 @@ public class MainFragment extends BaseFragment {
         vakitlerLinear.addView(getRow(title));
         vakitlerLinear.addView(getRow(toDay));
         vakitlerLinear.addView(getLine());
+        updateKalan();
     }
 
     private View getLine() {

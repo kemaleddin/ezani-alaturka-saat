@@ -36,20 +36,23 @@ class AlarmHelper {
             before: Long = 0,
         ) {
             val town = context.getDefaultTown() ?: return
-            var time = town.getNearestTime(timeEnum, -before).time
+            val cal = town.getNearestTime(timeEnum, -before)
+            var time=cal.time
             val requestCode = notificationContent
             val alarmMgr: AlarmManager? =
                 (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)
             alarmMgr?.let {
                 val intent = Intent(context.applicationContext, AlarmReceiver::class.java)
                 intent.putExtra(C.KEY_CONTENT_STR_ID, notificationContent)
-                intent.putExtra(C.KEY_REMAINING_TIME,TimeUnit.MILLISECONDS.toMinutes(before).toInt())
+                var mins=TimeUnit.MILLISECONDS.toMinutes(before).toInt()
+                if(mins>0) mins--
+                intent.putExtra(C.KEY_REMAINING_TIME,mins)
                 intent.putExtra(C.KEY_PREF_KEY,key)
                 val alarmIntent = PendingIntent.getBroadcast(
                     context.applicationContext,
                     requestCode,
                     intent,
-                    FLAG_ONE_SHOT or FLAG_IMMUTABLE
+                    PendingIntent.FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
                 )
                 var canSetExact = false
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
@@ -137,39 +140,63 @@ class AlarmHelper {
                 C.KEY_PREF_BEFORE_FAJR, C.KEY_TIME_TO_IMSAK -> {
                     status = sharedPreferences.getBoolean(C.KEY_PREF_BEFORE_FAJR, false)
                     beforeKey = C.KEY_TIME_TO_IMSAK
+                    before = sharedPreferences.getInt(
+                        beforeKey,
+                        15
+                    )!!.toLong()
                     contentId = R.string.imsak_vaktine_kaldi
                     timeEnum = TimeEnum.IMSAK
+                    before++
 
                 }
 
                 C.KEY_PREF_BEFORE_SUNRISE, C.KEY_TIME_TO_GUNES -> {
                     status = sharedPreferences.getBoolean(C.KEY_PREF_BEFORE_SUNRISE, false)
                     beforeKey = C.KEY_TIME_TO_GUNES
+                    before = sharedPreferences.getInt(
+                        beforeKey,
+                        15
+                    )!!.toLong()
                     contentId = R.string.gun_dogumu_vaktine_kaldi
                     timeEnum = TimeEnum.GUNES
+                    before++
                 }
 
                 C.KEY_PREF_BEFORE_NOON, C.KEY_TIME_TO_OGLE -> {
                     status = sharedPreferences.getBoolean(C.KEY_PREF_BEFORE_NOON, false)
                     beforeKey = C.KEY_TIME_TO_OGLE
+                    before = sharedPreferences.getInt(
+                        beforeKey,
+                        15
+                    )!!.toLong()
                     contentId = R.string.ogle_vaktine_kaldi
                     timeEnum = TimeEnum.OGLE
+                    before++
 
                 }
 
                 C.KEY_PREF_BEFORE_ASR, C.KEY_TIME_TO_IKINDI -> {
                     status = sharedPreferences.getBoolean(C.KEY_PREF_BEFORE_ASR, false)
                     beforeKey = C.KEY_TIME_TO_IKINDI
+                    before = sharedPreferences.getInt(
+                        beforeKey,
+                        15
+                    )!!.toLong()
                     contentId = R.string.ikindi_vaktine_kaldi
                     timeEnum = TimeEnum.IKINDI
+                    before++
                 }
 
                 C.KEY_PREF_BEFORE_ASR_KERAHET, C.KEY_TIME_TO_IKINDI_KERAHET -> {
                     status = sharedPreferences.getBoolean(C.KEY_PREF_BEFORE_ASR_KERAHET, false)
                     beforeKey = C.KEY_TIME_TO_IKINDI_KERAHET
-
+                    before = sharedPreferences.getInt(
+                        beforeKey,
+                        15
+                    )!!.toLong()
                     contentId = R.string.ikindi_kerahet_vaktine_kaldi
                     timeEnum = TimeEnum.GUN_BAT_KERAHET
+                    before++
                 }
 
                 C.KEY_PREF_BEFORE_SUNSET, C.KEY_TIME_TO_AKSAM -> {
@@ -180,6 +207,7 @@ class AlarmHelper {
                         )!!.toLong()
                     contentId = R.string.aksam_vaktine_kaldi
                     timeEnum = TimeEnum.AKSAM
+                    before++
                 }
 
                 C.KEY_PREF_BEFORE_ISHA, C.KEY_TIME_TO_YATSI -> {
@@ -190,14 +218,10 @@ class AlarmHelper {
                         )!!.toLong()
                     contentId = R.string.yatsi_vaktine_kaldi
                     timeEnum = TimeEnum.YATSI
+                    before++
                 }
 
             }
-            beforeKey?.let {
-                before=sharedPreferences.getString(it,"15")!!.toLong()
-            }
-            if(before>0)
-                before-=1
             before=TimeUnit.MINUTES.toMillis(before)
             setExactAlarmFor(context,key,contentId,timeEnum,status,before)
         }

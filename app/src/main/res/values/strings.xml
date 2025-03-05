@@ -4,7 +4,7 @@
     <string name="title_activity_add_location">AddLocationActivity</string>
     <string name="konumlar">Konumlar</string>
     <string name="ulke_sec">Ülke Seçin</string>
-    <string name="base_url">https://ezanvakti.herokuapp.com</string>
+    <string name="base_url">https://ezanvakti.emushaf.net</string>
     <!--<string name="base_url">https://4be23e26-bd5e-43d5-8f94-60489d4dadc7.mock.pstmn.io</string>-->
     <string name="yukleniyor">Yükleniyor…</string>
     <string name="error">Hata</string>

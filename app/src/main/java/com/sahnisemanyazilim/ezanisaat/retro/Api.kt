@@ -14,6 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -50,14 +51,14 @@ interface Api {
     val countries: Call<List<Country?>?>?
 
     @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/sehirler")
-    fun getCities(@Query("ulke") code: String?): Call<List<City?>?>?
+    @GET("/sehirler/{ulke}")
+    fun getCities(@Path("ulke") code: String?): Call<List<City?>?>?
 
     @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/ilceler")
-    fun getTowns(@Query("sehir") code: String?): Call<List<Town?>?>?
+    @GET("/ilceler/{sehir}")
+    fun getTowns(@Path("sehir") code: String?): Call<List<Town?>?>?
 
     @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/vakitler")
-    fun getTimes(@Query("ilce") code: String?): Call<List<TimesOfDay?>?>?
+    @GET("/vakitler/{ilce}")
+    fun getTimes(@Path("ilce") code: String?): Call<List<TimesOfDay?>?>?
 }

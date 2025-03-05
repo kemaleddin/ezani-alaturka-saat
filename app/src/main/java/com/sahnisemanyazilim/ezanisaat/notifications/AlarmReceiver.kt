@@ -3,6 +3,7 @@ package com.sahnisemanyazilim.ezanisaat.notifications
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.kemalettinsargin.mylib.Util
 import com.sahnisemanyazilim.ezanisaat.C
+import com.sahnisemanyazilim.ezanisaat.MainActivity
 import com.sahnisemanyazilim.ezanisaat.R
 import com.sahnisemanyazilim.ezanisaat.enums.TimeEnum
 
@@ -49,12 +51,19 @@ class AlarmReceiver : BroadcastReceiver() {
                 notificationManager.createNotificationChannel(channel)
             }
         }
-
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent,
+            PendingIntent.FLAG_IMMUTABLE)
+        val contentStr=if(data==0)context.getString(contentStringId)else context.getString(contentStringId,data.toString())
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_notify)
             .setContentTitle(context.getString(R.string.app_name))
-            .setContentText(if(data==0)context.getString(contentStringId)else context.getString(contentStringId,data.toString()))
+            .setContentText(contentStr)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
 
         val notificationManagerCompat = NotificationManagerCompat.from(context)
         if (ActivityCompat.checkSelfPermission(

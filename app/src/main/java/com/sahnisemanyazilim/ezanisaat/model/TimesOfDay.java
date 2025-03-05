@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.kemalettinsargin.mylib.Util;
 import com.sahnisemanyazilim.ezanisaat.C;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.enums.TimeEnum;
@@ -332,6 +334,7 @@ public class TimesOfDay implements Parcelable {
             return thisDay.before(now);
         } catch (ParseException e) {
             e.printStackTrace();
+            Util.LogException(e);
             return true;
         }
     }
@@ -348,6 +351,7 @@ public class TimesOfDay implements Parcelable {
             } else return dayFormat.format(myCalendar.getTime());
         } catch (Exception e) {
             e.printStackTrace();
+            Util.LogException(e);
             return "";
         }
     }
@@ -362,6 +366,7 @@ public class TimesOfDay implements Parcelable {
             return dayFormat.format(myCalendar.getTime());
         } catch (Exception e) {
             e.printStackTrace();
+            Util.LogException(e);
             return "";
         }
     }
@@ -436,6 +441,7 @@ public class TimesOfDay implements Parcelable {
                         nextTime.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
                     } catch (ParseException e) {
                         e.printStackTrace();
+                        Util.LogException(e);
                     }
                     hr_min = toMorrow.getImsak().split(":");
                     setHrMin(nextTime, hr_min);
@@ -517,6 +523,7 @@ public class TimesOfDay implements Parcelable {
                         nextTime.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
                     } catch (ParseException e) {
                         e.printStackTrace();
+                        Util.LogException(e);
                     }
                     hr_min = toMorrow.getImsak().split(":");
                     setHrMin(nextTime, hr_min);
@@ -571,6 +578,7 @@ public class TimesOfDay implements Parcelable {
                         nextTime.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
                     } catch (ParseException e) {
                         e.printStackTrace();
+                        Util.LogException(e);
                     }
                     hr_min = toMorrow.getImsak().split(":");
                     setHrMin(nextTime, hr_min);
@@ -599,6 +607,7 @@ public class TimesOfDay implements Parcelable {
             oldTime.setTime(C.DateFormat_ddMMyyyy.parse(getMiladiTarihKisa()));
         } catch (ParseException e) {
             e.printStackTrace();
+            Util.LogException(e);
         }
         Calendar now = Calendar.getInstance();
         if (now.get(Calendar.YEAR) == oldTime.get(Calendar.YEAR) && now.get(Calendar.DAY_OF_YEAR) == oldTime.get(Calendar.DAY_OF_YEAR) && !isEveningNight()) {
@@ -625,6 +634,7 @@ public class TimesOfDay implements Parcelable {
                 yatsi.setTime(C.DateFormat_ddMMyyyy.parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, yesterDay.getAksam().split(":"));
             setHrMin(yatsi, yesterDay.getYatsi().split(":"));
@@ -640,6 +650,7 @@ public class TimesOfDay implements Parcelable {
                 imsak.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, getAksam().split(":"));
             setHrMin(imsak, toMorrow.getImsak().split(":"));
@@ -649,6 +660,7 @@ public class TimesOfDay implements Parcelable {
                 aksam.setTime(C.DateFormat_ddMMyyyy.parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, yesterDay.getAksam().split(":"));
             setHrMin(imsak, getImsak().split(":"));
@@ -664,6 +676,7 @@ public class TimesOfDay implements Parcelable {
                 gunes.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, getAksam().split(":"));
             setHrMin(gunes, toMorrow.getGunes().split(":"));
@@ -673,6 +686,7 @@ public class TimesOfDay implements Parcelable {
                 aksam.setTime(C.DateFormat_ddMMyyyy.parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, yesterDay.getAksam().split(":"));
             setHrMin(gunes, getGunes().split(":"));
@@ -689,6 +703,7 @@ public class TimesOfDay implements Parcelable {
                 ogle.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, getAksam().split(":"));
             setHrMin(ogle, toMorrow.getOgle().split(":"));
@@ -698,6 +713,7 @@ public class TimesOfDay implements Parcelable {
                 aksam.setTime(C.DateFormat_ddMMyyyy.parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, yesterDay.getAksam().split(":"));
             setHrMin(ogle, getOgle().split(":"));
@@ -713,6 +729,7 @@ public class TimesOfDay implements Parcelable {
                 ogle.setTime(C.DateFormat_ddMMyyyy.parse(toMorrow.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, getAksam().split(":"));
             setHrMin(ogle, toMorrow.getIkindi().split(":"));
@@ -723,6 +740,7 @@ public class TimesOfDay implements Parcelable {
                 aksam.setTime(C.DateFormat_ddMMyyyy.parse(yesterDay.getMiladiTarihKisa()));
             } catch (ParseException e) {
                 e.printStackTrace();
+                Util.LogException(e);
             }
             setHrMin(aksam, yesterDay.getAksam().split(":"));
             setHrMin(ogle, getIkindi().split(":"));
@@ -739,7 +757,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return ((TimesOfDay) obj).miladiTarihKisa.equals(miladiTarihKisa);
         } catch (Exception e) {
-
+            Util.LogException(e);
         }
         return false;
     }
@@ -757,6 +775,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return isYatsiGecti() ? toMorrow.getImsak() : imsak;
         } catch (NumberFormatException e) {
+            Util.LogException(e);
             return imsak;
         }
     }
@@ -765,6 +784,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return isYatsiGecti() ? toMorrow.getGunes() : gunes;
         } catch (NumberFormatException e) {
+            Util.LogException(e);
             return gunes;
         }
     }
@@ -773,6 +793,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return isYatsiGecti() ? toMorrow.getOgle() : ogle;
         } catch (NumberFormatException e) {
+            Util.LogException(e);
             return ogle;
         }
     }
@@ -781,6 +802,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return isYatsiGecti() ? toMorrow.getIkindi() : ikindi;
         } catch (NumberFormatException e) {
+            Util.LogException(e);
             return ikindi;
         }
     }
@@ -789,6 +811,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return isYatsiGecti() ? toMorrow.getAksam() : aksam;
         } catch (NumberFormatException e) {
+            Util.LogException(e);
             return aksam;
         }
     }
@@ -797,6 +820,7 @@ public class TimesOfDay implements Parcelable {
         try {
             return isYatsiGecti() ? toMorrow.getYatsi() : yatsi;
         } catch (NumberFormatException e) {
+            Util.LogException(e);
             return yatsi;
         }
     }
@@ -866,7 +890,7 @@ public class TimesOfDay implements Parcelable {
         try {
             gunKerahet.setTime(C.DateFormat_ddMMyyyy.parse(miladiTarihKisa));
         }catch (Exception e){
-
+            Util.LogException(e);
         }
         setHrMin(gunKerahet,getGunes().split(":"));
         gunKerahet.add(Calendar.MINUTE,45);
@@ -877,7 +901,7 @@ public class TimesOfDay implements Parcelable {
         try {
             gunKerahet.setTime(C.DateFormat_ddMMyyyy.parse(miladiTarihKisa));
         }catch (Exception e){
-
+            Util.LogException(e);
         }
         setHrMin(gunKerahet,getAksam().split(":"));
         gunKerahet.add(Calendar.MINUTE,-45);

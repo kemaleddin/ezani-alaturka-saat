@@ -8,15 +8,15 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceFragmentCompat
 import com.google.gson.reflect.TypeToken
+import com.kemalettinsargin.mylib.BaseFragmentActivity
 import com.kemalettinsargin.mylib.Util
 import com.sahnisemanyazilim.ezanisaat.model.Town
 import com.sahnisemanyazilim.ezanisaat.notifications.AlarmHelper
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseFragmentActivity() {
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -29,12 +29,14 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+        setSupportActionBar(findViewById(R.id.toolbar1))
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setTitle(R.string.ayarlar)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(this,
@@ -89,15 +91,6 @@ class SettingsActivity : AppCompatActivity() {
         override fun onPause() {
             preferenceManager.sharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
             super.onPause()
-        }
-
-        private fun setData() {
-            val gson = Util.getGson()
-            towns = gson.fromJson<List<Town>>(
-                Util.getPref(activity, C.KEY_LOCATIONS),
-                object : TypeToken<List<Town?>?>() {}.type
-            )
-            defaultTown = towns?.firstOrNull { it.isActive }
         }
     }
 }

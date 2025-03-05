@@ -26,6 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kemalettinsargin.mylib.customListeners.OnInputListener;
@@ -392,5 +393,9 @@ public class Util {
         int centerY = bounds.centerY();
         int finalRadius = Math.max(bounds.width(), bounds.height());
         return ViewAnimationUtils.createCircularReveal(view, centerX, centerY, finalRadius, 0f);
+    }
+
+    public static void LogException(Throwable t){
+        FirebaseCrashlytics.getInstance().recordException(t);
     }
 }
