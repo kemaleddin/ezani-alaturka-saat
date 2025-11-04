@@ -111,6 +111,15 @@ public class AddLocationsActivity extends BaseFragmentActivity implements View.O
     }
 
     public void getUlkeler() {
+        if(!Util.isInternetAvailable(this)){
+            showErrorDialogRetry(getString(R.string.net_err_msg),getString(R.string.error),new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                   getUlkeler();
+                }
+            });
+            return;
+        }
         showLoading();
         getApi().getCountries().enqueue(new Callback<List<Country>>() {
             @Override

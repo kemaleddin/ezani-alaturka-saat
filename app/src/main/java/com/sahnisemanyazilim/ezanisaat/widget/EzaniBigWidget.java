@@ -61,7 +61,7 @@ public class EzaniBigWidget extends AppWidgetProvider {
                 break;
             }
         }
-        if (index < 0) {
+        if (index < 0 || town.getTimesOfDays().indexOf(toDay) == (town.getTimesOfDays().size()-1)) {
             UpdateTimesService.scheduleUpdateJob(context);
             return;
         }

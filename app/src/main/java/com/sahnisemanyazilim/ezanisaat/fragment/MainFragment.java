@@ -116,7 +116,7 @@ public class MainFragment extends BaseFragment {
         if (index > 0)
             toDay.setYesterDay(town.getTimesOfDays().get(index - 1));
         else {
-            TimesOfDay yesterDay = getGson().fromJson(getGson().toJson(toDay), TimesOfDay.class);
+            TimesOfDay yesterDay = toDay.deepClone();
             yesterDay.setDateToYesterDay();
             toDay.setYesterDay(yesterDay);
         }
@@ -250,7 +250,7 @@ public class MainFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         try {
-            getActivity().registerReceiver(mReceiver, new IntentFilter(ACTION_ACTIVE_LOCATION_CHANGED));
+            ContextCompat.registerReceiver(getActivity(), mReceiver, new IntentFilter(ACTION_ACTIVE_LOCATION_CHANGED), ContextCompat.RECEIVER_NOT_EXPORTED);
 
             String locID = Util.getPref(getActivity(), C.KEY_ACTIVE);
             town.setActive(locID);

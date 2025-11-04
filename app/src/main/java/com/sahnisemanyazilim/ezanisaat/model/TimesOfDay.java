@@ -12,6 +12,12 @@ import com.sahnisemanyazilim.ezanisaat.C;
 import com.sahnisemanyazilim.ezanisaat.R;
 import com.sahnisemanyazilim.ezanisaat.enums.TimeEnum;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +27,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @SuppressLint("SimpleDateFormat")
-public class TimesOfDay implements Parcelable {
+public class TimesOfDay implements Parcelable, Serializable {
     private static final long ONE_DAY_MILLIS = 86400000L;
     @SerializedName("Aksam")
     @Expose
@@ -927,6 +933,20 @@ public class TimesOfDay implements Parcelable {
             case IMSAK:
             default:
                 return getImsak();
+        }
+    }
+    public TimesOfDay deepClone() {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream in = new ObjectInputStream(bis);
+            return (TimesOfDay) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
